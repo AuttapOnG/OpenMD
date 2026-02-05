@@ -2,7 +2,7 @@
   "name": "openmd",
   "displayName": "OpenMD",
   "description": "Quickly open Markdown files in browser or preview panel with right-click",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "publisher": "auttapong-tura",
   "icon": "icon.png",
   "repository": {
@@ -96,6 +96,8 @@
     "typescript": "^5.3.0"
   },
   "dependencies": {
-    "marked": "^11.1.0"
+    "@types/ws": "^8.18.1",
+    "marked": "^11.1.0",
+    "ws": "^8.19.0"
   }
 }

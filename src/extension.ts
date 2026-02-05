@@ -142,16 +142,6 @@ function getHtmlTemplate(body: string, title: string): string {
             --link-color: #0969da;
         }
         
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0d1117;
-                --text-color: #c9d1d9;
-                --border-color: #30363d;
-                --code-bg: #161b22;
-                --link-color: #58a6ff;
-            }
-        }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
             max-width: 900px;
@@ -243,10 +233,119 @@ function getHtmlTemplate(body: string, title: string): string {
             border-top: 1px solid var(--border-color);
             margin: 24px 0;
         }
+        
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            display: flex;
+            gap: 4px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+        
+        .theme-btn {
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+        
+        .theme-btn:hover {
+            background: var(--code-bg);
+        }
+        
+        .theme-btn.active {
+            background: var(--link-color);
+            color: white;
+        }
+        
+        /* Manual dark mode override */
+        [data-theme="dark"] {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --code-bg: #161b22;
+            --link-color: #58a6ff;
+        }
+        
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --code-bg: #f6f8fa;
+            --link-color: #0969da;
+        }
+        
+        /* Auto mode - use system preference */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-color: #0d1117;
+                --text-color: #c9d1d9;
+                --border-color: #30363d;
+                --code-bg: #161b22;
+                --link-color: #58a6ff;
+            }
+        }
     </style>
 </head>
 <body>
     ${body}
+    
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" title="Toggle theme">
+        <button class="theme-btn" data-theme="light" title="Light">☀️</button>
+        <button class="theme-btn" data-theme="dark" title="Dark">🌙</button>
+        <button class="theme-btn" data-theme="auto" title="Auto">💻</button>
+    </div>
+    
+    <script>
+        // Dark Mode Toggle
+        (function() {
+            const themeBtns = document.querySelectorAll('.theme-btn');
+            const html = document.documentElement;
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('openmd-theme') || 'auto';
+            setTheme(savedTheme);
+            
+            // Button click handlers
+            themeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.dataset.theme;
+                    setTheme(theme);
+                    localStorage.setItem('openmd-theme', theme);
+                });
+            });
+            
+            function setTheme(theme) {
+                // Update data-theme attribute
+                if (theme === 'auto') {
+                    html.removeAttribute('data-theme');
+                } else {
+                    html.setAttribute('data-theme', theme);
+                }
+                
+                // Update active button
+                themeBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === theme);
+                });
+            }
+        })();
+    </script>
 </body>
 </html>`;
 }

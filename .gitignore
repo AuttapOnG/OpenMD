@@ -20,3 +20,6 @@ Thumbs.db
 # Icon generation
 generate-icon.js
 icon.svg
+
+# VSIX packages - we keep only latest in repo, use tags for history
+# *.vsix
