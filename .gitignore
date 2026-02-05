@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Compiled output
+out/
+dist/
+*.vsix
+
+# Temporary files
+.temp/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode-test/
+.idea/
+
+# Icon generation
+generate-icon.js
+icon.svg

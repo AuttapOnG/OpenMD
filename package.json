@@ -1,0 +1,100 @@
+{
+  "name": "openmd",
+  "displayName": "OpenMD",
+  "description": "Quickly open Markdown files in browser or preview panel with right-click",
+  "version": "0.0.1",
+  "publisher": "auttapong-tura",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AuttapOnG/OpenMD.git"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "browser",
+    "preview"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "openmd.openBrowser",
+        "title": "Open in Browser",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "openmd.openPreview",
+        "title": "Open in Preview",
+        "icon": "$(preview)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "openmd.openBrowser",
+          "when": "resourceExtname == .md",
+          "group": "2_open@10"
+        },
+        {
+          "command": "openmd.openPreview",
+          "when": "resourceExtname == .md",
+          "group": "2_open@11"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "openmd.openBrowser",
+          "when": "resourceExtname == .md",
+          "group": "2_open@10"
+        },
+        {
+          "command": "openmd.openPreview",
+          "when": "resourceExtname == .md",
+          "group": "2_open@11"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "openmd.openBrowser",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "openmd.openPreview",
+          "when": "resourceExtname == .md"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run compile-tests",
+    "compile-tests": "tsc -p ./",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.74.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
+    "glob": "^13.0.1",
+    "mocha": "^11.7.5",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "marked": "^11.1.0"
+  }
+}
