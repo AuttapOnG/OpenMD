@@ -9,6 +9,20 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 - 🎨 **Beautiful Styling** - GitHub-style CSS with automatic Dark Mode support
 - ⚡ **Lightning Fast** - No waiting, click and it's open
 
+## 📦 Installation
+
+### From VS Code Marketplace
+```
+Coming soon...
+```
+
+### From VSIX File
+1. Download the `openmd-0.0.1.vsix` file from [Releases](https://github.com/AuttapOnG/OpenMD/releases)
+2. Open VS Code
+3. Go to **Extensions** (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+4. Click `...` → **Install from VSIX**
+5. Select the downloaded `.vsix` file
+
 ## 🚀 Usage
 
 ### Method 1: Right-click on File
@@ -22,63 +36,20 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 2. Right-click on the content
 3. Select the same menu options as Method 1
 
-## 📸 Preview
+## 📸 Screenshot
 
-```markdown
-# Sample Markdown
+![OpenMD Demo](https://via.placeholder.com/600x400/2196F3/FFFFFF?text=OpenMD+Demo)
 
-- ✅ Bullet lists
-- **Bold text**
-- *Italic text*
-- `Inline code`
-
-| Table | Data |
-|-------|------|
-| A     | 1    |
-| B     | 2    |
-```
-
-## 🔧 Installation
-
-### From VS Code Marketplace
-```
-Coming soon...
-```
-
-### From VSIX File
-1. Download the `.vsix` file
-2. Open VS Code
-3. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-4. Click `...` → **Install from VSIX**
-5. Select the downloaded `.vsix` file
-
-## 🛠️ For Developers
-
-### Build & Run
-```bash
-# Install dependencies
-npm install
-
-# Compile
-npm run compile
-
-# Run tests
-npm test
-
-# Build VSIX package
-npm run package
-```
-
-### Debug
-```bash
-# Open in VS Code and press F5
-```
+*Right-click menu showing "Open in Browser" and "Open in Preview" options*
 
 ## 📝 License
 
-MIT
+MIT © [Auttapong Tura](https://github.com/AuttapOnG)
 
-## 🙏 Credits
+## 🤝 Contributing
 
-- [marked](https://github.com/markedjs/marked) - Markdown parser
-- VS Code Extension API
+Want to contribute? See our [Development Guide](DEVELOPMENT.md) for setup instructions.
+
+---
+
+**Enjoy!** If you like this extension, please consider [starring ⭐ the repo](https://github.com/AuttapOnG/OpenMD)!
