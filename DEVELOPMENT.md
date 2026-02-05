@@ -70,6 +70,24 @@ npx vsce login auttapong-tura
 npm run publish
 ```
 
+### Publish to Open VSX
+```bash
+# Install ovsx (first time only)
+npm install -g ovsx
+
+# Login with your Open VSX access token (first time only)
+npx ovsx login AuttapOnG
+
+# Or set token via environment variable
+export OVSX_PAT=your_token_here
+
+# ตัวอย่างการใช้ (ถ้าตั้ง env var แล้ว ไม่ต้อง login)
+npm run publish:openvsx
+
+# Publish to Open VSX
+npm run publish:openvsx
+```
+
 ## 🎨 Icon Generation
 
 The extension icon is generated from `icon.svg` using Sharp:
