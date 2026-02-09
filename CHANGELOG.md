@@ -2,6 +2,13 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [0.0.7] - 2025-02-09
+
+### Changed
+- 🎨 **Unified Theme System** - Open in Preview now uses the same theme logic and CSS as Open in Browser
+- Theme preference in preview is now saved using localStorage (consistent with browser)
+- Standardized styling between browser preview and VS Code preview panel
+
 ## [0.0.6] - 2025-02-09
 
 ### Added

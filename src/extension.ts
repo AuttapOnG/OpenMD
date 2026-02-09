@@ -89,8 +89,6 @@ export function activate(context: vscode.ExtensionContext) {
         const html = await markdownToWebviewHtml(content, fileUri, currentPanel);
         currentPanel.webview.html = html;
         
-        vscode.window.showInformationMessage('Opening Markdown preview...');
-        
       } catch (error) {
         vscode.window.showErrorMessage(`Error: ${error}`);
       }
@@ -179,10 +177,12 @@ function getHtmlTemplate(body: string, title: string): string {
         
         code {
             background: var(--code-bg);
+            color: var(--text-color);
             padding: 0.2em 0.4em;
             border-radius: 6px;
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
             font-size: 85%;
+            font-weight: 500;
         }
         
         pre code {
@@ -360,95 +360,38 @@ function getWebviewTemplate(body: string, title: string): string {
     <title>${title}</title>
     <style>
         :root {
-            /* Light Theme (default) */
             --bg-color: #ffffff;
             --text-color: #24292f;
             --border-color: #d0d7de;
             --code-bg: #f6f8fa;
             --link-color: #0969da;
-            --link-hover-color: #0550ae;
-            --header-color: #1f2328;
-            --blockquote-color: #656d76;
-            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-            --font-size: 14px;
-            --code-font: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-        }
-        
-        /* Dark Theme Override */
-        [data-theme="dark"] {
-            --bg-color: #0d1117;
-            --text-color: #c9d1d9;
-            --border-color: #30363d;
-            --code-bg: #161b22;
-            --link-color: #58a6ff;
-            --link-hover-color: #79c0ff;
-            --header-color: #e6edf3;
-            --blockquote-color: #8b949e;
-        }
-        
-        /* Light Theme Override */
-        [data-theme="light"] {
-            --bg-color: #ffffff;
-            --text-color: #24292f;
-            --border-color: #d0d7de;
-            --code-bg: #f6f8fa;
-            --link-color: #0969da;
-            --link-hover-color: #0550ae;
-            --header-color: #1f2328;
-            --blockquote-color: #656d76;
-        }
-        
-        /* Auto mode - follow VS Code theme using media query */
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --bg-color: #0d1117;
-                --text-color: #c9d1d9;
-                --border-color: #30363d;
-                --code-bg: #161b22;
-                --link-color: #58a6ff;
-                --link-hover-color: #79c0ff;
-                --header-color: #e6edf3;
-                --blockquote-color: #8b949e;
-            }
         }
         
         body {
-            font-family: var(--font-family);
-            font-size: var(--font-size);
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 32px;
+            padding: 45px 32px;
             line-height: 1.6;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }
         
         h1, h2, h3, h4, h5, h6 {
-            color: var(--header-color);
             margin-top: 24px;
             margin-bottom: 16px;
             font-weight: 600;
             line-height: 1.25;
         }
         
-        h1 { 
-            border-bottom: 1px solid var(--border-color); 
-            padding-bottom: 0.3em; 
-        }
-        h2 { 
-            border-bottom: 1px solid var(--border-color); 
-            padding-bottom: 0.3em; 
-        }
+        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+        h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
         
         a {
             color: var(--link-color);
             text-decoration: none;
         }
-        a:hover {
-            color: var(--link-hover-color);
-            text-decoration: underline;
-        }
+        a:hover { text-decoration: underline; }
         
         pre {
             background: var(--code-bg);
@@ -461,10 +404,12 @@ function getWebviewTemplate(body: string, title: string): string {
         
         code {
             background: var(--code-bg);
+            color: var(--text-color);
             padding: 0.2em 0.4em;
             border-radius: 6px;
-            font-family: var(--code-font);
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
             font-size: 85%;
+            font-weight: 500;
         }
         
         pre code {
@@ -482,7 +427,7 @@ function getWebviewTemplate(body: string, title: string): string {
             border-left: 4px solid var(--border-color);
             margin: 0 0 16px 0;
             padding: 0 16px;
-            color: var(--blockquote-color);
+            color: #656d76;
         }
         
         table {
@@ -516,7 +461,7 @@ function getWebviewTemplate(body: string, title: string): string {
             margin: 24px 0;
         }
         
-        /* Theme Toggle */
+        /* Dark Mode Toggle */
         .theme-toggle {
             position: fixed;
             bottom: 20px;
@@ -529,7 +474,6 @@ function getWebviewTemplate(body: string, title: string): string {
             gap: 4px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.15);
             z-index: 1000;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
         
         .theme-btn {
@@ -555,6 +499,34 @@ function getWebviewTemplate(body: string, title: string): string {
             background: var(--link-color);
             color: white;
         }
+        
+        /* Manual dark mode override */
+        [data-theme="dark"] {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --code-bg: #161b22;
+            --link-color: #58a6ff;
+        }
+        
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --code-bg: #f6f8fa;
+            --link-color: #0969da;
+        }
+        
+        /* Auto mode - use system preference */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-color: #0d1117;
+                --text-color: #c9d1d9;
+                --border-color: #30363d;
+                --code-bg: #161b22;
+                --link-color: #58a6ff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -568,13 +540,13 @@ function getWebviewTemplate(body: string, title: string): string {
     </div>
     
     <script>
+        // Dark Mode Toggle
         (function() {
-            const vscode = acquireVsCodeApi();
             const themeBtns = document.querySelectorAll('.theme-btn');
             const html = document.documentElement;
             
-            // Load saved theme from state
-            const savedTheme = (vscode.getState() && vscode.getState().theme) || 'auto';
+            // Load saved theme
+            const savedTheme = localStorage.getItem('openmd-theme') || 'auto';
             setTheme(savedTheme);
             
             // Button click handlers
@@ -582,8 +554,7 @@ function getWebviewTemplate(body: string, title: string): string {
                 btn.addEventListener('click', () => {
                     const theme = btn.dataset.theme;
                     setTheme(theme);
-                    // Save to VS Code state (persists across sessions)
-                    vscode.setState({ theme: theme });
+                    localStorage.setItem('openmd-theme', theme);
                 });
             });
             
