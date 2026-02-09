@@ -7,6 +7,7 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 - 🌐 **Open in Browser** - Open Markdown in your default browser instantly
 - 👁️ **Open in Preview** - View in VS Code side panel (side-by-side editing)
 - 🌓 **Dark Mode Toggle** - Switch between Light ☀️, Dark 🌙, and Auto 💻 themes in browser
+- 🎨 **Theme Toggle in Preview** - Choose between VS Code theme 🎨, Light ☀️, or Dark 🌙 in preview panel
 - 🎨 **Beautiful Styling** - GitHub-style CSS with automatic Dark Mode support
 - ⚡ **Lightning Fast** - No waiting, click and it's open
 

@@ -350,7 +350,7 @@ function getHtmlTemplate(body: string, title: string): string {
 </html>`;
 }
 
-// Template สำหรับ VS Code Webview (ใช้ CSS ของ VS Code)
+// Template สำหรับ VS Code Webview (ใช้ CSS ของ VS Code + Theme Toggle)
 function getWebviewTemplate(body: string, title: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -359,19 +359,73 @@ function getWebviewTemplate(body: string, title: string): string {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
     <style>
+        :root {
+            /* Light Theme (default) */
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --code-bg: #f6f8fa;
+            --link-color: #0969da;
+            --link-hover-color: #0550ae;
+            --header-color: #1f2328;
+            --blockquote-color: #656d76;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            --font-size: 14px;
+            --code-font: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+        
+        /* Dark Theme Override */
+        [data-theme="dark"] {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --code-bg: #161b22;
+            --link-color: #58a6ff;
+            --link-hover-color: #79c0ff;
+            --header-color: #e6edf3;
+            --blockquote-color: #8b949e;
+        }
+        
+        /* Light Theme Override */
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --code-bg: #f6f8fa;
+            --link-color: #0969da;
+            --link-hover-color: #0550ae;
+            --header-color: #1f2328;
+            --blockquote-color: #656d76;
+        }
+        
+        /* Auto mode - follow VS Code theme using media query */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-color: #0d1117;
+                --text-color: #c9d1d9;
+                --border-color: #30363d;
+                --code-bg: #161b22;
+                --link-color: #58a6ff;
+                --link-hover-color: #79c0ff;
+                --header-color: #e6edf3;
+                --blockquote-color: #8b949e;
+            }
+        }
+        
         body {
-            font-family: var(--vscode-font-family);
-            font-size: var(--vscode-font-size);
-            color: var(--vscode-editor-foreground);
-            background-color: var(--vscode-editor-background);
+            font-family: var(--font-family);
+            font-size: var(--font-size);
+            color: var(--text-color);
+            background-color: var(--bg-color);
             max-width: 900px;
             margin: 0 auto;
             padding: 40px 32px;
             line-height: 1.6;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
         
         h1, h2, h3, h4, h5, h6 {
-            color: var(--vscode-titleBar-activeForeground);
+            color: var(--header-color);
             margin-top: 24px;
             margin-bottom: 16px;
             font-weight: 600;
@@ -379,25 +433,25 @@ function getWebviewTemplate(body: string, title: string): string {
         }
         
         h1 { 
-            border-bottom: 1px solid var(--vscode-panel-border); 
+            border-bottom: 1px solid var(--border-color); 
             padding-bottom: 0.3em; 
         }
         h2 { 
-            border-bottom: 1px solid var(--vscode-panel-border); 
+            border-bottom: 1px solid var(--border-color); 
             padding-bottom: 0.3em; 
         }
         
         a {
-            color: var(--vscode-textLink-foreground);
+            color: var(--link-color);
             text-decoration: none;
         }
         a:hover {
-            color: var(--vscode-textLink-activeForeground);
+            color: var(--link-hover-color);
             text-decoration: underline;
         }
         
         pre {
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--code-bg);
             padding: 16px;
             border-radius: 6px;
             overflow-x: auto;
@@ -406,10 +460,10 @@ function getWebviewTemplate(body: string, title: string): string {
         }
         
         code {
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--code-bg);
             padding: 0.2em 0.4em;
             border-radius: 6px;
-            font-family: var(--vscode-editor-font-family);
+            font-family: var(--code-font);
             font-size: 85%;
         }
         
@@ -425,10 +479,10 @@ function getWebviewTemplate(body: string, title: string): string {
         }
         
         blockquote {
-            border-left: 4px solid var(--vscode-panel-border);
+            border-left: 4px solid var(--border-color);
             margin: 0 0 16px 0;
             padding: 0 16px;
-            color: var(--vscode-descriptionForeground);
+            color: var(--blockquote-color);
         }
         
         table {
@@ -438,18 +492,18 @@ function getWebviewTemplate(body: string, title: string): string {
         }
         
         th, td {
-            border: 1px solid var(--vscode-panel-border);
+            border: 1px solid var(--border-color);
             padding: 6px 13px;
             text-align: left;
         }
         
         th {
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--code-bg);
             font-weight: 600;
         }
         
         tr:nth-child(2n) {
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--code-bg);
         }
         
         ul, ol {
@@ -458,13 +512,96 @@ function getWebviewTemplate(body: string, title: string): string {
         
         hr {
             border: none;
-            border-top: 1px solid var(--vscode-panel-border);
+            border-top: 1px solid var(--border-color);
             margin: 24px 0;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            display: flex;
+            gap: 4px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .theme-btn {
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+        
+        .theme-btn:hover {
+            background: var(--code-bg);
+        }
+        
+        .theme-btn.active {
+            background: var(--link-color);
+            color: white;
         }
     </style>
 </head>
 <body>
     ${body}
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" title="Toggle theme">
+        <button class="theme-btn" data-theme="light" title="Light">☀️</button>
+        <button class="theme-btn" data-theme="dark" title="Dark">🌙</button>
+        <button class="theme-btn" data-theme="auto" title="Auto">💻</button>
+    </div>
+    
+    <script>
+        (function() {
+            const vscode = acquireVsCodeApi();
+            const themeBtns = document.querySelectorAll('.theme-btn');
+            const html = document.documentElement;
+            
+            // Load saved theme from state
+            const savedTheme = (vscode.getState() && vscode.getState().theme) || 'auto';
+            setTheme(savedTheme);
+            
+            // Button click handlers
+            themeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.dataset.theme;
+                    setTheme(theme);
+                    // Save to VS Code state (persists across sessions)
+                    vscode.setState({ theme: theme });
+                });
+            });
+            
+            function setTheme(theme) {
+                // Update data-theme attribute
+                if (theme === 'auto') {
+                    html.removeAttribute('data-theme');
+                } else {
+                    html.setAttribute('data-theme', theme);
+                }
+                
+                // Update active button
+                themeBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === theme);
+                });
+            }
+        })();
+    </script>
 </body>
 </html>`;
 }

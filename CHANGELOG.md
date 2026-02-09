@@ -2,6 +2,13 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [0.0.6] - 2025-02-09
+
+### Added
+- 🎨 **Theme Toggle in Preview** - Added theme switcher (🎨 VS Code / ☀️ Light / 🌙 Dark) in VS Code preview panel
+- Theme preference is saved using VS Code Webview State API
+- Smooth theme transitions with CSS animations
+
 ## [0.0.5] - 2025-02-05
 
 ### Added
