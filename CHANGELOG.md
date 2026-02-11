@@ -2,6 +2,51 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [0.1.4] - 2025-02-11
+
+### Added
+- 😄 **Emoji Shortcodes** - เพิ่มการแปลง `:wave:` → 👋, `:rocket:` → 🚀, `:fire:` → 🔥 ฯลฯ (client-side conversion)
+
+### Fixed
+- 🎨 **Syntax Highlighting** - ย้าย hljs.highlightAll() ไปทำหลัง window load พร้อมกับ Mermaid
+
+## [0.1.3] - 2025-02-11
+
+### Fixed
+- 🐛 **hljs is not defined** - แก้ไขการใช้ hljs ที่ไม่ได้ถูก define ใน Node.js (hljs มาจาก CDN ใน browser เท่านั้น)
+- 🎨 **Syntax Highlighting** - ย้ายการ highlight ไปทำใน browser โดยใช้ `hljs.highlightAll()`
+
+## [0.1.2] - 2025-02-11
+
+### Fixed
+- 🧜‍♀️ **Mermaid Diagrams** - ใช้ `window.onload` แทน `DOMContentLoaded` เพื่อรอ CDN โหลดเสร็จ
+- 🐛 **Debug Logging** - เพิ่ม console log เพื่อตรวจสอบว่า plugins โหลดสำเร็จหรือไม่
+
+## [0.1.1] - 2025-02-11
+
+### Fixed
+- 🧜‍♀️ **Mermaid Diagrams** - Fixed rendering issue (now uses `mermaid.run()` after DOM ready)
+- 🎨 **GitHub Alerts Styling** - Added colorful backgrounds and emoji icons (ℹ️ 💡 🔔 ⚠️ 🛑)
+- 🔧 **Improved Initialization** - Better DOM ready handling for all dynamic content
+
+## [0.1.0] - 2025-02-11
+
+### Changed
+- 🔄 **Migrated from `marked` to `markdown-it`** - Better plugin ecosystem and extensibility
+
+### Added
+- 🎨 **Syntax Highlighting** - Code blocks now have syntax highlighting with highlight.js (GitHub theme)
+- 📊 **Mermaid Diagrams** - Full support for Mermaid diagrams (flowcharts, sequence diagrams, etc.)
+- ✅ **GitHub-style Task Lists** - Interactive checkboxes with `- [ ]` and `- [x]`
+- ⚠️ **GitHub Alerts** - Support for `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]`
+- 😄 **Emoji Shortcodes** - Convert `:emoji:` to actual emoji (e.g., `:fire:` → 🔥)
+- 🔗 **Anchor Links** - Clickable anchor links for all headings
+- 📋 **Copy Code Button** - One-click copy for all code blocks
+- ⚡ **Faster Extension Activation** - Now activates on VS Code startup, not just when opening Markdown files
+
+### Fixed
+- Extension commands now available immediately without needing to open a Markdown file first
+
 ## [0.0.7] - 2025-02-09
 
 ### Changed

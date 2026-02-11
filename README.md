@@ -6,9 +6,15 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 
 - 🌐 **Open in Browser** - Open Markdown in your default browser instantly
 - 👁️ **Open in Preview** - View in VS Code side panel (side-by-side editing)
-- 🌓 **Dark Mode Toggle** - Switch between Light ☀️, Dark 🌙, and Auto 💻 themes in browser
-- 🎨 **Theme Toggle in Preview** - Choose between VS Code theme 🎨, Light ☀️, or Dark 🌙 in preview panel
-- 🎨 **Beautiful Styling** - GitHub-style CSS with automatic Dark Mode support
+- 🎨 **Syntax Highlighting** - Beautiful code highlighting for all languages
+- 🧜‍♀️ **Mermaid Diagrams** - Render flowcharts, sequence diagrams, and more
+- ✅ **Task Lists** - Interactive checkboxes with GitHub-style `- [x]` syntax
+- ⚠️ **GitHub Alerts** - Support for `[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!CAUTION]`, `[!IMPORTANT]`
+- 😄 **Emoji Shortcodes** - Convert `:wave:` → 👋, `:rocket:` → 🚀, `:fire:` → 🔥
+- 🌓 **Dark Mode Toggle** - Switch between Light ☀️, Dark 🌙, and Auto 💻 themes
+- 🎨 **Theme Toggle in Preview** - Choose between VS Code theme 🎨, Light ☀️, or Dark 🌙
+- 📋 **Copy Code Button** - One-click copy for all code blocks
+- 🔗 **Anchor Links** - Clickable heading links for easy navigation
 - ⚡ **Lightning Fast** - No waiting, click and it's open
 
 ## 📦 Installation
@@ -20,9 +26,16 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 3. Search for **"OpenMD"**
 4. Click **Install**
 
+### From Open VSX Registry
+
+1. Open VS Code
+2. Go to **Extensions** (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Click `...` → **Install from VSIX**
+4. Download from [Open VSX](https://open-vsx.org/extension/auttapong-tura/openmd)
+
 ### From VSIX File
 
-1. Download the `openmd-0.0.5.vsix` file from [Releases](https://github.com/AuttapOnG/OpenMD/releases)
+1. Download the `openmd-0.1.4.vsix` file from [Releases](https://github.com/AuttapOnG/OpenMD/releases)
 2. Open VS Code
 3. Go to **Extensions** (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 4. Click `...` → **Install from VSIX**
@@ -40,6 +53,33 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 1. Open a Markdown file in the editor
 2. Right-click on the content
 3. Select the same menu options as Method 1
+
+## 📝 Example Markdown
+
+```markdown
+## Mermaid Diagram
+\`\`\`mermaid
+flowchart TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Success]
+    B -->|No| D[Retry]
+\`\`\`
+
+## GitHub Alerts
+> [!NOTE]
+> This is a note!
+
+> [!TIP]
+> Here's a helpful tip 💡
+
+## Task List
+- [x] Install OpenMD
+- [ ] Write documentation
+- [ ] Share with friends :rocket:
+
+## Emoji
+Hello :wave: Welcome! :fire: :sparkles:
+```
 
 ## 📝 License
 

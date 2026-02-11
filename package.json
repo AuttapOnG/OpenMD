@@ -2,7 +2,7 @@
   "name": "openmd",
   "displayName": "OpenMD",
   "description": "Quickly open Markdown files in browser or preview panel with right-click",
-  "version": "0.0.7",
+  "version": "0.1.4",
   "publisher": "auttapong-tura",
   "icon": "icon.png",
   "repository": {
@@ -21,6 +21,7 @@
     "preview"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onLanguage:markdown"
   ],
   "main": "./out/extension.js",
@@ -86,8 +87,6 @@
     "publish:openvsx": "ovsx publish"
   },
   "devDependencies": {
-    "@vscode/vsce": "^3.7.1",
-    "ovsx": "^0.10.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^18.19.0",
@@ -96,11 +95,20 @@
     "@vscode/vsce": "^3.7.1",
     "glob": "^13.0.1",
     "mocha": "^11.7.5",
+    "ovsx": "^0.10.0",
     "typescript": "^5.3.0"
   },
   "dependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/ws": "^8.18.1",
-    "marked": "^11.1.0",
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.1",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-emoji": "^3.0.0",
+    "markdown-it-github-alerts": "^1.0.1",
+    "markdown-it-task-lists": "^2.1.1",
+    "mermaid": "^11.12.2",
     "ws": "^8.19.0"
   }
 }
