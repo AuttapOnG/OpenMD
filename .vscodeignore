@@ -3,7 +3,6 @@
 .git/**
 src/**
 out/test/**
-node_modules/**
 .temp/**
 .gitignore
 .yarnrc

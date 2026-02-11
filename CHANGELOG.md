@@ -2,6 +2,11 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [0.1.6] - 2025-02-11
+
+### Fixed
+- 🐛 **Fix broken extension** - แก้ไข .vscodeignore ที่ผิดพลาดทำให้ node_modules หาย (extension ใช้ไม่ได้)
+
 ## [0.1.5] - 2025-02-11
 
 ### Removed
