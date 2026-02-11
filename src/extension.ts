@@ -42,8 +42,6 @@ export function activate(context: vscode.ExtensionContext) {
         const htmlUri = vscode.Uri.file(tempHtmlPath);
         await vscode.env.openExternal(htmlUri);
         
-        vscode.window.showInformationMessage('Opening Markdown in browser...');
-        
       } catch (error) {
         vscode.window.showErrorMessage(`Error: ${error}`);
       }

@@ -2,6 +2,11 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [0.1.5] - 2025-02-11
+
+### Removed
+- 🗑️ **Toast Notification** - ลบข้อความ "Opening Markdown in browser..." ออก
+
 ## [0.1.4] - 2025-02-11
 
 ### Added
