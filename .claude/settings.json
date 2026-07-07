@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": ["*"],
+    "deny": [
+      "Bash(curl * | bash*)",
+      "Bash(wget * | bash*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(jq -r \".tool_input.command\"); if echo \"$cmd\" | grep -qE \"git push|vsce publish|ovsx publish|npm publish|deploy\"; then echo \"HARNESS: publish/push action requires human approval\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(jq -r \".tool_input.command\"); if echo \"$cmd\" | grep -qE \"^rm |^rmdir |git clean\"; then echo \"HARNESS: file deletion requires human approval\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(jq -r \".tool_input.command\"); if echo \"$cmd\" | grep -qE \"^curl |^wget |^fetch \"; then echo \"HARNESS: external network call requires human approval\" >&2; exit 2; fi'"
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'HARNESS: WebFetch requires human approval' >&2; exit 2"
+          }
+        ]
+      }
+    ]
+  }
+}

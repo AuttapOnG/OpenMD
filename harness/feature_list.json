@@ -1,0 +1,90 @@
+{
+  "project": "OpenMD",
+  "version": "0.1",
+  "product_direction": "A VS Code extension that opens Markdown files in the browser or a preview panel via right-click, with rich rendering (Mermaid, syntax highlighting, GitHub alerts, emoji, themes).",
+  "features": [
+    {
+      "id": "OMD-001",
+      "title": "Create project harness",
+      "status": "done",
+      "priority": "high",
+      "description": "Initialize the harness engineering scaffold and work-control memory.",
+      "acceptance_criteria": [
+        "CLAUDE.md, AGENTS.md, init.sh, and .claude/settings.json exist with the chosen autonomy rules and checkpoint hooks.",
+        "harness/feature_list.json tracks the implementation queue.",
+        "harness/progress.md records initial decisions.",
+        "docs/adr/0001-harness-init.md records the harness profile."
+      ]
+    },
+    {
+      "id": "OMD-002",
+      "title": "Core open-in-browser / open-in-preview commands",
+      "status": "done",
+      "priority": "high",
+      "description": "Right-click context menu (Explorer, editor, command palette) opens .md files as styled HTML in the default browser or in a VS Code preview panel.",
+      "acceptance_criteria": [
+        "openmd.openBrowser and openmd.openPreview commands are registered and appear in context menus for .md files.",
+        "Browser open produces a GitHub-style HTML rendering of the Markdown file."
+      ]
+    },
+    {
+      "id": "OMD-003",
+      "title": "Rich Markdown rendering",
+      "status": "done",
+      "priority": "high",
+      "description": "markdown-it pipeline with Mermaid diagrams, highlight.js syntax highlighting, GitHub alerts, emoji shortcodes, task lists, anchor links, and copy-code buttons (v0.1.0–0.1.4).",
+      "acceptance_criteria": [
+        "Mermaid code fences render as diagrams after page load.",
+        "Code blocks are syntax-highlighted and have a working copy button.",
+        "[!NOTE]/[!TIP]/[!WARNING]/[!CAUTION]/[!IMPORTANT] alerts render with styling.",
+        ":emoji: shortcodes convert to emoji."
+      ]
+    },
+    {
+      "id": "OMD-004",
+      "title": "Unified theme system",
+      "status": "done",
+      "priority": "medium",
+      "description": "Light/Dark/Auto theme toggle in browser preview and VS Code-theme/Light/Dark toggle in the preview panel, sharing one CSS/theme logic with persisted preference (v0.0.5–0.0.7).",
+      "acceptance_criteria": [
+        "Theme toggle works in both browser and preview panel.",
+        "Preference persists across reloads via localStorage."
+      ]
+    },
+    {
+      "id": "OMD-005",
+      "title": "v1.0.0: Mirror-path temp files and global cleanup",
+      "status": "in_progress",
+      "priority": "high",
+      "description": "Temp HTML files are created mirroring the source file's path (e.g. Project/OpenMD/README.md → .temp/Project/OpenMD/README.html) and all temp files from every extension version are cleaned up on activation. Code changes exist uncommitted; openmd-1.0.0.vsix is built.",
+      "acceptance_criteria": [
+        "Opening a Markdown file in the browser writes the temp HTML under a mirror of the source path.",
+        "Activating the extension removes leftover temp files from all prior versions.",
+        "CHANGELOG.md documents v1.0.0 and package.json version is 1.0.0.",
+        "Changes are committed and the v1.0.0 vsix is published (publish requires human approval)."
+      ]
+    },
+    {
+      "id": "OMD-006",
+      "title": "Automated test suite",
+      "status": "pending",
+      "priority": "medium",
+      "description": "Replace the manual TESTING.md checklist with automated tests using @vscode/test-electron and mocha (already in devDependencies) covering command registration and HTML generation.",
+      "acceptance_criteria": [
+        "npm test runs and passes locally.",
+        "Tests cover both commands and the Markdown-to-HTML rendering pipeline."
+      ]
+    },
+    {
+      "id": "OMD-007",
+      "title": "Slim the repository (drop committed .vsix artifacts)",
+      "status": "pending",
+      "priority": "low",
+      "description": "Multiple large .vsix files (up to ~24 MB) are tracked in git. Move release artifacts to GitHub Releases and gitignore *.vsix.",
+      "acceptance_criteria": [
+        "*.vsix is in .gitignore.",
+        "No .vsix files are tracked in the working tree (history rewrite optional, requires human decision)."
+      ]
+    }
+  ]
+}

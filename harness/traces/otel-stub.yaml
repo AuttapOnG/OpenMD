@@ -1,0 +1,18 @@
+# OpenTelemetry configuration stub
+# Uncomment and configure to enable agent observability
+#
+# See: https://opentelemetry.io/docs/specs/semconv/gen-ai/
+# for GenAI semantic conventions
+
+# exporters:
+#   otlp:
+#     endpoint: http://localhost:4317
+#     protocol: grpc
+
+# service:
+#   name: openmd-agent
+#   version: 0.1.0
+
+# instrumentation:
+#   gen_ai:
+#     capture_message_content: true   # set false in production with PII

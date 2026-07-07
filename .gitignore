@@ -23,3 +23,6 @@ icon.svg
 
 # VSIX packages - we keep only latest in repo, use tags for history
 # *.vsix
+
+# Claude Code local settings
+.claude/settings.local.json
