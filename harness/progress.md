@@ -2,10 +2,9 @@
 
 ## Current State
 
-OpenMD is at v1.0.0 (uncommitted): the mirror-path temp-file + global-cleanup
-work (OMD-005) is coded and packaged as openmd-1.0.0.vsix but not yet committed
-or published. Next: finish OMD-005 (commit + publish with human approval), then
-OMD-006 (automated tests).
+OpenMD is at v1.0.0: the mirror-path temp-file + global-cleanup work (OMD-005)
+is committed (614418e) with the built vsix packages. Remaining: publish v1.0.0
+to Marketplace/Open VSX (human approval required). Then OMD-006 (automated tests).
 
 ## Feature index
 
