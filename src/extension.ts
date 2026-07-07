@@ -13,6 +13,33 @@ let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
 export function activate(context: vscode.ExtensionContext) {
   
+  // Cleanup temp files ทุก version ตอน activate
+  const extensionsDir = path.dirname(context.extensionPath);
+  const extensionId = path.basename(context.extensionPath).split('-').slice(0, -1).join('-'); // เอาชื่อ extension ไม่รวม version
+  
+  try {
+    if (fs.existsSync(extensionsDir)) {
+      const entries = fs.readdirSync(extensionsDir);
+      
+      for (const entry of entries) {
+        // หาโฟลเดอร์ที่เป็นชื่อ extension เรา (ทุก version)
+        if (entry.startsWith(extensionId)) {
+          const otherTempDir = path.join(extensionsDir, entry, '.temp');
+          if (fs.existsSync(otherTempDir)) {
+            try {
+              fs.rmSync(otherTempDir, { recursive: true, force: true });
+              console.log(`[OpenMD] Cleaned up temp: ${entry}`);
+            } catch (err) {
+              console.error(`[OpenMD] Failed to cleanup ${entry}:`, err);
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[OpenMD] Error scanning extensions:', err);
+  }
+  
   // สร้าง markdown-it instance
   const md = createMarkdownParser();
   
@@ -31,12 +58,55 @@ export function activate(context: vscode.ExtensionContext) {
         const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
         const html = markdownToHtml(content, fileUri, md);
         
+        // Mirror path: สร้าง temp file ที่มี path สัมพันธ์กับ workspace/project
         const tempDir = path.join(context.extensionPath, '.temp');
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir, { recursive: true });
+        
+        // หา relative path ที่รวมชื่อ project/folder ด้วย
+        // เช่น /Users/xxx/Project/OpenMD/README.md → Project/OpenMD/README.html
+        let relativePath: string;
+        const workspaceFolder = vscode.workspace.getWorkspaceFolder(fileUri);
+        
+        if (workspaceFolder) {
+          // อยู่ใน workspace → เอา workspace name + relative path
+          const workspaceName = path.basename(workspaceFolder.uri.fsPath);
+          const relativeToWorkspace = path.relative(workspaceFolder.uri.fsPath, fileUri.fsPath);
+          
+          // หา parent folder ของ workspace (ถ้ามี)
+          const workspaceParent = path.dirname(workspaceFolder.uri.fsPath);
+          const grandParent = path.dirname(workspaceParent);
+          const parentName = path.basename(workspaceParent);
+          
+          // ถ้า parent ไม่ใช่ home dir (เช่น /Users/xxx) ให้เอามาด้วย
+          const homeDir = process.env.HOME || process.env.USERPROFILE || '';
+          if (workspaceParent !== homeDir && workspaceParent !== path.dirname(homeDir)) {
+            relativePath = path.join(parentName, workspaceName, relativeToWorkspace);
+          } else {
+            relativePath = path.join(workspaceName, relativeToWorkspace);
+          }
+        } else {
+          // ไม่อยู่ใน workspace → หา project root จาก path
+          const pathParts = fileUri.fsPath.split(path.sep);
+          const projectIndex = pathParts.findIndex(part => 
+            part === 'project' || part === 'projects' || part === 'workspace' || part === 'code'
+          );
+          
+          if (projectIndex !== -1 && projectIndex < pathParts.length - 1) {
+            relativePath = pathParts.slice(projectIndex + 1).join(path.sep);
+          } else {
+            relativePath = path.basename(fileUri.fsPath);
+          }
         }
         
-        const tempHtmlPath = path.join(tempDir, 'preview.html');
+        // แปลง .md เป็น .html
+        const htmlRelativePath = relativePath.replace(/\.md$/i, '.html');
+        const tempHtmlPath = path.join(tempDir, htmlRelativePath);
+        
+        // สร้างโฟลเดอร์ถ้ายังไม่มี
+        const htmlDir = path.dirname(tempHtmlPath);
+        if (!fs.existsSync(htmlDir)) {
+          fs.mkdirSync(htmlDir, { recursive: true });
+        }
+        
         fs.writeFileSync(tempHtmlPath, html);
         
         const htmlUri = vscode.Uri.file(tempHtmlPath);

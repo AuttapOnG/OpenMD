@@ -2,6 +2,19 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.0.0] - 2025-02-16
+
+### Added
+- 🎉 **Stable Release** - v1.0.0 พร้อมใช้งานจริง
+- 📁 **Mirror Path Temp Files** - Temp HTML files สร้างตาม project path (เช่น `Project/OpenMD/README.md` → `.temp/Project/OpenMD/README.html`)
+- 🧹 **Global Cleanup** - ลบ temp files ทุก version ของ extension ตอน activate
+
+## [0.1.7] - 2025-02-16
+
+### Changed
+- 📁 **Mirror Path Temp Files** - Temp HTML files สร้างตาม mirror path ของไฟล์ต้นฉบับ (เช่น `/project/docs/readme.md` → `.temp/project/docs/readme.html`)
+- 🧹 **Auto Cleanup** - ลบ temp files ทั้งหมดตอนเปิด VS Code ใหม่ ป้องกันไฟล์สะสม
+
 ## [0.1.6] - 2025-02-11
 
 ### Fixed
