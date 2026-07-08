@@ -76,6 +76,32 @@
       ]
     },
     {
+      "id": "OMD-008",
+      "title": "Bundle with esbuild + full offline support",
+      "status": "pending",
+      "priority": "high",
+      "description": "Bundle extension code with esbuild (vsix ~24 MB → ~2-3 MB), ship mermaid/highlight.js assets locally instead of CDN, and unify the two duplicate HTML templates into one generateHtml(mode). Spec: docs/specs/OMD-008-bundle-offline.md.",
+      "acceptance_criteria": [
+        "vsce package produces a vsix ≤ 3 MB.",
+        "With networking disabled, both commands render Mermaid and highlighted code correctly.",
+        "No http/https URLs remain in generated HTML.",
+        "Single generateHtml(content, fileUri, mode) replaces both duplicate templates."
+      ],
+      "recommended_before": ["OMD-009"]
+    },
+    {
+      "id": "OMD-009",
+      "title": "Auto-refresh on save (preview panel + browser)",
+      "status": "pending",
+      "priority": "high",
+      "description": "Preview panel re-renders on onDidSaveTextDocument; browser preview served from a minimal localhost HTTP server (Node built-in http, no new deps) with 1s mtime polling and scroll preservation. Spec: docs/specs/OMD-009-auto-refresh.md.",
+      "acceptance_criteria": [
+        "Saving a previewed file updates the panel instantly and reloads the browser tab within 2 s with scroll preserved.",
+        "Server binds to 127.0.0.1 only, uses an OS-assigned port, and stops on deactivate.",
+        "If the server cannot start, falls back to the v1.0.0 temp-file behavior with a warning."
+      ]
+    },
+    {
       "id": "OMD-007",
       "title": "Slim the repository (drop committed .vsix artifacts)",
       "status": "pending",
