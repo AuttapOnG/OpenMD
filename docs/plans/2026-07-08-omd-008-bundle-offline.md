@@ -33,12 +33,12 @@
 - Consumes: nothing (first task)
 - Produces: `npm run build` → `dist/extension.js`, `media/mermaid.min.js`, `media/highlight.min.js`, `media/github.min.css`, `media/github-dark.min.css`. Task 3 relies on these exact `media/` file names; Task 4 relies on `vscode:prepublish` running the build.
 
-- [ ] **Step 1: Install esbuild**
+- [x] **Step 1: Install esbuild**
 
 Run: `npm install --save-dev esbuild`
 Expected: added to `devDependencies`, exit 0.
 
-- [ ] **Step 2: Create the hljs browser entry**
+- [x] **Step 2: Create the hljs browser entry**
 
 `build/hljs-entry.js`:
 ```js
@@ -49,7 +49,7 @@ import hljs from 'highlight.js/lib/common';
 window.hljs = hljs;
 ```
 
-- [ ] **Step 3: Create `esbuild.js`**
+- [x] **Step 3: Create `esbuild.js`**
 
 ```js
 const esbuild = require('esbuild');
@@ -100,13 +100,13 @@ async function main() {
 main().catch((e) => { console.error(e); process.exit(1); });
 ```
 
-- [ ] **Step 4: Update `package.json`**
+- [x] **Step 4: Update `package.json`**
 
 Change `"main": "./out/extension.js"` → `"main": "./dist/extension.js"`.
 In `scripts`, change `"vscode:prepublish": "npm run compile"` → `"vscode:prepublish": "npm run build"` and add `"build": "node esbuild.js"`.
 Keep `"compile": "tsc -p ./"` — tsc still compiles `out/` for tests.
 
-- [ ] **Step 5: Update `.vscodeignore`**
+- [x] **Step 5: Update `.vscodeignore`**
 
 Replace the whole file with (node_modules is now safe to exclude because `dist/extension.js` is self-contained — this permanently closes the v0.1.6 broken-package regression):
 ```
@@ -141,7 +141,7 @@ icon.svg
 package-lock.json
 ```
 
-- [ ] **Step 6: Add build outputs to `.gitignore`**
+- [x] **Step 6: Add build outputs to `.gitignore`**
 
 Append:
 ```
@@ -149,12 +149,12 @@ dist/
 media/
 ```
 
-- [ ] **Step 7: Verify the build runs**
+- [x] **Step 7: Verify the build runs**
 
 Run: `npm run build`
 Expected: prints the five files with sizes; `media/highlight.min.js` roughly 100–200 KB, `media/mermaid.min.js` ~2.6 MB, `dist/extension.js` well under 1 MB. All five files exist.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add esbuild.js build/hljs-entry.js package.json package-lock.json .vscodeignore .gitignore
@@ -186,14 +186,14 @@ export function createMarkdownParser(): MarkdownIt;
 export function generateHtml(markdown: string, title: string, assets: RenderAssets, md: MarkdownIt): string;
 ```
 
-- [ ] **Step 1: Add the unit-test script**
+- [x] **Step 1: Add the unit-test script**
 
 In `package.json` scripts add:
 ```json
 "test:unit": "npm run compile && mocha out/test/unit/**/*.test.js"
 ```
 
-- [ ] **Step 2: Write the failing test**
+- [x] **Step 2: Write the failing test**
 
 `src/test/unit/render.test.ts`:
 ```ts
@@ -240,12 +240,12 @@ describe('generateHtml', () => {
 });
 ```
 
-- [ ] **Step 3: Run to verify it fails**
+- [x] **Step 3: Run to verify it fails**
 
 Run: `npm run test:unit`
 Expected: FAIL — TypeScript compile error, `src/render.ts` does not exist.
 
-- [ ] **Step 4: Create `src/render.ts`**
+- [x] **Step 4: Create `src/render.ts`**
 
 Move code out of `src/extension.ts` (copy only — extension.ts is cleaned up in Task 3):
 1. Top of file — imports (no `vscode`):
@@ -285,12 +285,12 @@ export function generateHtml(
 
 Everything else in the template (CSS, theme toggle, emoji script, copy-button script) is moved unchanged.
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `npm run test:unit`
 Expected: 5 passing.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/render.ts src/test/unit/render.test.ts package.json
@@ -308,14 +308,14 @@ git commit -m "refactor: extract vscode-free render module with local asset URIs
 - Consumes: `createMarkdownParser()`, `generateHtml(markdown, title, assets, md)`, `RenderAssets` from `./render` (Task 2); `media/*` file names (Task 1)
 - Produces: working extension — no other task consumes code from this one
 
-- [ ] **Step 1: Replace markdown-it imports with the render module**
+- [x] **Step 1: Replace markdown-it imports with the render module**
 
 At the top of `src/extension.ts`, delete the six markdown-it/plugin imports (lines 4-9) and add:
 ```ts
 import { createMarkdownParser, generateHtml, RenderAssets } from './render';
 ```
 
-- [ ] **Step 2: Stage assets in `activate()` AFTER the cleanup loop**
+- [x] **Step 2: Stage assets in `activate()` AFTER the cleanup loop**
 
 Immediately after the v1.0.0 cleanup `try/catch` block (after `src/extension.ts:41`) and before `const md = createMarkdownParser();`, insert:
 ```ts
@@ -340,14 +340,14 @@ Immediately after the v1.0.0 cleanup `try/catch` block (after `src/extension.ts:
   };
 ```
 
-- [ ] **Step 3: Use `generateHtml` in the browser command**
+- [x] **Step 3: Use `generateHtml` in the browser command**
 
 In the `openmd.openBrowser` handler, replace `const html = markdownToHtml(content, fileUri, md);` with:
 ```ts
         const html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), browserAssets, md);
 ```
 
-- [ ] **Step 4: Use `generateHtml` in the preview command**
+- [x] **Step 4: Use `generateHtml` in the preview command**
 
 In `openmd.openPreview`:
 1. In `createWebviewPanel` options, extend `localResourceRoots`:
@@ -371,11 +371,11 @@ In `openmd.openPreview`:
 ```
 Note: the panel-reuse path must also get these assets — build `webviewAssets` after the `if (currentPanel) / else` block, right before `currentPanel.webview.html = html;`.
 
-- [ ] **Step 5: Delete the moved code**
+- [x] **Step 5: Delete the moved code**
 
 Delete from `src/extension.ts`: `createMarkdownParser`, `markdownToHtml`, `markdownToWebviewHtml`, `getHtmlTemplate`, `getWebviewTemplate` (everything from the `// สร้าง markdown-it instance พร้อม plugins` comment at line 177 to end of file). The file should end after `activate()`'s closing brace plus an empty `export function deactivate() {}` if present.
 
-- [ ] **Step 6: Verify everything compiles and tests pass**
+- [x] **Step 6: Verify everything compiles and tests pass**
 
 Run: `npm run compile && npm run test:unit && npm run build`
 Expected: tsc clean, 5 unit tests passing, esbuild outputs written. `grep -c "cdnjs\|jsdelivr" src/extension.ts src/render.ts` → `src/extension.ts:0`, `src/render.ts:0`.
@@ -385,7 +385,7 @@ Expected: tsc clean, 5 unit tests passing, esbuild outputs written. `grep -c "cd
 Press F5 in VS Code (or `code --extensionDevelopmentPath=.`), open `test-features.md`, run both commands.
 Expected: browser page and preview panel render Mermaid diagram + highlighted code. Browser page source references `file:///.../​.temp/assets/...`, not CDN.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/extension.ts
@@ -404,7 +404,7 @@ git commit -m "feat: render offline from local assets; remove duplicate HTML tem
 - Consumes: `vscode:prepublish` → `npm run build` (Task 1); complete wiring (Task 3)
 - Produces: `openmd-1.1.0.vsix` ready for the OMD-009 work to build on
 
-- [ ] **Step 1: Bump version and changelog**
+- [x] **Step 1: Bump version and changelog**
 
 `package.json`: `"version": "1.1.0"`. `CHANGELOG.md`, add on top:
 ```markdown
@@ -416,12 +416,12 @@ git commit -m "feat: render offline from local assets; remove duplicate HTML tem
 
 ```
 
-- [ ] **Step 2: Package**
+- [x] **Step 2: Package**
 
 Run: `npm run package` (runs `vsce package`, which triggers `vscode:prepublish` → build)
 Expected: `openmd-1.1.0.vsix` created.
 
-- [ ] **Step 3: Verify size and contents**
+- [x] **Step 3: Verify size and contents**
 
 Run: `ls -lh openmd-1.1.0.vsix && npx vsce ls | head -30`
 Expected: size ≤ 3 MB. Listing contains `dist/extension.js` and the four `media/` files; NO `node_modules/` entries.
@@ -431,11 +431,11 @@ Expected: size ≤ 3 MB. Listing contains `dist/extension.js` and the four `medi
 Install: `code --install-extension openmd-1.1.0.vsix`. Turn off Wi-Fi (or use browser devtools → Network → Offline on the opened page). Open a .md with mermaid + code fences; run both commands.
 Expected: diagrams and highlighting render with networking disabled.
 
-- [ ] **Step 5: Update harness memory**
+- [x] **Step 5: Update harness memory**
 
 `harness/feature_list.json`: OMD-008 `"status": "done"`. `harness/progress.md`: update Current State (OMD-008 shipped, next OMD-009) and Feature index row. `harness/notes/OMD-008.md`: status done + record actual vsix size and any surprises.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add package.json CHANGELOG.md harness/ openmd-1.1.0.vsix

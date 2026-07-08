@@ -2,9 +2,11 @@
 
 ## Current State
 
-OpenMD is at v1.0.0: the mirror-path temp-file + global-cleanup work (OMD-005)
-is committed (614418e) with the built vsix packages. Remaining: publish v1.0.0
-to Marketplace/Open VSX (human approval required). Then OMD-006 (automated tests).
+OpenMD is at v1.1.0 locally: OMD-008 bundled the extension with esbuild,
+staged Mermaid/highlight.js assets locally, removed CDN URLs from generated
+HTML, and produced `openmd-1.1.0.vsix` at 924K. Manual F5 and offline install
+smoke tests remain for the human per the OMD-008 plan. Next implementation
+target: OMD-009 auto-refresh.
 
 ## Feature index
 
@@ -17,7 +19,7 @@ to Marketplace/Open VSX (human approval required). Then OMD-006 (automated tests
 | OMD-005 | v1.0.0: Mirror-path temp files and global cleanup | in_progress | [notes/OMD-005.md](notes/OMD-005.md) |
 | OMD-006 | Automated test suite | pending | [notes/OMD-006.md](notes/OMD-006.md) |
 | OMD-007 | Slim the repository (drop committed .vsix artifacts) | pending | [notes/OMD-007.md](notes/OMD-007.md) |
-| OMD-008 | Bundle with esbuild + full offline support | pending | [notes/OMD-008.md](notes/OMD-008.md) |
+| OMD-008 | Bundle with esbuild + full offline support | done | [notes/OMD-008.md](notes/OMD-008.md) |
 | OMD-009 | Auto-refresh on save (preview panel + browser) | pending | [notes/OMD-009.md](notes/OMD-009.md) |
 
 ## Cross-cutting decisions & events

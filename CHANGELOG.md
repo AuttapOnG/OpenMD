@@ -2,6 +2,12 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.1.0] - 2026-07-08
+
+### Changed
+- 📦 **Tiny package** - Bundled with esbuild; vsix shrinks from ~24 MB to ~3 MB
+- 🔌 **Works offline** - Mermaid and syntax highlighting no longer load from CDN
+
 ## [1.0.0] - 2025-02-16
 
 ### Added

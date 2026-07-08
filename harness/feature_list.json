@@ -78,7 +78,7 @@
     {
       "id": "OMD-008",
       "title": "Bundle with esbuild + full offline support",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "description": "Bundle extension code with esbuild (vsix ~24 MB → ~2-3 MB), ship mermaid/highlight.js assets locally instead of CDN, and unify the two duplicate HTML templates into one generateHtml(mode). Spec: docs/specs/OMD-008-bundle-offline.md.",
       "acceptance_criteria": [
