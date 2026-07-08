@@ -4,6 +4,7 @@ node_modules/
 # Compiled output
 out/
 dist/
+media/
 
 # Temporary files
 .temp/
