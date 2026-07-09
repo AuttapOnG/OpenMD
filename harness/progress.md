@@ -2,11 +2,12 @@
 
 ## Current State
 
-OpenMD is at v1.1.0 locally: OMD-008 bundled the extension with esbuild,
-staged Mermaid/highlight.js assets locally, removed CDN URLs from generated
-HTML, and produced `openmd-1.1.0.vsix` at 924K. Manual F5 and offline install
-smoke tests remain for the human per the OMD-008 plan. Next implementation
-target: OMD-009 auto-refresh.
+OpenMD is at v1.2.0 locally: OMD-009 implemented auto-refresh plumbing for
+browser previews via a 127.0.0.1 server and for preview panels via a save
+listener, and produced `openmd-1.2.0.vsix` at 926K. OMD-009 remains
+in_progress because the manual F5 smoke test is pending for the human; local
+server unit tests are also blocked in this sandbox by `listen EPERM` on
+127.0.0.1.
 
 ## Feature index
 
@@ -20,7 +21,7 @@ target: OMD-009 auto-refresh.
 | OMD-006 | Automated test suite | pending | [notes/OMD-006.md](notes/OMD-006.md) |
 | OMD-007 | Slim the repository (drop committed .vsix artifacts) | pending | [notes/OMD-007.md](notes/OMD-007.md) |
 | OMD-008 | Bundle with esbuild + full offline support | done | [notes/OMD-008.md](notes/OMD-008.md) |
-| OMD-009 | Auto-refresh on save (preview panel + browser) | pending | [notes/OMD-009.md](notes/OMD-009.md) |
+| OMD-009 | Auto-refresh on save (preview panel + browser) | in_progress | [notes/OMD-009.md](notes/OMD-009.md) |
 
 ## Cross-cutting decisions & events
 

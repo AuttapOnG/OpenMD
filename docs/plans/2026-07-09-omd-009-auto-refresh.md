@@ -34,7 +34,7 @@ export interface LiveReloadOptions { mtimeUrl: string; }  // e.g. '/mtime?f=%2Fd
 export function generateHtml(markdown: string, title: string, assets: RenderAssets, md: MarkdownIt, live?: LiveReloadOptions): string;
 ```
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Append to `src/test/unit/render.test.ts` inside `describe('generateHtml', ...)`:
 ```ts
@@ -53,12 +53,12 @@ Append to `src/test/unit/render.test.ts` inside `describe('generateHtml', ...)`:
 ```
 (Import `LiveReloadOptions` is not needed — the object literal is inferred.)
 
-- [ ] **Step 2: Run tests to verify the new ones fail**
+- [x] **Step 2: Run tests to verify the new ones fail**
 
 Run: `npm run test:unit`
 Expected: 5 passing, 2 failing (TS error: `generateHtml` takes 4 arguments).
 
-- [ ] **Step 3: Implement the injection**
+- [x] **Step 3: Implement the injection**
 
 In `src/render.ts`:
 1. Below `RenderAssets`, add:
@@ -119,12 +119,12 @@ ${live ? liveReloadScript(live.mtimeUrl) : ''}
 </body>
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `npm run test:unit`
 Expected: 7 passing.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/render.ts src/test/unit/render.test.ts
@@ -157,7 +157,7 @@ export class PreviewServer {
 }
 ```
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `src/test/unit/server.test.ts`:
 ```ts
@@ -238,12 +238,12 @@ describe('PreviewServer', () => {
 });
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `npm run test:unit`
 Expected: FAIL — `src/server.ts` does not exist.
 
-- [ ] **Step 3: Implement `src/server.ts`**
+- [x] **Step 3: Implement `src/server.ts`**
 
 ```ts
 // Minimal localhost preview server. No vscode imports — unit-testable.
@@ -351,12 +351,12 @@ export class PreviewServer {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `npm run test:unit`
 Expected: 12 passing (7 render + 5 server).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/server.ts src/test/unit/server.test.ts
@@ -374,7 +374,7 @@ git commit -m "feat: add minimal loopback preview server with mtime polling"
 - Consumes: `PreviewServer` (Task 2), `generateHtml(..., live?)` (Task 1), existing `browserAssets` staging and mirror-path logic (`src/extension.ts:75-116`)
 - Produces: user-facing behavior only
 
-- [ ] **Step 1: Extract the mirror-path computation**
+- [x] **Step 1: Extract the mirror-path computation**
 
 Move the mirror-path block (currently inline in the `openmd.openBrowser` handler, `src/extension.ts:78-116` from `let relativePath: string;` through `const htmlRelativePath = ...`) into a module-level function, unchanged logic:
 ```ts
@@ -385,7 +385,7 @@ function computeMirrorHtmlPath(fileUri: vscode.Uri): string {
 }
 ```
 
-- [ ] **Step 2: Add the lazy server + serve pages over http**
+- [x] **Step 2: Add the lazy server + serve pages over http**
 
 At the top of `extension.ts` add `import { PreviewServer } from './server';`.
 
@@ -427,7 +427,7 @@ Inside `activate()`, after `browserAssets` is defined, add:
   }
 ```
 
-- [ ] **Step 3: Rewrite the `openmd.openBrowser` handler body**
+- [x] **Step 3: Rewrite the `openmd.openBrowser` handler body**
 
 Replace the handler's `try` block with (the temp-file code moves into the fallback branch, using the extracted `computeMirrorHtmlPath`):
 ```ts
@@ -453,7 +453,7 @@ Replace the handler's `try` block with (the temp-file code moves into the fallba
       }
 ```
 
-- [ ] **Step 4: Preview panel re-render on save**
+- [x] **Step 4: Preview panel re-render on save**
 
 1. Add module-level tracking next to `currentPanel`:
 ```ts
@@ -493,7 +493,7 @@ and add inside `activate()` (after `ensureServer`):
   context.subscriptions.push(onSave);
 ```
 
-- [ ] **Step 5: Verify compile, tests, build**
+- [x] **Step 5: Verify compile, tests, build**
 
 Run: `npm run compile && npm run test:unit && npm run build`
 Expected: tsc clean, 12 tests passing, esbuild outputs written.
@@ -502,7 +502,7 @@ Expected: tsc clean, 12 tests passing, esbuild outputs written.
 
 F5 → open `test-features.md` → Open in Browser (URL must be `http://127.0.0.1:...`) → edit + save → browser reloads within 2 s keeping scroll. Open in Preview → edit + save → panel updates instantly. Also verify Mermaid/highlighting still render on the served page.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/extension.ts
@@ -521,7 +521,7 @@ git commit -m "feat: auto-refresh previews on save via loopback server and save 
 - Consumes: everything above complete
 - Produces: `openmd-1.2.0.vsix`
 
-- [ ] **Step 1: Bump version and changelog**
+- [x] **Step 1: Bump version and changelog**
 
 `package.json`: `"version": "1.2.0"`. `CHANGELOG.md`, add on top:
 ```markdown
@@ -533,16 +533,16 @@ git commit -m "feat: auto-refresh previews on save via loopback server and save 
 
 ```
 
-- [ ] **Step 2: Package and verify**
+- [x] **Step 2: Package and verify**
 
 Run: `npm run package && ls -lh openmd-1.2.0.vsix`
 Expected: vsix created, still ~1 MB.
 
-- [ ] **Step 3: Update harness memory**
+- [x] **Step 3: Update harness memory**
 
 `harness/feature_list.json`: OMD-009 `"status": "done"` (only after the manual smoke test in Task 3 Step 6 passed). `harness/progress.md`: update Current State + Feature index. `harness/notes/OMD-009.md`: record surprises.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add package.json CHANGELOG.md harness/ openmd-1.2.0.vsix

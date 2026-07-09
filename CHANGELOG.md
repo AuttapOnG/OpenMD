@@ -2,6 +2,12 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.2.0] - 2026-07-09
+
+### Added
+- 🔄 **Auto-refresh** - Save the file and the browser preview reloads within 1-2 s (scroll preserved); the VS Code preview panel updates instantly
+- 🌐 Browser preview now served from a local-only server (127.0.0.1) instead of static temp files
+
 ## [1.1.0] - 2026-07-08
 
 ### Changed
