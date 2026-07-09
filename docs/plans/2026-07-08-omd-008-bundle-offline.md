@@ -380,7 +380,7 @@ Delete from `src/extension.ts`: `createMarkdownParser`, `markdownToHtml`, `markd
 Run: `npm run compile && npm run test:unit && npm run build`
 Expected: tsc clean, 5 unit tests passing, esbuild outputs written. `grep -c "cdnjs\|jsdelivr" src/extension.ts src/render.ts` → `src/extension.ts:0`, `src/render.ts:0`.
 
-- [ ] **Step 7: Manual smoke test in the Extension Development Host**
+- [x] **Step 7: Manual smoke test in the Extension Development Host**
 
 Press F5 in VS Code (or `code --extensionDevelopmentPath=.`), open `test-features.md`, run both commands.
 Expected: browser page and preview panel render Mermaid diagram + highlighted code. Browser page source references `file:///.../​.temp/assets/...`, not CDN.
@@ -426,7 +426,7 @@ Expected: `openmd-1.1.0.vsix` created.
 Run: `ls -lh openmd-1.1.0.vsix && npx vsce ls | head -30`
 Expected: size ≤ 3 MB. Listing contains `dist/extension.js` and the four `media/` files; NO `node_modules/` entries.
 
-- [ ] **Step 4: Verify offline acceptance criterion**
+- [x] **Step 4: Verify offline acceptance criterion**
 
 Install: `code --install-extension openmd-1.1.0.vsix`. Turn off Wi-Fi (or use browser devtools → Network → Offline on the opened page). Open a .md with mermaid + code fences; run both commands.
 Expected: diagrams and highlighting render with networking disabled.
