@@ -12,6 +12,14 @@ export interface RenderAssets {
   hljsCssDark: string;
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 export interface LiveReloadOptions {
   /** URL the page polls for the source file's last-modified time, e.g. '/mtime?f=%2Fdocs%2Fa.html' */
   mtimeUrl: string;
@@ -128,7 +136,7 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
+    <title>${escapeHtml(title)}</title>
     
     <!-- Syntax Highlighting -->
     <link rel="stylesheet" href="${assets.hljsCssLight}" media="(prefers-color-scheme: light)">
