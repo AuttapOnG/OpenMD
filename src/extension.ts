@@ -2,9 +2,51 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { createMarkdownParser, generateHtml, RenderAssets } from './render';
+import { PreviewServer } from './server';
 
 // เก็บ reference ของ webview panel
 let currentPanel: vscode.WebviewPanel | undefined = undefined;
+let currentPreviewSource: vscode.Uri | undefined = undefined;
+
+// คำนวณ mirror path ของไฟล์ (เช่น /Users/x/Project/OpenMD/README.md → Project/OpenMD/README.html)
+function computeMirrorHtmlPath(fileUri: vscode.Uri): string {
+  // หา relative path ที่รวมชื่อ project/folder ด้วย
+  // เช่น /Users/xxx/Project/OpenMD/README.md → Project/OpenMD/README.html
+  let relativePath: string;
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(fileUri);
+  
+  if (workspaceFolder) {
+    // อยู่ใน workspace → เอา workspace name + relative path
+    const workspaceName = path.basename(workspaceFolder.uri.fsPath);
+    const relativeToWorkspace = path.relative(workspaceFolder.uri.fsPath, fileUri.fsPath);
+    
+    // หา parent folder ของ workspace (ถ้ามี)
+    const workspaceParent = path.dirname(workspaceFolder.uri.fsPath);
+    const parentName = path.basename(workspaceParent);
+    
+    // ถ้า parent ไม่ใช่ home dir (เช่น /Users/xxx) ให้เอามาด้วย
+    const homeDir = process.env.HOME || process.env.USERPROFILE || '';
+    if (workspaceParent !== homeDir && workspaceParent !== path.dirname(homeDir)) {
+      relativePath = path.join(parentName, workspaceName, relativeToWorkspace);
+    } else {
+      relativePath = path.join(workspaceName, relativeToWorkspace);
+    }
+  } else {
+    // ไม่อยู่ใน workspace → หา project root จาก path
+    const pathParts = fileUri.fsPath.split(path.sep);
+    const projectIndex = pathParts.findIndex(part => 
+      part === 'project' || part === 'projects' || part === 'workspace' || part === 'code'
+    );
+    
+    if (projectIndex !== -1 && projectIndex < pathParts.length - 1) {
+      relativePath = pathParts.slice(projectIndex + 1).join(path.sep);
+    } else {
+      relativePath = path.basename(fileUri.fsPath);
+    }
+  }
+  
+  return relativePath.replace(/\.md$/i, '.html');
+}
 
 export function activate(context: vscode.ExtensionContext) {
   
@@ -53,9 +95,60 @@ export function activate(context: vscode.ExtensionContext) {
     hljsCssLight: vscode.Uri.file(path.join(assetsDir, 'github.min.css')).toString(),
     hljsCssDark: vscode.Uri.file(path.join(assetsDir, 'github-dark.min.css')).toString(),
   };
+
+  // Assets referenced by pages served over http:// (file:// subresources are blocked there)
+  const servedAssets: RenderAssets = {
+    mermaidJs: '/assets/mermaid.min.js',
+    hljsJs: '/assets/highlight.min.js',
+    hljsCssLight: '/assets/github.min.css',
+    hljsCssDark: '/assets/github-dark.min.css',
+  };
   
   // สร้าง markdown-it instance
   const md = createMarkdownParser();
+
+  let previewServer: PreviewServer | undefined;
+  async function ensureServer(): Promise<PreviewServer | undefined> {
+    if (previewServer) {
+      return previewServer;
+    }
+    const server = new PreviewServer({
+      assetsDir,
+      renderFile: (sourcePath, urlPath) =>
+        generateHtml(
+          fs.readFileSync(sourcePath, 'utf-8'),
+          path.basename(sourcePath, '.md'),
+          servedAssets,
+          md,
+          { mtimeUrl: `/mtime?f=${encodeURIComponent(urlPath)}` }
+        ),
+    });
+    try {
+      await server.start();
+      previewServer = server;
+      context.subscriptions.push({ dispose: () => server.stop() });
+      return previewServer;
+    } catch (err) {
+      console.error('[OpenMD] Preview server failed to start:', err);
+      return undefined;
+    }
+  }
+
+  function renderPreviewPanel(fileUri: vscode.Uri): void {
+    if (!currentPanel) {
+      return;
+    }
+    const mediaUri = (f: string) =>
+      currentPanel!.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'media', f)).toString();
+    const webviewAssets: RenderAssets = {
+      mermaidJs: mediaUri('mermaid.min.js'),
+      hljsJs: mediaUri('highlight.min.js'),
+      hljsCssLight: mediaUri('github.min.css'),
+      hljsCssDark: mediaUri('github-dark.min.css'),
+    };
+    const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
+    currentPanel.webview.html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), webviewAssets, md);
+  }
   
   // Command: Open in Browser
   let openInBrowser = vscode.commands.registerCommand(
@@ -69,63 +162,22 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       try {
+        const server = await ensureServer();
+        if (server) {
+          const urlPath = '/' + computeMirrorHtmlPath(fileUri).split(path.sep).join('/');
+          server.register(urlPath, fileUri.fsPath);
+          await vscode.env.openExternal(vscode.Uri.parse(server.url(urlPath)));
+          return;
+        }
+
+        // Fallback: static temp file (v1.0.0 behavior, no auto-refresh)
+        vscode.window.showWarningMessage('OpenMD: live preview server unavailable — opening static preview instead.');
         const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
         const html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), browserAssets, md);
-        
-        // Mirror path: สร้าง temp file ที่มี path สัมพันธ์กับ workspace/project
-        const tempDir = path.join(context.extensionPath, '.temp');
-        
-        // หา relative path ที่รวมชื่อ project/folder ด้วย
-        // เช่น /Users/xxx/Project/OpenMD/README.md → Project/OpenMD/README.html
-        let relativePath: string;
-        const workspaceFolder = vscode.workspace.getWorkspaceFolder(fileUri);
-        
-        if (workspaceFolder) {
-          // อยู่ใน workspace → เอา workspace name + relative path
-          const workspaceName = path.basename(workspaceFolder.uri.fsPath);
-          const relativeToWorkspace = path.relative(workspaceFolder.uri.fsPath, fileUri.fsPath);
-          
-          // หา parent folder ของ workspace (ถ้ามี)
-          const workspaceParent = path.dirname(workspaceFolder.uri.fsPath);
-          const grandParent = path.dirname(workspaceParent);
-          const parentName = path.basename(workspaceParent);
-          
-          // ถ้า parent ไม่ใช่ home dir (เช่น /Users/xxx) ให้เอามาด้วย
-          const homeDir = process.env.HOME || process.env.USERPROFILE || '';
-          if (workspaceParent !== homeDir && workspaceParent !== path.dirname(homeDir)) {
-            relativePath = path.join(parentName, workspaceName, relativeToWorkspace);
-          } else {
-            relativePath = path.join(workspaceName, relativeToWorkspace);
-          }
-        } else {
-          // ไม่อยู่ใน workspace → หา project root จาก path
-          const pathParts = fileUri.fsPath.split(path.sep);
-          const projectIndex = pathParts.findIndex(part => 
-            part === 'project' || part === 'projects' || part === 'workspace' || part === 'code'
-          );
-          
-          if (projectIndex !== -1 && projectIndex < pathParts.length - 1) {
-            relativePath = pathParts.slice(projectIndex + 1).join(path.sep);
-          } else {
-            relativePath = path.basename(fileUri.fsPath);
-          }
-        }
-        
-        // แปลง .md เป็น .html
-        const htmlRelativePath = relativePath.replace(/\.md$/i, '.html');
-        const tempHtmlPath = path.join(tempDir, htmlRelativePath);
-        
-        // สร้างโฟลเดอร์ถ้ายังไม่มี
-        const htmlDir = path.dirname(tempHtmlPath);
-        if (!fs.existsSync(htmlDir)) {
-          fs.mkdirSync(htmlDir, { recursive: true });
-        }
-        
+        const tempHtmlPath = path.join(context.extensionPath, '.temp', computeMirrorHtmlPath(fileUri));
+        fs.mkdirSync(path.dirname(tempHtmlPath), { recursive: true });
         fs.writeFileSync(tempHtmlPath, html);
-        
-        const htmlUri = vscode.Uri.file(tempHtmlPath);
-        await vscode.env.openExternal(htmlUri);
-        
+        await vscode.env.openExternal(vscode.Uri.file(tempHtmlPath));
       } catch (error) {
         vscode.window.showErrorMessage(`Error: ${error}`);
       }
@@ -144,7 +196,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       try {
-        const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
         const fileName = path.basename(fileUri.fsPath);
         
         // ถ้ามี panel อยู่แล้ว ให้ใช้ panel เดิม
@@ -170,29 +221,28 @@ export function activate(context: vscode.ExtensionContext) {
           currentPanel.onDidDispose(
             () => {
               currentPanel = undefined;
+              currentPreviewSource = undefined;
             },
             null,
             context.subscriptions
           );
         }
 
-        // สร้าง HTML สำหรับ webview
-        const mediaUri = (f: string) =>
-          currentPanel!.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'media', f)).toString();
-        const webviewAssets: RenderAssets = {
-          mermaidJs: mediaUri('mermaid.min.js'),
-          hljsJs: mediaUri('highlight.min.js'),
-          hljsCssLight: mediaUri('github.min.css'),
-          hljsCssDark: mediaUri('github-dark.min.css'),
-        };
-        const html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), webviewAssets, md);
-        currentPanel.webview.html = html;
+        currentPreviewSource = fileUri;
+        renderPreviewPanel(fileUri);
         
       } catch (error) {
         vscode.window.showErrorMessage(`Error: ${error}`);
       }
     }
   );
+
+  const onSave = vscode.workspace.onDidSaveTextDocument((doc) => {
+    if (currentPanel && currentPreviewSource && doc.uri.fsPath === currentPreviewSource.fsPath) {
+      renderPreviewPanel(currentPreviewSource);
+    }
+  });
+  context.subscriptions.push(onSave);
 
   context.subscriptions.push(openInBrowser, openInPreview);
 }
