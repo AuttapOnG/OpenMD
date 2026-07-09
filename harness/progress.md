@@ -2,12 +2,10 @@
 
 ## Current State
 
-All queued features are done: v1.2.0 (bundle+offline, auto-refresh) with
-25 unit tests + 5 integration tests passing, repo slimmed to one tracked
-vsix. Remaining loose ends: OMD-005 stays in_progress until v1.x is
-published; main is ~18 commits ahead of origin — push and marketplace
-publish (v1.2.0 to VS Code Marketplace + Open VSX, both still at 1.0.0)
-await human-run commands.
+Fully shipped: v1.2.0 is live on the VS Code Marketplace, Open VSX, and
+GitHub (2026-07-09). All features OMD-001..009 are done. Codebase: esbuild
+bundle (924 KB vsix), full offline rendering, auto-refresh previews, 25 unit
++ 5 integration tests. Next work starts with a new spec.
 
 ## Feature index
 
@@ -17,7 +15,7 @@ await human-run commands.
 | OMD-002 | Core open-in-browser / open-in-preview commands | done | [notes/OMD-002.md](notes/OMD-002.md) |
 | OMD-003 | Rich Markdown rendering | done | [notes/OMD-003.md](notes/OMD-003.md) |
 | OMD-004 | Unified theme system | done | [notes/OMD-004.md](notes/OMD-004.md) |
-| OMD-005 | v1.0.0: Mirror-path temp files and global cleanup | in_progress | [notes/OMD-005.md](notes/OMD-005.md) |
+| OMD-005 | v1.0.0: Mirror-path temp files and global cleanup | done | [notes/OMD-005.md](notes/OMD-005.md) |
 | OMD-006 | Automated test suite | in_progress | [notes/OMD-006.md](notes/OMD-006.md) |
 | OMD-007 | Keep only the latest vsix in the repo | done | [notes/OMD-007.md](notes/OMD-007.md) |
 | OMD-008 | Bundle with esbuild + full offline support | done | [notes/OMD-008.md](notes/OMD-008.md) |

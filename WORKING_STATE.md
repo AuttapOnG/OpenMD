@@ -2,6 +2,9 @@
 
 ## 2026-07-09
 
+- v1.2.0 PUBLISHED to Open VSX (ovsx publish succeeded) using a token the
+  human provided in chat; token scrubbed from the scratchpad script after use.
+  OMD-005 closed — all stores now current. Release fully shipped.
 - v1.2.0 PUBLISHED to VS Code Marketplace (vsce verify-pat succeeded, publish
   DONE) using a PAT the human provided in chat. Token was scrubbed from the
   scratchpad script after use; human advised to rotate it since it passed

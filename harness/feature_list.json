@@ -54,7 +54,7 @@
     {
       "id": "OMD-005",
       "title": "v1.0.0: Mirror-path temp files and global cleanup",
-      "status": "in_progress",
+      "status": "done",
       "priority": "high",
       "description": "Temp HTML files are created mirroring the source file's path (e.g. Project/OpenMD/README.md → .temp/Project/OpenMD/README.html) and all temp files from every extension version are cleaned up on activation. Code changes exist uncommitted; openmd-1.0.0.vsix is built.",
       "acceptance_criteria": [
