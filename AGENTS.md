@@ -34,6 +34,12 @@ New work follows: spec in `docs/specs/` (approved by the human) → plan in
 `docs/plans/` → feature entries in `harness/feature_list.json` → TDD
 execution (failing test → minimal code → pass → commit).
 
+## Release Convention (vsix artifacts)
+Only the CURRENT release vsix is tracked in git. When releasing version X:
+update the `.gitignore` exception (`!openmd-X.vsix`), remove the previous
+release's vsix from tracking and disk, and commit the new vsix with the
+release commit.
+
 ## Self-Check
 - [ ] Matches spec
 - [ ] `npm run compile` succeeds and tests pass

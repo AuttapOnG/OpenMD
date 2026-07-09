@@ -22,8 +22,9 @@ Thumbs.db
 generate-icon.js
 icon.svg
 
-# VSIX packages - we keep only latest in repo, use tags for history
-# *.vsix
+# VSIX packages — only the current release is tracked (see CLAUDE.md release convention)
+*.vsix
+!openmd-1.2.0.vsix
 
 # Claude Code local settings
 .claude/settings.local.json

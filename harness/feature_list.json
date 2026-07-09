@@ -107,7 +107,7 @@
     {
       "id": "OMD-007",
       "title": "Keep only the latest vsix in the repo",
-      "status": "pending",
+      "status": "done",
       "priority": "low",
       "description": "Track exactly one vsix (current release) via .gitignore negation; untrack the six older ones; document the release convention for agents. Spec: docs/specs/OMD-007-slim-repo.md.",
       "acceptance_criteria": [

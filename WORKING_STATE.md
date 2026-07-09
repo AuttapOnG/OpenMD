@@ -2,6 +2,10 @@
 
 ## 2026-07-09
 
+- OMD-007: deleted six old vsix files (0.1.4–1.1.0) from tracking and disk per
+  explicit human approval; `.gitignore` now ignores `*.vsix` except the
+  current release. Modified `CLAUDE.md` and `AGENTS.md` to add the Release
+  Convention section documenting this (noted here per harness rule).
 - Started OMD-009 implementation on branch `feat/omd-009-auto-refresh`.
   Following `docs/plans/2026-07-09-omd-009-auto-refresh.md` task by task;
   manual F5 smoke test will remain unchecked for the human.

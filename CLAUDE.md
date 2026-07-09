@@ -45,6 +45,12 @@ execution (failing test → minimal code → pass → commit).
 3. Build with `npm run compile`; package with `npm run package` (vsce)
 4. Run self-verification before closing any task
 
+## Release Convention (vsix artifacts)
+Only the CURRENT release vsix is tracked in git. When releasing version X:
+1. Update the `.gitignore` exception (`!openmd-X.vsix`, remove the old one)
+2. `git rm` the previous release's vsix (delete from tracking and disk)
+3. Commit the new vsix together with the release commit
+
 ## Self-Verification Checklist
 Before saying "done", verify:
 - [ ] Task matches spec
