@@ -1,12 +1,13 @@
-# Spec: Keep only the latest vsix tracked in git
+# Spec: Keep only the latest vsix in the repo
 
 **Status:** approved
 **Date:** 2026-07-09
 **Feature:** OMD-007
 
 ## Goal
-Stop the repository from accumulating release artifacts: track exactly one
-vsix (the current release) and untrack the six older ones.
+Stop the repository from accumulating release artifacts: keep exactly one
+vsix (the current release) and DELETE the six older ones from both git
+tracking and disk.
 
 ## Background
 Seven `.vsix` files are tracked (~72 MB working tree; 0.1.6–1.0.0 are ~24 MB
@@ -17,7 +18,8 @@ a force push).
 ## Requirements
 - [ ] `.gitignore` gains `*.vsix` with a negation for the current release
       (`!openmd-1.2.0.vsix`)
-- [ ] `git rm --cached` the six older vsix files (files stay on disk)
+- [ ] `git rm` the six older vsix files — removed from tracking AND deleted
+      from disk (human approved this deletion explicitly on 2026-07-09)
 - [ ] The release convention is written down for agents: CLAUDE.md and
       AGENTS.md state that only the latest vsix is tracked and that a release
       must update the `.gitignore` exception and untrack the previous vsix;
@@ -26,12 +28,11 @@ a force push).
 
 ## Out of Scope
 - Rewriting git history (filter-repo / force push)
-- Deleting vsix files from disk
 - GitHub Releases automation
 
 ## Success Criteria
-- `git ls-files '*.vsix'` lists exactly `openmd-1.2.0.vsix`
-- `git status` clean after commit; old vsix files still exist on disk
+- `git ls-files '*.vsix'` and `ls *.vsix` both list exactly `openmd-1.2.0.vsix`
+- `git status` clean after commit
 - CLAUDE.md, AGENTS.md, and harness/progress.md document the convention
 
 ## Open Questions
