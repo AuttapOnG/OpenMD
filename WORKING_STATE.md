@@ -1,5 +1,13 @@
 # Working State
 
+## 2026-07-09
+
+- Modified `.claude/settings.json`: replaced invalid `permissions.allow: ["*"]`
+  (wildcard tool names are not legal in allow rules — the rule was being
+  silently skipped) with an explicit allow list (Read, Edit, Write, Glob,
+  Grep, Bash, WebSearch). Deny rules and all PreToolUse checkpoint hooks
+  unchanged. Approved by the human.
+
 ## 2026-07-08
 
 - Started OMD-008 implementation on branch `feat/omd-008-bundle-offline`.

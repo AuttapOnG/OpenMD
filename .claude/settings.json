@@ -1,6 +1,14 @@
 {
   "permissions": {
-    "allow": ["*"],
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Bash",
+      "WebSearch"
+    ],
     "deny": [
       "Bash(curl * | bash*)",
       "Bash(wget * | bash*)"
