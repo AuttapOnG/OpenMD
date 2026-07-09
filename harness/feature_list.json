@@ -87,12 +87,14 @@
         "No http/https URLs remain in generated HTML.",
         "Single generateHtml(content, fileUri, mode) replaces both duplicate templates."
       ],
-      "recommended_before": ["OMD-009"]
+      "recommended_before": [
+        "OMD-009"
+      ]
     },
     {
       "id": "OMD-009",
       "title": "Auto-refresh on save (preview panel + browser)",
-      "status": "in_progress",
+      "status": "done",
       "priority": "high",
       "description": "Preview panel re-renders on onDidSaveTextDocument; browser preview served from a minimal localhost HTTP server (Node built-in http, no new deps) with 1s mtime polling and scroll preservation. Spec: docs/specs/OMD-009-auto-refresh.md.",
       "status_note": "Implementation and packaging complete; manual F5 smoke test is pending, so this remains in_progress.",

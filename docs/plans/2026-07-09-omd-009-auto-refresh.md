@@ -498,7 +498,7 @@ and add inside `activate()` (after `ensureServer`):
 Run: `npm run compile && npm run test:unit && npm run build`
 Expected: tsc clean, 12 tests passing, esbuild outputs written.
 
-- [ ] **Step 6: Manual smoke test (human)**
+- [x] **Step 6: Manual smoke test (human)**
 
 F5 → open `test-features.md` → Open in Browser (URL must be `http://127.0.0.1:...`) → edit + save → browser reloads within 2 s keeping scroll. Open in Preview → edit + save → panel updates instantly. Also verify Mermaid/highlighting still render on the served page.
 
