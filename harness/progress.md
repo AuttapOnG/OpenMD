@@ -2,14 +2,12 @@
 
 ## Current State
 
-OpenMD is at v1.2.0: OMD-009 (auto-refresh on save) is done. OMD-006 render
-unit expansion is implemented with 13 new render-feature tests and a
-title-escaping fix; host integration verification remains pending, so OMD-006
-stays in_progress. In this sandbox, the render-only unit run passes 20 tests,
-while the full unit command is blocked by the existing PreviewServer
-`listen EPERM 127.0.0.1` restriction. Remaining queue: OMD-005, OMD-006 host
-verification, plus publishing v1.1.0/v1.2.0 to the marketplaces (human approval
-required).
+All queued features are done: v1.2.0 (bundle+offline, auto-refresh) with
+25 unit tests + 5 integration tests passing, repo slimmed to one tracked
+vsix. Remaining loose ends: OMD-005 stays in_progress until v1.x is
+published; main is ~18 commits ahead of origin — push and marketplace
+publish (v1.2.0 to VS Code Marketplace + Open VSX, both still at 1.0.0)
+await human-run commands.
 
 ## Feature index
 
