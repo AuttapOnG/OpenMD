@@ -69,10 +69,10 @@
       "title": "Automated test suite",
       "status": "pending",
       "priority": "medium",
-      "description": "Replace the manual TESTING.md checklist with automated tests using @vscode/test-electron and mocha (already in devDependencies) covering command registration and HTML generation.",
+      "description": "Expand unit tests to cover the full render pipeline (~25 tests) and verify the legacy integration suite runs. Spec: docs/specs/OMD-006-unit-test-expansion.md.",
       "acceptance_criteria": [
-        "npm test runs and passes locally.",
-        "Tests cover both commands and the Markdown-to-HTML rendering pipeline."
+        "npm run test:unit passes with ~25 tests covering task lists, anchors, attrs, emoji, all alert types, theme toggle, copy button, and title escaping.",
+        "npm test (legacy integration suite) runs successfully on the host."
       ]
     },
     {
@@ -106,13 +106,14 @@
     },
     {
       "id": "OMD-007",
-      "title": "Slim the repository (drop committed .vsix artifacts)",
+      "title": "Keep only the latest vsix tracked in git",
       "status": "pending",
       "priority": "low",
-      "description": "Multiple large .vsix files (up to ~24 MB) are tracked in git. Move release artifacts to GitHub Releases and gitignore *.vsix.",
+      "description": "Track exactly one vsix (current release) via .gitignore negation; untrack the six older ones; document the release convention for agents. Spec: docs/specs/OMD-007-slim-repo.md.",
       "acceptance_criteria": [
-        "*.vsix is in .gitignore.",
-        "No .vsix files are tracked in the working tree (history rewrite optional, requires human decision)."
+        "git ls-files '*.vsix' lists exactly the current release vsix.",
+        ".gitignore contains *.vsix with a negation for the current release.",
+        "CLAUDE.md, AGENTS.md, and harness/progress.md document the convention."
       ]
     }
   ]
