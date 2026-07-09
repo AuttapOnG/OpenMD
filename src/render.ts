@@ -12,6 +12,39 @@ export interface RenderAssets {
   hljsCssDark: string;
 }
 
+export interface LiveReloadOptions {
+  /** URL the page polls for the source file's last-modified time, e.g. '/mtime?f=%2Fdocs%2Fa.html' */
+  mtimeUrl: string;
+}
+
+function liveReloadScript(mtimeUrl: string): string {
+  return `
+    <script>
+        // OpenMD live reload: poll mtime every 1s, reload on change, keep scroll
+        (function() {
+            var KEY = 'openmd-scroll:' + location.pathname;
+            var saved = sessionStorage.getItem(KEY);
+            if (saved !== null) {
+                window.scrollTo(0, parseInt(saved, 10));
+                sessionStorage.removeItem(KEY);
+            }
+            var last = null;
+            var timer = setInterval(function() {
+                fetch(${JSON.stringify(mtimeUrl)})
+                    .then(function(r) { if (!r.ok) { throw new Error('gone'); } return r.json(); })
+                    .then(function(d) {
+                        if (last === null) { last = d.mtime; return; }
+                        if (d.mtime !== last) {
+                            sessionStorage.setItem(KEY, String(window.scrollY));
+                            location.reload();
+                        }
+                    })
+                    .catch(function() { clearInterval(timer); });
+            }, 1000);
+        })();
+    </script>`;
+}
+
 const markdownItEmoji =
   typeof markdownItEmojiDefault === 'function'
     ? markdownItEmojiDefault
@@ -82,13 +115,14 @@ export function generateHtml(
   markdown: string,
   title: string,
   assets: RenderAssets,
-  md: MarkdownIt
+  md: MarkdownIt,
+  live?: LiveReloadOptions
 ): string {
   const body = md.render(markdown);
-  return htmlTemplate(body, title, assets);
+  return htmlTemplate(body, title, assets, live);
 }
 
-function htmlTemplate(body: string, title: string, assets: RenderAssets): string {
+function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: LiveReloadOptions): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -583,6 +617,7 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets): string
             }
         })();
     </script>
+${live ? liveReloadScript(live.mtimeUrl) : ''}
 </body>
 </html>`;
 }

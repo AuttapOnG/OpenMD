@@ -38,4 +38,17 @@ describe('generateHtml', () => {
     const html = generateHtml('> [!NOTE]\n> hi', 't', ASSETS, md);
     assert.ok(html.includes('markdown-alert'));
   });
+
+  it('injects the live-reload poll script when live option is set', () => {
+    const html = generateHtml('# hi', 'hi', ASSETS, md, { mtimeUrl: '/mtime?f=%2Fa.html' });
+    assert.ok(html.includes('/mtime?f=%2Fa.html'), 'must poll the given mtime URL');
+    assert.ok(html.includes('sessionStorage'), 'must preserve scroll via sessionStorage');
+    assert.ok(html.includes('location.reload'), 'must reload on change');
+  });
+
+  it('omits the live-reload script by default', () => {
+    const html = generateHtml('# hi', 'hi', ASSETS, md);
+    assert.ok(!html.includes('location.reload'));
+    assert.ok(!html.includes('/mtime'));
+  });
 });
