@@ -2,6 +2,28 @@
 
 ## 2026-07-09
 
+- Started OMD-006 implementation on branch `feat/omd-006-test-expansion`.
+  Following `docs/plans/2026-07-09-omd-006-test-expansion.md` task by task;
+  Task 2 host integration verification will be skipped in this sandbox.
+- Completed OMD-006 Task 1 Step 1: added
+  `src/test/unit/render-features.test.ts` covering render pipeline features.
+- OMD-006 Task 1 Step 2: `npm run test:unit` reported 19 passing, the
+  expected title-escaping failure, and the existing sandbox-only
+  `PreviewServer` `listen EPERM 127.0.0.1` failure. No render-feature
+  assertion adjustments were needed.
+- Completed OMD-006 Task 1 Step 3: added title HTML escaping in `src/render.ts`.
+- OMD-006 Task 1 Step 4: after the title fix, `npm run test:unit` reported
+  20 passing and only the existing sandbox-only `PreviewServer` bind failure.
+  A render-only mocha run for `render-features.test.js` and `render.test.js`
+  passed with 20 passing tests.
+- OMD-006 Task 1 Step 5 commit attempt failed because the sandbox cannot write
+  `.git/index.lock` (`Operation not permitted`).
+- Skipped OMD-006 Task 2 as instructed: legacy integration verification is
+  host-only because it may download VS Code and requires network access.
+- Completed OMD-006 Task 3 Step 1: updated harness memory with OMD-006
+  `in_progress`; host integration verification remains pending.
+- OMD-006 Task 3 Step 2 commit attempt failed because the sandbox cannot write
+  `.git/index.lock` (`Operation not permitted`).
 - OMD-007: deleted six old vsix files (0.1.4–1.1.0) from tracking and disk per
   explicit human approval; `.gitignore` now ignores `*.vsix` except the
   current release. Modified `CLAUDE.md` and `AGENTS.md` to add the Release

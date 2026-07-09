@@ -28,7 +28,7 @@
 - Consumes: `createMarkdownParser()`, `generateHtml(markdown, title, assets, md)`, `RenderAssets` from `src/render.ts` (existing)
 - Produces: nothing consumed by later tasks
 
-- [ ] **Step 1: Write the tests**
+- [x] **Step 1: Write the tests**
 
 `src/test/unit/render-features.test.ts`:
 ```ts
@@ -123,12 +123,12 @@ describe('render features', () => {
 });
 ```
 
-- [ ] **Step 2: Run tests to verify only the title test fails**
+- [x] **Step 2: Run tests to verify only the title test fails**
 
 Run: `npm run test:unit`
 Expected: 24 passing, 1 failing — `escapes the page title` (current template interpolates `${title}` raw). If any OTHER test fails, the assertion doesn't match actual plugin output: run `node -e "const {createMarkdownParser, generateHtml}=require('./out/render'); console.log(generateHtml('<the markdown>','t',{mermaidJs:'m',hljsJs:'h',hljsCssLight:'l',hljsCssDark:'d'},createMarkdownParser()))" | head -80` to inspect real output and adjust the assertion to the actual markup (do not weaken it to a trivial check).
 
-- [ ] **Step 3: Fix the title escaping in `src/render.ts`**
+- [x] **Step 3: Fix the title escaping in `src/render.ts`**
 
 Add below the `RenderAssets` interface:
 ```ts
@@ -142,12 +142,12 @@ function escapeHtml(s: string): string {
 ```
 In `htmlTemplate`, change `<title>${title}</title>` to `<title>${escapeHtml(title)}</title>`.
 
-- [ ] **Step 4: Run tests to verify all pass**
+- [x] **Step 4: Run tests to verify all pass**
 
 Run: `npm run test:unit`
 Expected: 25 passing, 0 failing.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/test/unit/render-features.test.ts src/render.ts
@@ -166,12 +166,12 @@ git commit -m "test: cover render pipeline features; fix unescaped page title"
 - Consumes: nothing from Task 1
 - Produces: confirmation that `npm test` runs; fixes committed if needed
 
-- [ ] **Step 1 (HOST): Run the integration suite**
+- [x] **Step 1 (HOST): Run the integration suite**
 
 Run: `npm test`
 Expected: downloads VS Code on first run, then 3 tests pass. This step CANNOT run in a network-less sandbox — leave unchecked for the host if sandboxed.
 
-- [ ] **Step 2 (HOST): Fix only what blocks the run, then commit if changes were made**
+- [x] **Step 2 (HOST): Fix only what blocks the run, then commit if changes were made**
 
 If it fails: typical causes are stale compiled output (`npm run compile` first) or the extension id assertion. Keep fixes minimal — do NOT add new integration tests (out of scope per spec).
 ```bash
@@ -190,11 +190,11 @@ git add -A src/test && git commit -m "test: keep legacy integration suite runnab
 - Consumes: Tasks 1-2 complete
 - Produces: harness memory updated
 
-- [ ] **Step 1: Update harness memory**
+- [x] **Step 1: Update harness memory**
 
 `harness/feature_list.json`: OMD-006 → `"status": "done"` ONLY if Task 2 host verification also passed; otherwise `in_progress` with a note. `harness/progress.md`: update Current State + Feature index row. `harness/notes/OMD-006.md`: record final test counts and any assertion adjustments made in Task 1 Step 2.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add harness/
