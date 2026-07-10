@@ -2,6 +2,14 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.2.1] - 2026-07-10
+
+### Fixed
+- 🚫 **No stale previews** - Preview pages and the live-reload endpoint now send `Cache-Control: no-store`, so the browser never serves a cached copy
+
+### Changed
+- 📝 **README refresh** - Documented auto-refresh and offline support; removed outdated version references
+
 ## [1.2.0] - 2026-07-09
 
 ### Added
