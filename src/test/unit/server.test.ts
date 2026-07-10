@@ -27,6 +27,9 @@ describe('PreviewServer', () => {
     fs.writeFileSync(mdFile, '# hello');
     fs.mkdirSync(path.join(dir, 'assets'));
     fs.writeFileSync(path.join(dir, 'assets', 'mermaid.min.js'), '// mermaid stub');
+    fs.mkdirSync(path.join(dir, 'assets', 'katex', 'fonts'), { recursive: true });
+    fs.writeFileSync(path.join(dir, 'assets', 'katex', 'katex.min.css'), '/* katex stub */');
+    fs.writeFileSync(path.join(dir, 'assets', 'katex', 'fonts', 'KaTeX_Main-Regular.woff2'), 'woff2stub');
     server = new PreviewServer({
       assetsDir: path.join(dir, 'assets'),
       renderFile: (sourcePath) => `<html>${fs.readFileSync(sourcePath, 'utf-8')}</html>`,
@@ -86,5 +89,31 @@ describe('PreviewServer', () => {
 
   it('url() builds a loopback URL', () => {
     assert.strictEqual(server.url('/proj/a.html'), `http://127.0.0.1:${port}/proj/a.html`);
+  });
+
+  it('serves katex css with text/css', async () => {
+    const res = await get(`http://127.0.0.1:${port}/assets/katex/katex.min.css`);
+    assert.strictEqual(res.status, 200);
+    assert.ok(res.body.includes('katex stub'));
+    assert.strictEqual(res.headers['content-type'], 'text/css; charset=utf-8');
+  });
+
+  it('serves katex woff2 fonts with font/woff2', async () => {
+    const res = await get(`http://127.0.0.1:${port}/assets/katex/fonts/KaTeX_Main-Regular.woff2`);
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(res.headers['content-type'], 'font/woff2');
+  });
+
+  it('rejects non-whitelisted and traversal paths under /assets/katex/', async () => {
+    for (const p of [
+      '/assets/katex/evil.js',
+      '/assets/katex/fonts/evil.js',
+      '/assets/katex/..%2F..%2Fa.md',
+      '/assets/katex/fonts/..%2F..%2F..%2Fa.md',
+      '/assets/katex/deep/nested/x.woff2',
+    ]) {
+      const res = await get(`http://127.0.0.1:${port}${p}`);
+      assert.strictEqual(res.status, 404, `expected 404 for ${p}`);
+    }
   });
 });

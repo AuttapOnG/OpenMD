@@ -16,10 +16,15 @@ const ASSET_WHITELIST = new Set([
   'github-dark.min.css',
 ]);
 
+// katex/katex.min.css and katex/fonts/<name>.woff2 only. The single
+// character class per segment forbids '/' and any traversal segment.
+const KATEX_ASSET_RE = /^katex\/(katex\.min\.css|fonts\/[A-Za-z0-9_-]+\.woff2)$/;
+
 const CONTENT_TYPES: Record<string, string> = {
   '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
+  '.woff2': 'font/woff2',
 };
 
 export class PreviewServer {
@@ -80,11 +85,11 @@ export class PreviewServer {
       }
       if (pathname.startsWith('/assets/')) {
         const name = pathname.slice('/assets/'.length);
-        if (!ASSET_WHITELIST.has(name)) {
+        if (!ASSET_WHITELIST.has(name) && !KATEX_ASSET_RE.test(name)) {
           res.writeHead(404).end();
           return;
         }
-        const filePath = path.join(this.opts.assetsDir, name);
+        const filePath = path.join(this.opts.assetsDir, ...name.split('/'));
         if (!fs.existsSync(filePath)) {
           res.writeHead(404).end();
           return;
