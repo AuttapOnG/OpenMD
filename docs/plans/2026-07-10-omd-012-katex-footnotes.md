@@ -47,7 +47,7 @@ fonts vendored into `media/katex/` by the esbuild build script.
   (20 files) on every `npm run build`. Later tasks rely on exactly these
   paths.
 
-- [ ] **Step 1: Add the katex copy block**
+- [x] **Step 1: Add the katex copy block**
 
 In `esbuild.js`, immediately AFTER the existing `for (const [src, dest] of copies)` loop, insert:
 
@@ -71,12 +71,12 @@ In `esbuild.js`, immediately AFTER the existing `for (const [src, dest] of copie
 Also add `'media/katex/katex.min.css'` to the size-report array at the end
 of `main()` (the `for (const f of [...])` list).
 
-- [ ] **Step 2: Run the build and verify the files land**
+- [x] **Step 2: Run the build and verify the files land**
 
 Run: `npm run build && node -e "const fs=require('fs');const path=require('path');const n=fs.readdirSync(path.join('media','katex','fonts')).filter(f=>f.endsWith('.woff2')).length;if(!fs.existsSync(path.join('media','katex','katex.min.css'))||n!==20){console.error('katex assets missing, fonts='+n);process.exit(1)};console.log('katex assets ok, fonts='+n)"`
 Expected: `katex assets ok, fonts=20`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add esbuild.js
@@ -102,7 +102,7 @@ git commit -m "build: vendor katex css + woff2 fonts into media/katex (OMD-012)"
   `<link rel="stylesheet" href="${assets.katexCss}">`. Task 4 constructs
   three `RenderAssets` objects and must supply `katexCss`.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `src/test/unit/render-math.test.ts`:
 
@@ -164,13 +164,13 @@ describe('footnotes', () => {
 });
 ```
 
-- [ ] **Step 2: Compile — expect failures**
+- [x] **Step 2: Compile — expect failures**
 
 Run: `npm run compile`
 Expected: FAIL — `katexCss` does not exist on `RenderAssets`, and
 `markdown-it-texmath` / `markdown-it-footnote` are not yet imported.
 
-- [ ] **Step 3: Add type declarations**
+- [x] **Step 3: Add type declarations**
 
 Append to `src/types.d.ts`:
 
@@ -191,7 +191,7 @@ declare module 'markdown-it-footnote' {
 }
 ```
 
-- [ ] **Step 4: Implement in render.ts**
+- [x] **Step 4: Implement in render.ts**
 
 4a. Add imports (after the existing plugin imports at the top):
 
@@ -262,7 +262,7 @@ add:
         }
 ```
 
-- [ ] **Step 5: Fix existing test fixtures**
+- [x] **Step 5: Fix existing test fixtures**
 
 `npm run compile` will now flag every `RenderAssets` object literal missing
 `katexCss` (in `src/test/unit/render.test.ts`,
@@ -273,13 +273,13 @@ line to each flagged literal:
   katexCss: 'file:///assets/katex/katex.min.css',
 ```
 
-- [ ] **Step 6: Run the render tests**
+- [x] **Step 6: Run the render tests**
 
 Run: `npm run compile && npx mocha "out/test/unit/render*.test.js"`
 Expected: PASS — all pre-existing render tests plus the new math/footnote
 tests. (Do not run server tests — sandbox cannot bind ports.)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/types.d.ts src/render.ts src/test/unit/render-math.test.ts src/test/unit/render.test.ts src/test/unit/render-features.test.ts
@@ -303,7 +303,7 @@ git commit -m "feat: server-side KaTeX math + footnotes in render pipeline (OMD-
   `text/css; charset=utf-8` / `font/woff2`. Anything else under
   `/assets/katex/` (wrong extension, traversal, nested paths) returns 404.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 In `src/test/unit/server.test.ts`, inside the existing
 `describe('PreviewServer')`, extend the `before` hook: after the line that
@@ -345,7 +345,7 @@ Then add these test cases at the bottom of the describe block:
   });
 ```
 
-- [ ] **Step 2: Implement in server.ts**
+- [x] **Step 2: Implement in server.ts**
 
 2a. Below `ASSET_WHITELIST`, add:
 
@@ -379,13 +379,13 @@ and replace the `filePath` line with a separator-safe join:
         const filePath = path.join(this.opts.assetsDir, ...name.split('/'));
 ```
 
-- [ ] **Step 3: Compile only**
+- [x] **Step 3: Compile only**
 
 Run: `npm run compile`
 Expected: PASS (0 errors). Do NOT execute server tests in the sandbox — the
 host runs them.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/server.ts src/test/unit/server.test.ts
@@ -408,7 +408,7 @@ new ones pass.
 - Consumes: `RenderAssets.katexCss` (Task 2), staged `media/katex/**`
   (Task 1), server route `/assets/katex/...` (Task 3).
 
-- [ ] **Step 1: Stage the katex directory**
+- [x] **Step 1: Stage the katex directory**
 
 In the asset-staging block (`// Stage offline assets` — the try that
 copies `ASSET_FILES`), add after the `for` loop, inside the same `try`:
@@ -422,7 +422,7 @@ copies `ASSET_FILES`), add after the `for` loop, inside the same `try`:
     );
 ```
 
-- [ ] **Step 2: Add katexCss to the three RenderAssets objects**
+- [x] **Step 2: Add katexCss to the three RenderAssets objects**
 
 In `browserAssets`:
 
@@ -442,12 +442,12 @@ In `webviewAssets` (inside `renderPreviewPanel`):
       katexCss: mediaUri('katex/katex.min.css'),
 ```
 
-- [ ] **Step 3: Compile and run render tests**
+- [x] **Step 3: Compile and run render tests**
 
 Run: `npm run compile && npx mocha "out/test/unit/render*.test.js"`
 Expected: PASS, 0 TypeScript errors.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/extension.ts
@@ -458,13 +458,13 @@ git commit -m "feat: stage + link katex assets in browser/served/webview surface
 
 ### Task 5: Final sandbox verification + handoff notes
 
-- [ ] **Step 1: Full compile + render suite + build**
+- [x] **Step 1: Full compile + render suite + build**
 
 Run: `npm run compile && npx mocha "out/test/unit/render*.test.js" && npm run build`
 Expected: all pass; build prints the size line for
 `media/katex/katex.min.css`.
 
-- [ ] **Step 2: Append handoff note**
+- [x] **Step 2: Append handoff note**
 
 Append to `WORKING_STATE.md`:
 

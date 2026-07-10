@@ -105,3 +105,10 @@
 - Post-release doc sweep: verified 1.2.1 live on both stores (Marketplace lagged ~5-10 min for validation). Added cross-cutting entry in harness/progress.md for the CI-driven release process; appended step 4 (tag-driven CI release) to the Release Convention in CLAUDE.md and AGENTS.md — noting the CLAUDE.md modification here per the audit constraint.
 - 2026-07-10 16:04 OMD-012 spec drafted (docs/specs/OMD-012-katex-footnotes.md), status=review, awaiting human approval
 - 2026-07-10 16:14 OMD-012 approved; plan written; deps (katex, markdown-it-texmath, markdown-it-footnote) installed on host; feature set in_progress; dispatching Codex
+- [codex] commit failed for: build: vendor katex css + woff2 fonts into media/katex (OMD-012)
+- [codex] commit failed for: feat: server-side KaTeX math + footnotes in render pipeline (OMD-012)
+- [codex] commit failed for: feat: serve katex css/fonts from preview server whitelist (OMD-012)
+- [codex] commit failed for: feat: stage + link katex assets in browser/served/webview surfaces (OMD-012)
+- [codex] OMD-012 implementation complete: tasks 1-5 done in sandbox.
+  Host still owes: server test suite, integration tests, vsix packaging
+  check (media/katex/** present), offline manual test, commits/push.
