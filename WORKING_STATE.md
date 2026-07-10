@@ -104,3 +104,4 @@
 - CI run 29080293963 green end-to-end: v1.2.1 published to VS Code Marketplace and Open VSX by GitHub Actions; vsix attached to the release; release un-drafted. OMD-011 closed. Releases are now: bump+commit, tag, send tag.
 - Post-release doc sweep: verified 1.2.1 live on both stores (Marketplace lagged ~5-10 min for validation). Added cross-cutting entry in harness/progress.md for the CI-driven release process; appended step 4 (tag-driven CI release) to the Release Convention in CLAUDE.md and AGENTS.md — noting the CLAUDE.md modification here per the audit constraint.
 - 2026-07-10 16:04 OMD-012 spec drafted (docs/specs/OMD-012-katex-footnotes.md), status=review, awaiting human approval
+- 2026-07-10 16:14 OMD-012 approved; plan written; deps (katex, markdown-it-texmath, markdown-it-footnote) installed on host; feature set in_progress; dispatching Codex

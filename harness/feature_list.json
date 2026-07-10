@@ -142,6 +142,20 @@
         "docs/RELEASE.md documents the release flow and how to (re)issue both tokens.",
         "A real tag push publishes successfully end-to-end (verified with v1.2.1)."
       ]
+    },
+    {
+      "id": "OMD-012",
+      "title": "Math rendering (KaTeX) + footnotes — offline, server-side",
+      "status": "in_progress",
+      "priority": "high",
+      "description": "Server-side KaTeX math ($/$$ dollars mode, throwOnError:false) via markdown-it-texmath + markdown-it-footnote. katex.min.css + woff2 fonts vendored into media/katex/ (offline-first), served on all three asset surfaces. New code path-safe for Windows. Spec: docs/specs/OMD-012-katex-footnotes.md; plan: docs/plans/2026-07-10-omd-012-katex-footnotes.md. Executed by Codex CLI, reviewed/verified/committed by Claude on host.",
+      "acceptance_criteria": [
+        "$...$ inline and $$...$$ block math render via server-side KaTeX; plain $5 text and escaped \\$ stay literal; invalid TeX never crashes the pipeline.",
+        "Footnotes ([^1] refs, definitions, backrefs) render and match the theme in light+dark.",
+        "media/katex/** (css + woff2 only) built by esbuild, staged, served at /assets/katex/** with woff2 content type and traversal-safe whitelist, linked in all three RenderAssets surfaces.",
+        "Full test suite passes incl. new unit tests; vsix contains media/katex/**; manual offline check passes in browser + webview.",
+        "No new POSIX path assumptions (diff reviewed)."
+      ]
     }
   ]
 }
