@@ -2,6 +2,12 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.3.0] - 2026-07-10
+
+### Added
+- 🧮 **Math rendering (KaTeX)** - `$inline$` and `$$display$$` TeX math rendered server-side; works fully offline (KaTeX css + fonts bundled). Plain `$5` text stays literal, `\$` escapes, invalid TeX shows an inline error instead of breaking the page
+- 📝 **Footnotes** - GitHub-style `[^1]` references with definitions and backlinks
+
 ## [1.2.1] - 2026-07-10
 
 ### Fixed

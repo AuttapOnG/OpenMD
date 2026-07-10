@@ -11,12 +11,14 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 - ✅ **Task Lists** - Interactive checkboxes with GitHub-style `- [x]` syntax
 - ⚠️ **GitHub Alerts** - Support for `[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!CAUTION]`, `[!IMPORTANT]`
 - 😄 **Emoji Shortcodes** - Convert `:wave:` → 👋, `:rocket:` → 🚀, `:fire:` → 🔥
+- 🧮 **Math (KaTeX)** - Render `$inline$` and `$$display$$` TeX math, fully offline
+- 📝 **Footnotes** - GitHub-style `[^1]` footnotes with backlinks
 - 🌓 **Dark Mode Toggle** - Switch between Light ☀️, Dark 🌙, and Auto 💻 themes
 - 🎨 **Theme Toggle in Preview** - Choose between VS Code theme 🎨, Light ☀️, or Dark 🌙
 - 📋 **Copy Code Button** - One-click copy for all code blocks
 - 🔗 **Anchor Links** - Clickable heading links for easy navigation
 - 🔄 **Auto-refresh** - Save the file and the preview reloads automatically (scroll position preserved)
-- 🔌 **Works Offline** - Mermaid and syntax highlighting are bundled, no CDN needed
+- 🔌 **Works Offline** - Mermaid, syntax highlighting, and KaTeX are bundled, no CDN needed
 - ⚡ **Lightning Fast** - Tiny bundled package (~3 MB), click and it's open
 
 ## 📦 Installation

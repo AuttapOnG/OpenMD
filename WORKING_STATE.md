@@ -112,3 +112,6 @@
 - [codex] OMD-012 implementation complete: tasks 1-5 done in sandbox.
   Host still owes: server test suite, integration tests, vsix packaging
   check (media/katex/** present), offline manual test, commits/push.
+- Host runtime verification of OMD-012 (Claude /verify): served page driven in a real browser via Playwright — math/footnotes render, katex assets 200 from localhost only, traversal probes 404, live-edit auto-refresh re-renders math. Details in harness/notes/OMD-012.md. OMD-012 closed (feature_list + progress.md updated).
+- Human approved closing OMD-012 + releasing v1.3.0 ("ทำได้เลย" after Claude offered) — satisfies the publish/push checkpoint for this release. Starting release prep per convention.
+- v1.3.0 release prep: bumped package.json+lock (npm version), CHANGELOG 1.3.0 entry (KaTeX math + footnotes), README features updated (math/footnotes bullets, offline line mentions KaTeX), packaged openmd-1.3.0.vsix (1.31 MB, 34 files, media/katex/** verified inside via vsce ls), swapped .gitignore exception, git rm'd openmd-1.2.1.vsix per release convention.

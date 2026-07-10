@@ -2,13 +2,14 @@
 
 ## Current State
 
-Fully shipped: v1.2.1 is live on the VS Code Marketplace, Open VSX, and
-GitHub (2026-07-10), published by the new CI release pipeline (OMD-011:
-tag push → GitHub Actions → both stores; tokens in repo secrets, guide in
-docs/RELEASE.md). All features OMD-001..011 are done. Codebase: esbuild
-bundle (~926 KB vsix), full offline rendering, auto-refresh previews with
-no-store cache headers, 28 unit + 5 integration tests. Next work starts
-with a new spec.
+All features OMD-001..012 are done. v1.3.0 (KaTeX math + footnotes,
+OMD-012) released 2026-07-10 via the CI pipeline (OMD-011: tag push →
+GitHub Actions → Marketplace + Open VSX; tokens in repo secrets, guide
+in docs/RELEASE.md). Codebase: esbuild bundle, full offline rendering
+(incl. vendored KaTeX css/fonts), auto-refresh previews with no-store
+cache headers, 38 unit + 5 integration tests. Next candidates (agreed
+during OMD-012 brainstorming, need specs): OMD-013 Windows compatibility
+audit + CI matrix, OMD-014 settings (theme/port/auto-refresh toggle).
 
 ## Feature index
 
@@ -25,6 +26,7 @@ with a new spec.
 | OMD-009 | Auto-refresh on save (preview panel + browser) | done | [notes/OMD-009.md](notes/OMD-009.md) |
 | OMD-010 | Cache-Control: no-store on preview server dynamic responses | done | [notes/OMD-010.md](notes/OMD-010.md) |
 | OMD-011 | CI release pipeline (GitHub Actions publish on tag) | done | [notes/OMD-011.md](notes/OMD-011.md) |
+| OMD-012 | Math rendering (KaTeX) + footnotes — offline, server-side | done | [notes/OMD-012.md](notes/OMD-012.md) |
 
 ## Cross-cutting decisions & events
 
