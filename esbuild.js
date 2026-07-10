@@ -53,7 +53,22 @@ async function main() {
     fs.copyFileSync(src, dest);
   }
 
-  for (const f of ['dist/extension.js', 'media/mermaid.min.js', 'media/highlight.min.js', 'media/github.min.css', 'media/github-dark.min.css']) {
+  // 3b. KaTeX: css + woff2 fonts only, preserving katex/fonts/ layout so
+  // the css's relative url(fonts/...) references resolve everywhere.
+  const katexSrc = path.join('node_modules', 'katex', 'dist');
+  const katexFontsDest = path.join('media', 'katex', 'fonts');
+  fs.mkdirSync(katexFontsDest, { recursive: true });
+  fs.copyFileSync(
+    path.join(katexSrc, 'katex.min.css'),
+    path.join('media', 'katex', 'katex.min.css')
+  );
+  for (const f of fs.readdirSync(path.join(katexSrc, 'fonts'))) {
+    if (f.endsWith('.woff2')) {
+      fs.copyFileSync(path.join(katexSrc, 'fonts', f), path.join(katexFontsDest, f));
+    }
+  }
+
+  for (const f of ['dist/extension.js', 'media/mermaid.min.js', 'media/highlight.min.js', 'media/github.min.css', 'media/github-dark.min.css', path.join('media', 'katex', 'katex.min.css')]) {
     const kb = Math.round(fs.statSync(f).size / 1024);
     console.log(`${f}  ${kb} KB`);
   }
