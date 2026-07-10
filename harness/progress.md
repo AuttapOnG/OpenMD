@@ -16,10 +16,11 @@ bundle (924 KB vsix), full offline rendering, auto-refresh previews, 25 unit
 | OMD-003 | Rich Markdown rendering | done | [notes/OMD-003.md](notes/OMD-003.md) |
 | OMD-004 | Unified theme system | done | [notes/OMD-004.md](notes/OMD-004.md) |
 | OMD-005 | v1.0.0: Mirror-path temp files and global cleanup | done | [notes/OMD-005.md](notes/OMD-005.md) |
-| OMD-006 | Automated test suite | in_progress | [notes/OMD-006.md](notes/OMD-006.md) |
+| OMD-006 | Automated test suite | done | [notes/OMD-006.md](notes/OMD-006.md) |
 | OMD-007 | Keep only the latest vsix in the repo | done | [notes/OMD-007.md](notes/OMD-007.md) |
 | OMD-008 | Bundle with esbuild + full offline support | done | [notes/OMD-008.md](notes/OMD-008.md) |
 | OMD-009 | Auto-refresh on save (preview panel + browser) | done | [notes/OMD-009.md](notes/OMD-009.md) |
+| OMD-010 | Cache-Control: no-store on preview server dynamic responses | done | [notes/OMD-010.md](notes/OMD-010.md) |
 
 ## Cross-cutting decisions & events
 

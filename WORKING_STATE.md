@@ -87,3 +87,11 @@
 - Task 3 commit attempt failed because the sandbox cannot write `.git/index.lock` (`Operation not permitted`).
 - Completed Task 4 package verification; `openmd-1.1.0.vsix` is 924K and `npx vsce ls` shows `dist/extension.js`, four `media/` assets, and no `node_modules` entries.
 - Task 4 commit attempt failed because the sandbox cannot write `.git/index.lock` (`Operation not permitted`).
+
+## 2026-07-10 — OMD-010: no-store cache headers (Claude session)
+- Investigated user's cache concern: server renders fresh per request; only gap is missing browser cache headers. Decided against client-side rendering re-architecture.
+- Wrote spec docs/specs/OMD-010-no-store-cache-headers.md and plan docs/plans/2026-07-10-omd-010-no-store.md; opened OMD-010 (in_progress) in harness; fixed stale OMD-006 row in progress.md index.
+- Dispatching Codex CLI (background, full-auto) to execute the plan; host will run full test suite, review diff, and commit.
+- Codex completed the OMD-010 plan: extended the server test helper with response headers, added coverage for rendered-page and `/mtime` `no-store` headers plus unchanged `/assets/` headers, and added `Cache-Control: no-store` to the two dynamic responses. `npm run compile` passed; server tests were skipped because the sandbox cannot bind ports (host to verify). No commit was attempted because the sandbox cannot write `.git`; OMD-010 remains `in_progress` pending host verification.
+- Host verification for OMD-010: compile clean, 28 unit + 5 integration tests pass (3 new header tests green). OMD-010 closed.
+- README refresh: added Auto-refresh + Works Offline features, updated stale openmd-0.1.4.vsix reference to version-agnostic.

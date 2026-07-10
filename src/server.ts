@@ -74,7 +74,7 @@ export class PreviewServer {
           res.writeHead(404).end();
           return;
         }
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
         res.end(JSON.stringify({ mtime: fs.statSync(source).mtimeMs }));
         return;
       }
@@ -98,7 +98,7 @@ export class PreviewServer {
         res.writeHead(404).end();
         return;
       }
-      res.writeHead(200, { 'Content-Type': CONTENT_TYPES['.html'] });
+      res.writeHead(200, { 'Content-Type': CONTENT_TYPES['.html'], 'Cache-Control': 'no-store' });
       res.end(this.opts.renderFile(source, pathname));
     } catch (err) {
       res.writeHead(500).end(String(err));

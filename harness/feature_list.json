@@ -116,6 +116,19 @@
         ".gitignore contains *.vsix with a negation for the current release.",
         "CLAUDE.md, AGENTS.md, and harness/progress.md document the convention."
       ]
+    },
+    {
+      "id": "OMD-010",
+      "title": "Cache-Control: no-store on preview server dynamic responses",
+      "status": "done",
+      "priority": "low",
+      "description": "Send Cache-Control: no-store on rendered HTML pages and /mtime JSON so browsers never serve stale previews; /assets/ unchanged. Spec: docs/specs/OMD-010-no-store-cache-headers.md.",
+      "acceptance_criteria": [
+        "HTML page responses include Cache-Control: no-store.",
+        "/mtime responses include Cache-Control: no-store.",
+        "/assets/ responses have no Cache-Control header.",
+        "Unit tests assert all three; npm run compile and full test suite pass."
+      ]
     }
   ]
 }

@@ -5,12 +5,12 @@ import * as path from 'path';
 import * as http from 'http';
 import { PreviewServer } from '../../server';
 
-function get(url: string): Promise<{ status: number; body: string }> {
+function get(url: string): Promise<{ status: number; body: string; headers: http.IncomingHttpHeaders }> {
   return new Promise((resolve, reject) => {
     http.get(url, (res) => {
       let body = '';
       res.on('data', (c) => (body += c));
-      res.on('end', () => resolve({ status: res.statusCode || 0, body }));
+      res.on('end', () => resolve({ status: res.statusCode || 0, body, headers: res.headers }));
     }).on('error', reject);
   });
 }
@@ -67,6 +67,21 @@ describe('PreviewServer', () => {
     fs.utimesSync(mdFile, new Date(), new Date(Date.now() + 5000));
     const r2 = await get(`http://127.0.0.1:${port}/mtime?f=${encodeURIComponent('/proj/a.html')}`);
     assert.notStrictEqual(JSON.parse(r2.body).mtime, m1);
+  });
+
+  it('sends Cache-Control: no-store on rendered pages', async () => {
+    const res = await get(`http://127.0.0.1:${port}/proj/a.html`);
+    assert.strictEqual(res.headers['cache-control'], 'no-store');
+  });
+
+  it('sends Cache-Control: no-store on /mtime responses', async () => {
+    const res = await get(`http://127.0.0.1:${port}/mtime?f=${encodeURIComponent('/proj/a.html')}`);
+    assert.strictEqual(res.headers['cache-control'], 'no-store');
+  });
+
+  it('does not send Cache-Control on static assets', async () => {
+    const res = await get(`http://127.0.0.1:${port}/assets/mermaid.min.js`);
+    assert.strictEqual(res.headers['cache-control'], undefined);
   });
 
   it('url() builds a loopback URL', () => {
