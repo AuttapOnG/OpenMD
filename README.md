@@ -15,7 +15,9 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 - 🎨 **Theme Toggle in Preview** - Choose between VS Code theme 🎨, Light ☀️, or Dark 🌙
 - 📋 **Copy Code Button** - One-click copy for all code blocks
 - 🔗 **Anchor Links** - Clickable heading links for easy navigation
-- ⚡ **Lightning Fast** - No waiting, click and it's open
+- 🔄 **Auto-refresh** - Save the file and the preview reloads automatically (scroll position preserved)
+- 🔌 **Works Offline** - Mermaid and syntax highlighting are bundled, no CDN needed
+- ⚡ **Lightning Fast** - Tiny bundled package (~3 MB), click and it's open
 
 ## 📦 Installation
 
@@ -35,7 +37,7 @@ Quickly open Markdown files in your browser or VS Code preview panel with a righ
 
 ### From VSIX File
 
-1. Download the `openmd-0.1.4.vsix` file from [Releases](https://github.com/AuttapOnG/OpenMD/releases)
+1. Download the latest `openmd-x.y.z.vsix` file from [Releases](https://github.com/AuttapOnG/OpenMD/releases)
 2. Open VS Code
 3. Go to **Extensions** (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 4. Click `...` → **Install from VSIX**
