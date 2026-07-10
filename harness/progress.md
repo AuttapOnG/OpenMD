@@ -28,6 +28,7 @@ with a new spec.
 
 ## Cross-cutting decisions & events
 
+- 2026-07-10 — Release process is now CI-driven (OMD-011): bump+commit per the vsix convention, then `git tag vX.Y.Z` and push the tag — GitHub Actions publishes to VS Code Marketplace + Open VSX and attaches the vsix to the GitHub Release. Tokens live in repo secrets (VSCE_PAT expires 2026-11-30, all-orgs PATs die 2026-12-01); full guide incl. token reissue in docs/RELEASE.md. Do NOT run vsce/ovsx publish locally anymore. Marketplace takes ~5-10 min post-publish validation before the new version is visible.
 - 2026-07-09 — Release convention: only the current release vsix is tracked in git (`.gitignore` `*.vsix` + `!openmd-<current>.vsix`); releasing means updating the exception and `git rm`-ing the previous vsix. Documented in CLAUDE.md/AGENTS.md (OMD-007).
 - 2026-07-08 — Specs approved for OMD-008 (esbuild bundle + offline assets, unify duplicate HTML templates) and OMD-009 (auto-refresh via minimal localhost HTTP server) — OMD-008 must land first; OMD-009 changes browser preview from file:// to http://127.0.0.1.
 - 2026-07-07 — Harness initialized via /init-harness: high autonomy, hooks gate publish/push, deletion, and network calls (docs/adr/0001-harness-init.md).

@@ -38,7 +38,10 @@ execution (failing test → minimal code → pass → commit).
 Only the CURRENT release vsix is tracked in git. When releasing version X:
 update the `.gitignore` exception (`!openmd-X.vsix`), remove the previous
 release's vsix from tracking and disk, and commit the new vsix with the
-release commit.
+release commit. Then tag `vX` and push the tag — GitHub Actions publishes
+to the VS Code Marketplace + Open VSX and attaches the vsix to the GitHub
+Release (OMD-011). Never run vsce/ovsx publish locally; see docs/RELEASE.md
+for the full flow and token reissue guide.
 
 ## Self-Check
 - [ ] Matches spec
