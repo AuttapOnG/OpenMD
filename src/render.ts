@@ -4,12 +4,16 @@ import markdownItTaskLists from 'markdown-it-task-lists';
 import markdownItGithubAlerts from 'markdown-it-github-alerts';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItEmojiDefault from 'markdown-it-emoji';
+import katex from 'katex';
+import markdownItTexmath from 'markdown-it-texmath';
+import markdownItFootnote from 'markdown-it-footnote';
 
 export interface RenderAssets {
   mermaidJs: string;
   hljsJs: string;
   hljsCssLight: string;
   hljsCssDark: string;
+  katexCss: string;
 }
 
 function escapeHtml(s: string): string {
@@ -110,6 +114,20 @@ export function createMarkdownParser(): MarkdownIt {
       console.log('✓ markdown-it-emoji loaded');
     } catch (e) { console.error('✗ markdown-it-emoji failed:', e); }
 
+    try {
+      md.use(markdownItTexmath, {
+        engine: katex,
+        delimiters: 'dollars',
+        katexOptions: { throwOnError: false },
+      });
+      console.log('✓ markdown-it-texmath (katex) loaded');
+    } catch (e) { console.error('✗ markdown-it-texmath failed:', e); }
+
+    try {
+      md.use(markdownItFootnote);
+      console.log('✓ markdown-it-footnote loaded');
+    } catch (e) { console.error('✗ markdown-it-footnote failed:', e); }
+
     return md;
   } catch (error) {
     console.error('Failed to create markdown parser:', error);
@@ -141,6 +159,9 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
     <!-- Syntax Highlighting -->
     <link rel="stylesheet" href="${assets.hljsCssLight}" media="(prefers-color-scheme: light)">
     <link rel="stylesheet" href="${assets.hljsCssDark}" media="(prefers-color-scheme: dark)">
+
+    <!-- KaTeX (math pre-rendered server-side; css + fonts only) -->
+    <link rel="stylesheet" href="${assets.katexCss}">
     
     <!-- Mermaid -->
     <script src="${assets.mermaidJs}"></script>
@@ -270,7 +291,23 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
             margin-right: 0.5em;
             cursor: pointer;
         }
-        
+
+        /* Math (KaTeX) */
+        .katex-display {
+            overflow-x: auto;
+            padding: 4px 0;
+        }
+
+        /* Footnotes */
+        section.footnotes {
+            font-size: 90%;
+            opacity: 0.85;
+        }
+
+        .footnote-backref {
+            text-decoration: none;
+        }
+
         /* GitHub Alerts */
         .markdown-alert {
             padding: 16px;

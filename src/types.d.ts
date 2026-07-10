@@ -42,3 +42,18 @@ declare const mermaid: {
   initialize: (options: any) => void;
   run: () => void;
 };
+
+declare module 'markdown-it-texmath' {
+  import MarkdownIt from 'markdown-it';
+  const texmath: (
+    md: MarkdownIt,
+    options?: { engine?: unknown; delimiters?: string; katexOptions?: Record<string, unknown> }
+  ) => void;
+  export default texmath;
+}
+
+declare module 'markdown-it-footnote' {
+  import MarkdownIt from 'markdown-it';
+  const footnote: (md: MarkdownIt) => void;
+  export default footnote;
+}

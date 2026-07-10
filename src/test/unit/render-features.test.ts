@@ -6,6 +6,7 @@ const ASSETS: RenderAssets = {
   hljsJs: 'file:///assets/highlight.min.js',
   hljsCssLight: 'file:///assets/github.min.css',
   hljsCssDark: 'file:///assets/github-dark.min.css',
+  katexCss: 'file:///assets/katex/katex.min.css',
 };
 
 describe('render features', () => {
