@@ -129,6 +129,19 @@
         "/assets/ responses have no Cache-Control header.",
         "Unit tests assert all three; npm run compile and full test suite pass."
       ]
+    },
+    {
+      "id": "OMD-011",
+      "title": "CI release pipeline (GitHub Actions publish on tag)",
+      "status": "in_progress",
+      "priority": "medium",
+      "description": "GitHub Actions workflow publishes to VS Code Marketplace + Open VSX + GitHub Release on v* tag push, using repo secrets VSCE_PAT/OVSX_TOKEN. Actions pinned to commit SHAs. Token how-to documented in docs/RELEASE.md.",
+      "acceptance_criteria": [
+        ".github/workflows/release.yml triggers on v* tags, runs unit tests, publishes to both stores via repo secrets.",
+        "Third-party actions pinned to commit SHAs.",
+        "docs/RELEASE.md documents the release flow and how to (re)issue both tokens.",
+        "A real tag push publishes successfully end-to-end (verified with v1.2.1)."
+      ]
     }
   ]
 }

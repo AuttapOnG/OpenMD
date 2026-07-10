@@ -21,6 +21,7 @@ bundle (924 KB vsix), full offline rendering, auto-refresh previews, 25 unit
 | OMD-008 | Bundle with esbuild + full offline support | done | [notes/OMD-008.md](notes/OMD-008.md) |
 | OMD-009 | Auto-refresh on save (preview panel + browser) | done | [notes/OMD-009.md](notes/OMD-009.md) |
 | OMD-010 | Cache-Control: no-store on preview server dynamic responses | done | [notes/OMD-010.md](notes/OMD-010.md) |
+| OMD-011 | CI release pipeline (GitHub Actions publish on tag) | in_progress | [notes/OMD-011.md](notes/OMD-011.md) |
 
 ## Cross-cutting decisions & events
 

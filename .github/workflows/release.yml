@@ -1,0 +1,35 @@
+# Publishes the extension when a v* tag is pushed.
+# Requires repo secrets: VSCE_PAT (Azure DevOps, Marketplace→Manage scope)
+# and OVSX_TOKEN (open-vsx.org access token). See docs/RELEASE.md.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # attach the vsix to the GitHub Release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npx vsce package
+      - name: Publish to VS Code Marketplace
+        run: npx vsce publish --packagePath openmd-*.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Publish to Open VSX
+        run: npx ovsx publish openmd-*.vsix
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_TOKEN }}
+      - name: Attach vsix to GitHub Release (if one exists for this tag)
+        run: gh release upload "$GITHUB_REF_NAME" openmd-*.vsix --clobber || true
+        env:
+          GH_TOKEN: ${{ github.token }}

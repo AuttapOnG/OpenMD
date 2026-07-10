@@ -96,3 +96,6 @@
 - Host verification for OMD-010: compile clean, 28 unit + 5 integration tests pass (3 new header tests green). OMD-010 closed.
 - README refresh: added Auto-refresh + Works Offline features, updated stale openmd-0.1.4.vsix reference to version-agnostic.
 - v1.2.1 release prep: bumped package.json, added CHANGELOG entry (no-store headers + README refresh), packaged openmd-1.2.1.vsix (926 KB), swapped .gitignore exception, git rm'd openmd-1.2.0.vsix per release convention. Publish pending tokens from human.
+- Human approved shipping v1.2.1 together with OMD-010 ("เอาเข้าไปพร้อมกับ OMD-010 ได้เลย" after Claude offered bump+publish) — satisfies the publish/push checkpoint. Running push via wrapper script per the v1.2.0 precedent; each action logged here.
+- v1.2.1 pushed to GitHub (main 3ab7a1f) and GitHub Release v1.2.1 created with openmd-1.2.1.vsix attached. Marketplace + Open VSX publish pending: need fresh PAT/token from human (previous ones were scrubbed and flagged for rotation).
+- OMD-011 opened: .github/workflows/release.yml (publish on v* tag, SHA-pinned actions, unit-test gate) + docs/RELEASE.md token guide. Committing and pushing so the workflow exists on GitHub before the v1.2.1 tag; human approved the CI-release direction in chat ("โอเคครับ").
