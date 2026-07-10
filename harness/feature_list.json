@@ -156,6 +156,42 @@
         "Full test suite passes incl. new unit tests; vsix contains media/katex/**; manual offline check passes in browser + webview.",
         "No new POSIX path assumptions (diff reviewed)."
       ]
+    },
+    {
+      "id": "OMD-013",
+      "title": "Windows compatibility audit + CI test matrix",
+      "status": "planned",
+      "priority": "medium",
+      "description": "Audit ALL existing code for POSIX path assumptions (mirror-path temp files, preview server, cleanup, asset staging) and fix; add windows-latest to the CI test matrix. Agreed during OMD-012 brainstorming (2026-07-10). Needs a spec before starting.",
+      "acceptance_criteria": [
+        "Audit findings documented; every POSIX-only path/sep assumption fixed or justified.",
+        "CI runs the unit test suite on windows-latest and it passes.",
+        "Manual or integration confirmation that browser + webview preview work on Windows."
+      ]
+    },
+    {
+      "id": "OMD-014",
+      "title": "Extension settings: theme, server port, auto-refresh toggle",
+      "status": "planned",
+      "priority": "medium",
+      "description": "User-facing settings: preview theme (light/dark/auto), preview server port, auto-refresh on/off. Agreed during OMD-012 brainstorming (2026-07-10). Needs a spec before starting.",
+      "acceptance_criteria": [
+        "Settings appear under the extension's configuration section with sane defaults matching current behavior.",
+        "Each setting takes effect without reloading VS Code (or documents when a reload is needed).",
+        "Tests cover the render/server behavior changes driven by each setting."
+      ]
+    },
+    {
+      "id": "OMD-015",
+      "title": "Release workflow hardening: CI creates the GitHub Release + update deprecated actions",
+      "status": "planned",
+      "priority": "low",
+      "description": "Found during v1.3.0 release (2026-07-10): release.yml only uploads the vsix if a GitHub Release already exists, so the release had to be created manually with gh both times (v1.2.1, v1.3.0) — make the workflow create the release itself from the tag + CHANGELOG. Also: CI warns that pinned actions/checkout + actions/setup-node target Node 20, deprecated on GitHub runners — bump to Node 24-compatible releases.",
+      "acceptance_criteria": [
+        "Pushing a v* tag produces a published (non-draft) GitHub Release with the vsix attached, no manual gh step.",
+        "No Node-deprecation annotations in the release run.",
+        "Verified on the next real release."
+      ]
     }
   ]
 }

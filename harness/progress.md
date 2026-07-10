@@ -7,9 +7,9 @@ OMD-012) released 2026-07-10 via the CI pipeline (OMD-011: tag push →
 GitHub Actions → Marketplace + Open VSX; tokens in repo secrets, guide
 in docs/RELEASE.md). Codebase: esbuild bundle, full offline rendering
 (incl. vendored KaTeX css/fonts), auto-refresh previews with no-store
-cache headers, 38 unit + 5 integration tests. Next candidates (agreed
-during OMD-012 brainstorming, need specs): OMD-013 Windows compatibility
-audit + CI matrix, OMD-014 settings (theme/port/auto-refresh toggle).
+cache headers, 38 unit + 5 integration tests. Backlog (all planned, specs
+needed): OMD-013 Windows compatibility audit + CI matrix, OMD-014
+settings (theme/port/auto-refresh), OMD-015 release workflow hardening.
 
 ## Feature index
 
@@ -27,6 +27,9 @@ audit + CI matrix, OMD-014 settings (theme/port/auto-refresh toggle).
 | OMD-010 | Cache-Control: no-store on preview server dynamic responses | done | [notes/OMD-010.md](notes/OMD-010.md) |
 | OMD-011 | CI release pipeline (GitHub Actions publish on tag) | done | [notes/OMD-011.md](notes/OMD-011.md) |
 | OMD-012 | Math rendering (KaTeX) + footnotes — offline, server-side | done | [notes/OMD-012.md](notes/OMD-012.md) |
+| OMD-013 | Windows compatibility audit + CI test matrix | planned | needs spec |
+| OMD-014 | Extension settings: theme, server port, auto-refresh toggle | planned | needs spec |
+| OMD-015 | Release workflow hardening (CI creates Release, un-deprecate actions) | planned | found during v1.3.0 release |
 
 ## Cross-cutting decisions & events
 
