@@ -2,10 +2,13 @@
 
 ## Current State
 
-Fully shipped: v1.2.0 is live on the VS Code Marketplace, Open VSX, and
-GitHub (2026-07-09). All features OMD-001..009 are done. Codebase: esbuild
-bundle (924 KB vsix), full offline rendering, auto-refresh previews, 25 unit
-+ 5 integration tests. Next work starts with a new spec.
+Fully shipped: v1.2.1 is live on the VS Code Marketplace, Open VSX, and
+GitHub (2026-07-10), published by the new CI release pipeline (OMD-011:
+tag push → GitHub Actions → both stores; tokens in repo secrets, guide in
+docs/RELEASE.md). All features OMD-001..011 are done. Codebase: esbuild
+bundle (~926 KB vsix), full offline rendering, auto-refresh previews with
+no-store cache headers, 28 unit + 5 integration tests. Next work starts
+with a new spec.
 
 ## Feature index
 
