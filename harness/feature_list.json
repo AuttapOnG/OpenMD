@@ -133,7 +133,7 @@
     {
       "id": "OMD-011",
       "title": "CI release pipeline (GitHub Actions publish on tag)",
-      "status": "in_progress",
+      "status": "done",
       "priority": "medium",
       "description": "GitHub Actions workflow publishes to VS Code Marketplace + Open VSX + GitHub Release on v* tag push, using repo secrets VSCE_PAT/OVSX_TOKEN. Actions pinned to commit SHAs. Token how-to documented in docs/RELEASE.md.",
       "acceptance_criteria": [
