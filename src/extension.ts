@@ -85,6 +85,12 @@ export function activate(context: vscode.ExtensionContext) {
     for (const f of ASSET_FILES) {
       fs.copyFileSync(path.join(context.extensionPath, 'media', f), path.join(assetsDir, f));
     }
+    // katex needs its directory layout preserved (css references fonts/ relatively)
+    fs.cpSync(
+      path.join(context.extensionPath, 'media', 'katex'),
+      path.join(assetsDir, 'katex'),
+      { recursive: true }
+    );
   } catch (err) {
     console.error('[OpenMD] Failed to stage assets:', err);
   }
@@ -94,6 +100,7 @@ export function activate(context: vscode.ExtensionContext) {
     hljsJs: vscode.Uri.file(path.join(assetsDir, 'highlight.min.js')).toString(),
     hljsCssLight: vscode.Uri.file(path.join(assetsDir, 'github.min.css')).toString(),
     hljsCssDark: vscode.Uri.file(path.join(assetsDir, 'github-dark.min.css')).toString(),
+    katexCss: vscode.Uri.file(path.join(assetsDir, 'katex', 'katex.min.css')).toString(),
   };
 
   // Assets referenced by pages served over http:// (file:// subresources are blocked there)
@@ -102,6 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
     hljsJs: '/assets/highlight.min.js',
     hljsCssLight: '/assets/github.min.css',
     hljsCssDark: '/assets/github-dark.min.css',
+    katexCss: '/assets/katex/katex.min.css',
   };
   
   // สร้าง markdown-it instance
@@ -145,6 +153,7 @@ export function activate(context: vscode.ExtensionContext) {
       hljsJs: mediaUri('highlight.min.js'),
       hljsCssLight: mediaUri('github.min.css'),
       hljsCssDark: mediaUri('github-dark.min.css'),
+      katexCss: mediaUri('katex/katex.min.css'),
     };
     const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
     currentPanel.webview.html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), webviewAssets, md);
