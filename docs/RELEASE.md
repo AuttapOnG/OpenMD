@@ -35,6 +35,12 @@ Two repo secrets are required: `VSCE_PAT` and `OVSX_TOKEN`.
      **Marketplace** → tick **Manage**
 4. **Create** and copy the token — it is shown only once.
 
+> ⚠️ Azure DevOps stops supporting all-orgs ("global") PATs on
+> **2026-12-01**, so don't set an expiration past 2026-11-30. When the
+> current token dies around that date, check the then-current vsce guidance
+> for the replacement (Microsoft is moving publishers to scoped tokens /
+> Entra ID auth): <https://code.visualstudio.com/api/working-with-extensions/publishing-extension>
+
 ### OVSX_TOKEN — Open VSX
 
 1. Go to <https://open-vsx.org> and **log in with GitHub**.
