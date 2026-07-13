@@ -3,56 +3,26 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { createMarkdownParser, generateHtml, RenderAssets } from './render';
 import { PreviewServer } from './server';
+import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId } from './paths';
 
 // เก็บ reference ของ webview panel
 let currentPanel: vscode.WebviewPanel | undefined = undefined;
 let currentPreviewSource: vscode.Uri | undefined = undefined;
 
-// คำนวณ mirror path ของไฟล์ (เช่น /Users/x/Project/OpenMD/README.md → Project/OpenMD/README.html)
-function computeMirrorHtmlPath(fileUri: vscode.Uri): string {
-  // หา relative path ที่รวมชื่อ project/folder ด้วย
-  // เช่น /Users/xxx/Project/OpenMD/README.md → Project/OpenMD/README.html
-  let relativePath: string;
-  const workspaceFolder = vscode.workspace.getWorkspaceFolder(fileUri);
-  
-  if (workspaceFolder) {
-    // อยู่ใน workspace → เอา workspace name + relative path
-    const workspaceName = path.basename(workspaceFolder.uri.fsPath);
-    const relativeToWorkspace = path.relative(workspaceFolder.uri.fsPath, fileUri.fsPath);
-    
-    // หา parent folder ของ workspace (ถ้ามี)
-    const workspaceParent = path.dirname(workspaceFolder.uri.fsPath);
-    const parentName = path.basename(workspaceParent);
-    
-    // ถ้า parent ไม่ใช่ home dir (เช่น /Users/xxx) ให้เอามาด้วย
-    const homeDir = process.env.HOME || process.env.USERPROFILE || '';
-    if (workspaceParent !== homeDir && workspaceParent !== path.dirname(homeDir)) {
-      relativePath = path.join(parentName, workspaceName, relativeToWorkspace);
-    } else {
-      relativePath = path.join(workspaceName, relativeToWorkspace);
-    }
-  } else {
-    // ไม่อยู่ใน workspace → หา project root จาก path
-    const pathParts = fileUri.fsPath.split(path.sep);
-    const projectIndex = pathParts.findIndex(part => 
-      part === 'project' || part === 'projects' || part === 'workspace' || part === 'code'
-    );
-    
-    if (projectIndex !== -1 && projectIndex < pathParts.length - 1) {
-      relativePath = pathParts.slice(projectIndex + 1).join(path.sep);
-    } else {
-      relativePath = path.basename(fileUri.fsPath);
-    }
-  }
-  
-  return relativePath.replace(/\.md$/i, '.html');
+// Mirror path ของไฟล์ (เช่น /Users/x/Project/OpenMD/README.md → Project/OpenMD/README.html)
+function mirrorHtmlPathFor(fileUri: vscode.Uri): string {
+  return computeMirrorHtmlPath({
+    filePath: fileUri.fsPath,
+    workspacePath: vscode.workspace.getWorkspaceFolder(fileUri)?.uri.fsPath,
+    homeDir: process.env.HOME || process.env.USERPROFILE || '',
+  });
 }
 
 export function activate(context: vscode.ExtensionContext) {
   
   // Cleanup temp files ทุก version ตอน activate
   const extensionsDir = path.dirname(context.extensionPath);
-  const extensionId = path.basename(context.extensionPath).split('-').slice(0, -1).join('-'); // เอาชื่อ extension ไม่รวม version
+  const extensionId = deriveExtensionId(path.basename(context.extensionPath)); // เอาชื่อ extension ไม่รวม version
   
   try {
     if (fs.existsSync(extensionsDir)) {
@@ -173,7 +143,7 @@ export function activate(context: vscode.ExtensionContext) {
       try {
         const server = await ensureServer();
         if (server) {
-          const urlPath = '/' + computeMirrorHtmlPath(fileUri).split(path.sep).join('/');
+          const urlPath = '/' + toUrlPath(mirrorHtmlPathFor(fileUri));
           server.register(urlPath, fileUri.fsPath);
           await vscode.env.openExternal(vscode.Uri.parse(server.url(urlPath)));
           return;
@@ -183,7 +153,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showWarningMessage('OpenMD: live preview server unavailable — opening static preview instead.');
         const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
         const html = generateHtml(content, path.basename(fileUri.fsPath, '.md'), browserAssets, md);
-        const tempHtmlPath = path.join(context.extensionPath, '.temp', computeMirrorHtmlPath(fileUri));
+        const tempHtmlPath = path.join(context.extensionPath, '.temp', mirrorHtmlPathFor(fileUri));
         fs.mkdirSync(path.dirname(tempHtmlPath), { recursive: true });
         fs.writeFileSync(tempHtmlPath, html);
         await vscode.env.openExternal(vscode.Uri.file(tempHtmlPath));
