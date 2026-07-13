@@ -1,5 +1,13 @@
 # Working State
 
+## 2026-07-13 — v1.3.3 release (OMD-017 fix)
+
+- Human approved releasing immediately after OMD-017 landed. Bumped to
+  1.3.3, CHANGELOG entry added, vsix packaged (35 files, 1.31 MB),
+  .gitignore exception swapped, openmd-1.3.2.vsix git rm'd per convention.
+- Following the new RELEASE.md checklist: tag push → gh release create
+  (manual, deliberate) → verify vsix attached after the workflow.
+
 ## 2026-07-13 — OMD-017 cleanup prefix-collision fix (Codex MCP)
 
 - Spec approved by human; plan docs/plans/OMD-017-cleanup-prefix-collision.md

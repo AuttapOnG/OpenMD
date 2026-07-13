@@ -2,6 +2,11 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.3.3] - 2026-07-13
+
+### Fixed
+- 🧹 **Startup cleanup no longer touches other extensions** - The activation-time temp cleanup now matches only OpenMD's own versioned folders; an unrelated extension whose ID merely starts with ours can no longer have its `.temp` folder deleted
+
 ## [1.3.2] - 2026-07-13
 
 ### Fixed
