@@ -160,7 +160,7 @@
     {
       "id": "OMD-013",
       "title": "Windows compatibility audit + CI test matrix",
-      "status": "planned",
+      "status": "in_progress",
       "priority": "medium",
       "description": "Audit ALL existing code for POSIX path assumptions (mirror-path temp files, preview server, cleanup, asset staging) and fix; add windows-latest to the CI test matrix. Agreed during OMD-012 brainstorming (2026-07-10). Needs a spec before starting.",
       "acceptance_criteria": [
