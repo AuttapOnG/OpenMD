@@ -63,3 +63,15 @@ export function toUrlPath(mirrorPath: string, p: nodePath.PlatformPath = nodePat
 export function deriveExtensionId(extensionDirName: string): string {
   return extensionDirName.split('-').slice(0, -1).join('-');
 }
+
+/**
+ * True only when `entry` is one of OUR versioned extension dirs:
+ * exactly '<extensionId>-<version>' where version is N.N.N with an
+ * optional pre-release/build suffix. A foreign extension whose ID merely
+ * starts with ours (e.g. 'publisher.openmd-pro-1.0.0') must NOT match.
+ */
+export function isOwnVersionedDir(entry: string, extensionId: string): boolean {
+  if (!entry.startsWith(extensionId + '-')) return false;
+  const version = entry.slice(extensionId.length + 1);
+  return /^\d+\.\d+\.\d+(?:[-.][0-9A-Za-z.-]+)?$/.test(version);
+}

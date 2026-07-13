@@ -1,6 +1,6 @@
 # Spec: Activation cleanup must not match foreign extensions by ID prefix (OMD-017)
 
-**Status:** draft
+**Status:** implemented
 **Date:** 2026-07-13
 
 ## Goal

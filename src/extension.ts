@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { createMarkdownParser, generateHtml, RenderAssets } from './render';
 import { PreviewServer } from './server';
-import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId } from './paths';
+import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId, isOwnVersionedDir } from './paths';
 
 // เก็บ reference ของ webview panel
 let currentPanel: vscode.WebviewPanel | undefined = undefined;
@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
       
       for (const entry of entries) {
         // หาโฟลเดอร์ที่เป็นชื่อ extension เรา (ทุก version)
-        if (entry.startsWith(extensionId)) {
+        if (isOwnVersionedDir(entry, extensionId)) {
           const otherTempDir = path.join(extensionsDir, entry, '.temp');
           if (fs.existsSync(otherTempDir)) {
             try {

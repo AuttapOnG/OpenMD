@@ -11,9 +11,11 @@ goes live at the next release) and OMD-013 Windows audit (src/paths.ts
 helpers, ci.yml ubuntu+windows matrix, both green on run 29219092930).
 Codebase: esbuild bundle, full offline rendering (incl. vendored KaTeX
 css/fonts), auto-refresh previews with no-store cache headers, 54 unit +
-5 integration tests. Backlog (planned, specs needed): OMD-014 settings
-(theme/port/auto-refresh), OMD-017 cleanup ID-prefix collision (found
-by OMD-013 audit).
+5 integration tests. 2026-07-13: OMD-017 cleanup
+prefix-collision fixed (isOwnVersionedDir helper; first Codex-MCP
+delegation), 60 unit tests green — fix ships with the next release.
+Backlog (planned, spec needed): OMD-014 settings
+(theme/port/auto-refresh).
 
 ## Feature index
 
@@ -34,7 +36,7 @@ by OMD-013 audit).
 | OMD-013 | Windows compatibility audit + CI test matrix | done | [notes/OMD-013.md](notes/OMD-013.md) |
 | OMD-014 | Extension settings: theme, server port, auto-refresh toggle | planned | needs spec |
 | OMD-016 | Marketplace listing overhaul (demo GIF + metadata + comparison table) | done | [notes/OMD-016.md](notes/OMD-016.md) |
-| OMD-017 | Activation cleanup can match foreign extensions by ID prefix | planned | found by OMD-013 audit |
+| OMD-017 | Activation cleanup can match foreign extensions by ID prefix | done | [notes/OMD-017.md](notes/OMD-017.md) |
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
 
 ## Cross-cutting decisions & events

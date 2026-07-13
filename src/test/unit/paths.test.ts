@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as path from 'path';
-import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId } from '../../paths';
+import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId, isOwnVersionedDir } from '../../paths';
 
 describe('computeMirrorHtmlPath', () => {
   describe('posix', () => {
@@ -153,5 +153,21 @@ describe('toUrlPath', () => {
 describe('deriveExtensionId', () => {
   it('strips the trailing version from an extension dir name', () => {
     assert.strictEqual(deriveExtensionId('auttapong-tura.openmd-1.3.0'), 'auttapong-tura.openmd');
+  });
+});
+
+describe('isOwnVersionedDir', () => {
+  const id = 'auttapong-tura.openmd';
+  it('matches our own versioned dir', () => {
+    assert.strictEqual(isOwnVersionedDir('auttapong-tura.openmd-1.3.2', id), true);
+  });
+  it('rejects a foreign extension sharing our ID as prefix', () => {
+    assert.strictEqual(isOwnVersionedDir('auttapong-tura.openmd-pro-1.0.0', id), false);
+  });
+  it('accepts a pre-release version suffix', () => {
+    assert.strictEqual(isOwnVersionedDir('auttapong-tura.openmd-1.4.0-preview.1', id), true);
+  });
+  it('rejects the bare ID with no version', () => {
+    assert.strictEqual(isOwnVersionedDir('auttapong-tura.openmd', id), false);
   });
 });

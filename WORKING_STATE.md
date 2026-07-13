@@ -1,5 +1,15 @@
 # Working State
 
+## 2026-07-13 — OMD-017 cleanup prefix-collision fix (Codex MCP)
+
+- Spec approved by human; plan docs/plans/OMD-017-cleanup-prefix-collision.md
+  executed by Codex via MCP (workspace-write, synchronous) at the human's
+  request — first MCP delegation (previous runs used codex exec background).
+- Codex followed TDD (red confirmed), ticked all plan checkboxes, no
+  deviations. Claude reviewed the diff (matches plan exactly) and re-ran
+  full verification on host: npm run test:unit → 60 passing, 0 failing.
+- Bookkeeping: feature done, notes/OMD-017.md written, spec → implemented.
+
 ## 2026-07-13 — backlog: OMD-015 removed
 
 - Removed OMD-015 (release workflow hardening) from harness/feature_list.json
