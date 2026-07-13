@@ -82,6 +82,33 @@ describe('render features', () => {
     assert.ok(html.includes('<table>'));
   });
 
+  it('neutralizes hljs inner background so pre is the single code box', () => {
+    const html = render('```js\n1\n```');
+    assert.ok(
+      /pre code\.hljs\s*\{[^}]*background:\s*transparent/.test(html),
+      'code.hljs background must be overridden to transparent'
+    );
+    assert.ok(
+      /pre code\.hljs\s*\{[^}]*padding:\s*0/.test(html),
+      'code.hljs padding must be overridden to 0'
+    );
+  });
+
+  it('switches hljs stylesheets with the in-page theme toggle', () => {
+    const html = render('```js\n1\n```');
+    assert.ok(html.includes('id="hljs-css-light"'), 'light hljs link needs an id for toggling');
+    assert.ok(html.includes('id="hljs-css-dark"'), 'dark hljs link needs an id for toggling');
+    assert.ok(
+      !/<link[^>]*hljs[^>]*prefers-color-scheme/.test(html) &&
+        !/<link[^>]*prefers-color-scheme[^>]*github/.test(html),
+      'hljs links must not be gated on prefers-color-scheme media queries'
+    );
+    assert.ok(
+      /hljs-css-light[\s\S]*media/.test(html) && html.includes("'not all'"),
+      'theme script must toggle the hljs stylesheets via media attribute'
+    );
+  });
+
   it('renders nothing dangerous for empty input', () => {
     const html = render('');
     assert.ok(html.includes('<!DOCTYPE html>'));

@@ -157,8 +157,8 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
     <title>${escapeHtml(title)}</title>
     
     <!-- Syntax Highlighting -->
-    <link rel="stylesheet" href="${assets.hljsCssLight}" media="(prefers-color-scheme: light)">
-    <link rel="stylesheet" href="${assets.hljsCssDark}" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" id="hljs-css-light" href="${assets.hljsCssLight}" media="all">
+    <link rel="stylesheet" id="hljs-css-dark" href="${assets.hljsCssDark}" media="not all">
 
     <!-- KaTeX (math pre-rendered server-side; css + fonts only) -->
     <link rel="stylesheet" href="${assets.katexCss}">
@@ -245,6 +245,14 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
         }
         
         pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        /* hljs themes paint code.hljs with their own background + padding,
+           which draws a second box inside the pre (and strands the copy
+           button in the pre's padding). The pre must stay the single box. */
+        pre code.hljs {
             background: transparent;
             padding: 0;
         }
@@ -633,9 +641,11 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
         (function() {
             const themeBtns = document.querySelectorAll('.theme-btn');
             const html = document.documentElement;
-            
+            const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
             // Load saved theme
             const savedTheme = localStorage.getItem('openmd-theme') || 'auto';
+            let currentTheme = savedTheme;
             setTheme(savedTheme);
             
             // Button click handlers
@@ -647,14 +657,32 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
                 });
             });
             
+            function applyHljsCss(theme) {
+                const effective = theme === 'auto' ? (darkQuery.matches ? 'dark' : 'light') : theme;
+                // Toggle via the media attribute: flipping link.disabled can
+                // permanently detach the sheet in Chromium.
+                document.getElementById('hljs-css-light').media = effective === 'light' ? 'all' : 'not all';
+                document.getElementById('hljs-css-dark').media = effective === 'dark' ? 'all' : 'not all';
+            }
+
+            // Follow OS changes while in auto mode
+            darkQuery.addEventListener('change', () => {
+                if (currentTheme === 'auto') applyHljsCss('auto');
+            });
+
             function setTheme(theme) {
+                currentTheme = theme;
+
                 // Update data-theme attribute
                 if (theme === 'auto') {
                     html.removeAttribute('data-theme');
                 } else {
                     html.setAttribute('data-theme', theme);
                 }
-                
+
+                // Keep the hljs stylesheet in sync with the effective theme
+                applyHljsCss(theme);
+
                 // Update active button
                 themeBtns.forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.theme === theme);

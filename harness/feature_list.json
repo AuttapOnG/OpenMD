@@ -217,6 +217,19 @@
         "Unit test covers the prefix-collision case (extracted helper, no vscode imports).",
         "Existing cleanup behavior for our own old versions is unchanged."
       ]
+    },
+    {
+      "id": "OMD-018",
+      "title": "Code block theme mismatch: hljs css tied to OS scheme + double box strands copy button",
+      "status": "done",
+      "priority": "medium",
+      "description": "Human-reported (2026-07-13, screenshots): with OS light + page toggled dark, code blocks rendered as white boxes (hljs stylesheets were gated on prefers-color-scheme, ignoring the in-page data-theme toggle), and hljs themes paint code.hljs with their own background+padding, drawing a second box inside the pre so the copy button (absolutely positioned in the pre) appeared stranded outside the visible code box. Fix: pre code.hljs { background: transparent; padding: 0 } so the pre is the single box, and setTheme() now switches the two hljs <link>s via media=\"all\"/\"not all\" (link.disabled toggling permanently detached the sheet in Chromium — found during browser verification).",
+      "acceptance_criteria": [
+        "Toggling light/dark/auto switches hljs syntax colors and code-block background together, repeatedly, without OS theme involvement beyond auto mode.",
+        "Code block renders as a single box; copy button sits inside it top-right.",
+        "Copy button still copies the code text.",
+        "Unit tests cover the css override and the media-attribute switching markup."
+      ]
     }
   ]
 }
