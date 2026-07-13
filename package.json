@@ -1,10 +1,14 @@
 {
   "name": "openmd",
   "displayName": "OpenMD",
-  "description": "Quickly open Markdown files in browser or preview panel with right-click",
+  "description": "Markdown preview in your real browser — right-click any .md file. Live auto-refresh, Mermaid diagrams, KaTeX math, GitHub alerts. 100% offline.",
   "version": "1.3.0",
   "publisher": "auttapong-tura",
   "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#0D47A1",
+    "theme": "dark"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/AuttapOnG/OpenMD.git"
@@ -13,12 +17,25 @@
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Visualization",
     "Other"
   ],
   "keywords": [
     "markdown",
+    "markdown preview",
+    "preview",
     "browser",
-    "preview"
+    "live preview",
+    "auto-refresh",
+    "mermaid",
+    "diagram",
+    "katex",
+    "math",
+    "latex",
+    "github alerts",
+    "footnotes",
+    "emoji",
+    "offline"
   ],
   "activationEvents": [
     "onStartupFinished",

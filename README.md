@@ -1,8 +1,32 @@
 # 🚀 OpenMD
 
-Quickly open Markdown files in your browser or VS Code preview panel with a right-click!
+[![Version](https://img.shields.io/visual-studio-marketplace/v/auttapong-tura.openmd?label=Marketplace&color=0D47A1)](https://marketplace.visualstudio.com/items?itemName=auttapong-tura.openmd)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/auttapong-tura.openmd?color=2196F3)](https://marketplace.visualstudio.com/items?itemName=auttapong-tura.openmd)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/auttapong-tura.openmd?color=2196F3)](https://marketplace.visualstudio.com/items?itemName=auttapong-tura.openmd&ssr=false#review-details)
+[![Open VSX](https://img.shields.io/open-vsx/v/auttapong-tura/openmd?label=Open%20VSX&color=A60EE5)](https://open-vsx.org/extension/auttapong-tura/openmd)
+
+**Markdown preview in your real browser** — right-click any `.md` file. Live auto-refresh, Mermaid, KaTeX math, GitHub alerts. 100% offline.
 
 ![OpenMD demo — Mermaid, KaTeX, dark mode, and auto-refresh](docs/demo.gif)
+
+## 🆚 Why not the built-in preview?
+
+VS Code's built-in preview (`Ctrl+Shift+V`) is fine — until you need more:
+
+| | Built-in preview | OpenMD |
+|---|:---:|:---:|
+| Open in your **real browser** (full width, zoom, print) | ❌ | ✅ |
+| Mermaid diagrams | ❌ | ✅ offline |
+| KaTeX math (`$..$` / `$$..$$`) | ❌ | ✅ offline |
+| GitHub alerts (`[!NOTE]`, `[!WARNING]`, …) | ❌ | ✅ |
+| Emoji shortcodes (`:rocket:` → 🚀) | ❌ | ✅ |
+| Footnotes with backlinks | ❌ | ✅ |
+| Copy-code button on code blocks | ❌ | ✅ |
+| Light/Dark/Auto theme toggle in the preview | ❌ | ✅ |
+| Auto-refresh on save | ✅ panel only | ✅ panel **+ browser** |
+| Works fully offline | ✅ | ✅ |
+
+One extension instead of three — no separate Mermaid, math, or alerts plugins needed. Also works in **Cursor, Windsurf, and VSCodium** via [Open VSX](https://open-vsx.org/extension/auttapong-tura/openmd).
 
 ## ✨ Features
 

@@ -30,8 +30,11 @@ settings (theme/port/auto-refresh), OMD-015 release workflow hardening.
 | OMD-013 | Windows compatibility audit + CI test matrix | planned | needs spec |
 | OMD-014 | Extension settings: theme, server port, auto-refresh toggle | planned | needs spec |
 | OMD-015 | Release workflow hardening (CI creates Release, un-deprecate actions) | planned | found during v1.3.0 release |
+| OMD-016 | Marketplace listing overhaul (demo GIF + metadata + comparison table) | done | [notes/OMD-016.md](notes/OMD-016.md) |
 
 ## Cross-cutting decisions & events
+
+- 2026-07-13 — Growth push (OMD-016): marketplace listing overhauled (demo GIF, metadata, comparison table). Listing changes go live only at the next release. Remaining growth backlog lives in notes/OMD-016.md (reviews, launch posts, HTML/PDF export idea). GIF recording is repeatable without a human: standalone PreviewServer via node + Playwright + Pillow.
 
 - 2026-07-10 — Release process is now CI-driven (OMD-011): bump+commit per the vsix convention, then `git tag vX.Y.Z` and push the tag — GitHub Actions publishes to VS Code Marketplace + Open VSX and attaches the vsix to the GitHub Release. Tokens live in repo secrets (VSCE_PAT expires 2026-11-30, all-orgs PATs die 2026-12-01); full guide incl. token reissue in docs/RELEASE.md. Do NOT run vsce/ovsx publish locally anymore. Marketplace takes ~5-10 min post-publish validation before the new version is visible.
 - 2026-07-09 — Release convention: only the current release vsix is tracked in git (`.gitignore` `*.vsix` + `!openmd-<current>.vsix`); releasing means updating the exception and `git rm`-ing the previous vsix. Documented in CLAUDE.md/AGENTS.md (OMD-007).

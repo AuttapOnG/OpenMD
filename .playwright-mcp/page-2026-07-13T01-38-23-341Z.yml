@@ -1,0 +1,130 @@
+- generic [active] [ref=e1]:
+  - heading "🚀 Project Phoenix" [level=1] [ref=e2]
+  - paragraph [ref=e3]:
+    - text: A modern data pipeline —
+    - strong [ref=e4]: rendered by OpenMD
+    - text: ", fully offline."
+  - generic [ref=e5]:
+    - paragraph [ref=e6]: 💡 Tip
+    - paragraph [ref=e9]:
+      - text: Right-click any
+      - code [ref=e10]: .md
+      - text: file →
+      - strong [ref=e11]: Open in Browser
+      - text: 🌐
+  - heading "Architecture" [level=2] [ref=e12]
+  - document [ref=e14]:
+    - generic [ref=e16]:
+      - generic [ref=e20]:
+        - paragraph [ref=e26]: ✅ pass
+        - paragraph [ref=e32]: ❌ fail
+      - generic [ref=e33]:
+        - paragraph [ref=e40]: 📥 Ingest
+        - paragraph [ref=e47]: Validate
+        - paragraph [ref=e54]: ⚙️ Transform
+        - paragraph [ref=e61]: 🪣 Dead letter
+        - paragraph [ref=e68]: 📊 Warehouse
+  - heading "Math support (KaTeX)" [level=2] [ref=e69]
+  - paragraph [ref=e70]:
+    - text: Inline math like
+    - generic [ref=e72]:
+      - math [ref=e74]:
+        - generic [ref=e76]:
+          - generic [ref=e77]: E
+          - generic [ref=e78]: =
+          - generic [ref=e79]: m
+          - generic [ref=e80]:
+            - generic [ref=e81]: c
+            - generic [ref=e82]: "2"
+      - generic [ref=e83]:
+        - generic [ref=e84]: E =
+        - generic [ref=e85]:
+          - text: m
+          - generic [ref=e86]:
+            - text: c
+            - generic [ref=e87]: "2"
+    - text: "just works, and display math too:"
+  - generic [ref=e95]:
+    - math [ref=e97]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e101]: f
+          - generic [ref=e102]: ^
+        - generic [ref=e103]: (
+        - generic [ref=e104]: ξ
+        - generic [ref=e105]: )
+        - generic [ref=e106]: =
+        - generic [ref=e107]:
+          - generic [ref=e108]: ∫
+          - generic [ref=e109]:
+            - generic [ref=e110]: −
+            - generic [ref=e111]: ∞
+          - generic [ref=e112]: ∞
+        - generic [ref=e113]: f
+        - generic [ref=e114]: (
+        - generic [ref=e115]: x
+        - generic [ref=e116]: )
+        - generic [ref=e117]:
+          - generic [ref=e118]: e
+          - generic [ref=e119]:
+            - generic [ref=e120]: −
+            - generic [ref=e121]: "2"
+            - generic [ref=e122]: π
+            - generic [ref=e123]: i
+            - generic [ref=e124]: x
+            - generic [ref=e125]: ξ
+        - generic [ref=e126]: d
+        - generic [ref=e127]: x
+    - generic [ref=e128]:
+      - generic [ref=e129]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: f
+          - text: ^
+        - text: (ξ) =
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - text: ∫
+          - generic [ref=e143]:
+            - generic [ref=e144]: −∞
+            - generic [ref=e146]: ∞
+        - text: f(x)
+        - generic [ref=e151]:
+          - text: e
+          - generic [ref=e152]: −2πixξ
+        - text: dx
+  - heading "Code with syntax highlighting" [level=2] [ref=e158]
+  - generic [ref=e159]:
+    - code [ref=e160]:
+      - text: export async function ingest(
+      - generic [ref=e161]: "batch: Record[]"
+      - text: "): Promise<Result> { const valid = batch.filter(isValid); return warehouse.load(valid, { dedupe: true }); }"
+    - button "Copy" [ref=e162] [cursor=pointer]
+  - heading "Release checklist" [level=2] [ref=e163]
+  - list [ref=e164]:
+    - listitem [ref=e165]:
+      - checkbox [checked] [disabled] [ref=e166] [cursor=pointer]
+      - text: Unit tests green ✅
+    - listitem [ref=e167]:
+      - checkbox [checked] [disabled] [ref=e168] [cursor=pointer]
+      - text: Mermaid diagrams render offline
+    - listitem [ref=e169]:
+      - checkbox [disabled] [ref=e170] [cursor=pointer]
+      - text: Ship it 🚀
+  - generic [ref=e171]:
+    - paragraph [ref=e172]: ⚠️ Warning
+    - paragraph [ref=e175]:
+      - text: Footnotes work too
+      - superscript [ref=e176]:
+        - link "[1]" [ref=e177] [cursor=pointer]:
+          - /url: "#fn1"
+  - separator [ref=e178]
+  - list [ref=e180]:
+    - listitem [ref=e181]:
+      - paragraph [ref=e182]:
+        - text: GitHub-style footnotes with backlinks.
+        - link "↩︎" [ref=e183] [cursor=pointer]:
+          - /url: "#fnref1"
+  - generic "Toggle theme" [ref=e184]:
+    - button "☀️" [ref=e185] [cursor=pointer]
+    - button "🌙" [ref=e186] [cursor=pointer]
+    - button "💻" [ref=e187] [cursor=pointer]
