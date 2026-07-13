@@ -20,7 +20,6 @@ Thumbs.db
 
 # Icon generation
 generate-icon.js
-icon.svg
 
 # VSIX packages — only the current release is tracked (see CLAUDE.md release convention)
 *.vsix
