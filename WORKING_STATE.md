@@ -1,5 +1,12 @@
 # Working State
 
+## 2026-07-13 — backlog: OMD-015 removed
+
+- Removed OMD-015 (release workflow hardening) from harness/feature_list.json
+  and progress.md by owner decision: the manual GitHub Release step is
+  intentional (keep current-version vsix + local testing before Release).
+  Deprecated-actions bump noted in progress.md as an unscheduled chore.
+
 ## 2026-07-13 — OMD-013 Windows compatibility (Codex)
 
 - Task 1 red state verified: `npm run compile` failed only because `src/paths.ts` does not exist, as prescribed.

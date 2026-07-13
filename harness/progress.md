@@ -12,8 +12,8 @@ helpers, ci.yml ubuntu+windows matrix, both green on run 29219092930).
 Codebase: esbuild bundle, full offline rendering (incl. vendored KaTeX
 css/fonts), auto-refresh previews with no-store cache headers, 54 unit +
 5 integration tests. Backlog (planned, specs needed): OMD-014 settings
-(theme/port/auto-refresh), OMD-015 release workflow hardening, OMD-017
-cleanup ID-prefix collision (found by OMD-013 audit).
+(theme/port/auto-refresh), OMD-017 cleanup ID-prefix collision (found
+by OMD-013 audit).
 
 ## Feature index
 
@@ -33,13 +33,13 @@ cleanup ID-prefix collision (found by OMD-013 audit).
 | OMD-012 | Math rendering (KaTeX) + footnotes — offline, server-side | done | [notes/OMD-012.md](notes/OMD-012.md) |
 | OMD-013 | Windows compatibility audit + CI test matrix | done | [notes/OMD-013.md](notes/OMD-013.md) |
 | OMD-014 | Extension settings: theme, server port, auto-refresh toggle | planned | needs spec |
-| OMD-015 | Release workflow hardening (CI creates Release, un-deprecate actions) | planned | found during v1.3.0 release |
 | OMD-016 | Marketplace listing overhaul (demo GIF + metadata + comparison table) | done | [notes/OMD-016.md](notes/OMD-016.md) |
 | OMD-017 | Activation cleanup can match foreign extensions by ID prefix | planned | found by OMD-013 audit |
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
 
 ## Cross-cutting decisions & events
 
+- 2026-07-13 — OMD-015 (release workflow hardening) dropped by owner decision: the manual `gh release create` step is intentional — the owner wants to keep the current-version vsix in the repo and test locally before publishing the Release. The release.yml upload step stays best-effort (`|| true`); remember: no manual Release → no vsix attached. The bundled sub-item (bump deprecated actions/checkout + setup-node off Node 20) remains an unscheduled small chore, not a feature.
 - 2026-07-13 — v1.3.1 released (Windows hardening OMD-013 + listing overhaul OMD-016) via the OMD-011 pipeline, run 29219587452 green. GitHub Release still created manually via gh (OMD-015 gap remains).
 - 2026-07-13 — Growth push (OMD-016): marketplace listing overhauled (demo GIF, metadata, comparison table). Listing changes go live only at the next release. Remaining growth backlog lives in notes/OMD-016.md (reviews, launch posts, HTML/PDF export idea). GIF recording is repeatable without a human: standalone PreviewServer via node + Playwright + Pillow.
 

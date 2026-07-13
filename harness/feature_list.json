@@ -182,18 +182,6 @@
       ]
     },
     {
-      "id": "OMD-015",
-      "title": "Release workflow hardening: CI creates the GitHub Release + update deprecated actions",
-      "status": "planned",
-      "priority": "low",
-      "description": "Found during v1.3.0 release (2026-07-10): release.yml only uploads the vsix if a GitHub Release already exists, so the release had to be created manually with gh both times (v1.2.1, v1.3.0) — make the workflow create the release itself from the tag + CHANGELOG. Also: CI warns that pinned actions/checkout + actions/setup-node target Node 20, deprecated on GitHub runners — bump to Node 24-compatible releases.",
-      "acceptance_criteria": [
-        "Pushing a v* tag produces a published (non-draft) GitHub Release with the vsix attached, no manual gh step.",
-        "No Node-deprecation annotations in the release run.",
-        "Verified on the next real release."
-      ]
-    },
-    {
       "id": "OMD-016",
       "title": "Marketplace listing overhaul (demo GIF + metadata + comparison table)",
       "status": "done",
