@@ -2,6 +2,8 @@
 
 Quickly open Markdown files in your browser or VS Code preview panel with a right-click!
 
+![OpenMD demo — Mermaid, KaTeX, dark mode, and auto-refresh](docs/demo.gif)
+
 ## ✨ Features
 
 - 🌐 **Open in Browser** - Open Markdown in your default browser instantly
