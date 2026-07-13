@@ -2,6 +2,14 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.3.1] - 2026-07-13
+
+### Fixed
+- 🪟 **Windows compatibility** - Path handling audited and hardened for Windows (drive letters, backslashes, `USERPROFILE`, case-insensitive home comparison); unit tests now run on Windows and Linux in CI for every change
+
+### Changed
+- 🖼️ **New Marketplace listing** - Demo GIF, feature comparison with the built-in preview, better search keywords and gallery banner
+
 ## [1.3.0] - 2026-07-10
 
 ### Added
