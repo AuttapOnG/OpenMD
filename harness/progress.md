@@ -41,6 +41,8 @@ Backlog (planned, spec needed): OMD-014 settings
 
 ## Cross-cutting decisions & events
 
+- 2026-07-13 — v1.3.3 released (OMD-017 cleanup prefix-collision fix) via the OMD-011 pipeline, run 29238085337 green; GitHub Release created manually per the RELEASE.md checklist (now documented), vsix attached and verified. Node-20 deprecation annotations on checkout/setup-node still present — unscheduled chore.
+
 - 2026-07-13 — OMD-015 (release workflow hardening) dropped by owner decision: the manual `gh release create` step is intentional — the owner wants to keep the current-version vsix in the repo and test locally before publishing the Release. The release.yml upload step stays best-effort (`|| true`); remember: no manual Release → no vsix attached. The bundled sub-item (bump deprecated actions/checkout + setup-node off Node 20) remains an unscheduled small chore, not a feature.
 - 2026-07-13 — v1.3.1 released (Windows hardening OMD-013 + listing overhaul OMD-016) via the OMD-011 pipeline, run 29219587452 green. GitHub Release still created manually via gh (OMD-015 gap remains).
 - 2026-07-13 — Growth push (OMD-016): marketplace listing overhauled (demo GIF, metadata, comparison table). Listing changes go live only at the next release. Remaining growth backlog lives in notes/OMD-016.md (reviews, launch posts, HTML/PDF export idea). GIF recording is repeatable without a human: standalone PreviewServer via node + Playwright + Pillow.
