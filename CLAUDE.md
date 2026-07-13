@@ -19,10 +19,15 @@ You may act autonomously on all tasks. Maintain an audit trail:
 - Commit frequently with descriptive messages
 - Never modify `.claude/settings.json` or `CLAUDE.md` without noting it in `WORKING_STATE.md`
 
-Human checkpoints are enforced by hooks regardless of autonomy:
-- Publishing / pushing (`git push`, `vsce publish`, `ovsx publish`)
-- File deletion (`rm`, `rmdir`, `git clean`)
-- External network calls (`curl`, `wget`, `fetch`)
+Human checkpoints are enforced regardless of autonomy:
+- Pushing: `git push` triggers a permission prompt (ask rule) — the human
+  approves each push in the Claude Code UI. Never obfuscate or wrap the
+  command to avoid the prompt.
+- Local publishing (`vsce publish`, `ovsx publish`, `npm publish`) is
+  hook-blocked outright — releases go through CI only (see Release
+  Convention).
+- File deletion (`rm`, `rmdir`, `git clean`) — hook-blocked
+- External network calls (`curl`, `wget`, `fetch`) — hook-blocked
 
 ## Work Control (harness memory)
 `harness/feature_list.json` is the single source of truth for what is done

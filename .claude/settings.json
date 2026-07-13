@@ -12,6 +12,9 @@
     "deny": [
       "Bash(curl * | bash*)",
       "Bash(wget * | bash*)"
+    ],
+    "ask": [
+      "Bash(git push*)"
     ]
   },
   "hooks": {
@@ -21,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'cmd=$(jq -r \".tool_input.command\"); if echo \"$cmd\" | grep -qE \"git push|vsce publish|ovsx publish|npm publish|deploy\"; then echo \"HARNESS: publish/push action requires human approval\" >&2; exit 2; fi'"
+            "command": "bash -c 'cmd=$(jq -r \".tool_input.command\"); if echo \"$cmd\" | grep -qE \"vsce publish|ovsx publish|npm publish|deploy\"; then echo \"HARNESS: local publish action requires human approval (git push is gated by the ask permission rule instead)\" >&2; exit 2; fi'"
           },
           {
             "type": "command",
