@@ -23,7 +23,7 @@ Executor: Codex CLI in sandbox. Task token: omd013-wincompat-7f3k
 
 ## Task 1 — Failing unit tests for the new path helpers (TDD)
 
-- [ ] Create `src/test/unit/paths.test.ts` with exactly:
+- [x] Create `src/test/unit/paths.test.ts` with exactly:
 
 ```typescript
 import * as assert from 'assert';
@@ -185,15 +185,15 @@ describe('deriveExtensionId', () => {
 });
 ```
 
-- [ ] Run `npm run compile` — it MUST fail (src/paths.ts does not exist
+- [x] Run `npm run compile` — it MUST fail (src/paths.ts does not exist
       yet). That failure is the TDD red state; do not "fix" the test file.
-- [ ] Commit: `test: failing unit tests for extracted path helpers (OMD-013)`
+- [x] Commit: `test: failing unit tests for extracted path helpers (OMD-013)`
       (this commit is expected to contain only the test file; if tsc
       failing blocks a pre-commit hook, note it and continue).
 
 ## Task 2 — Implement src/paths.ts (green)
 
-- [ ] Create `src/paths.ts` with exactly:
+- [x] Create `src/paths.ts` with exactly:
 
 ```typescript
 // Pure path helpers — no vscode imports, so they are unit-testable on any
@@ -263,13 +263,13 @@ export function deriveExtensionId(extensionDirName: string): string {
 }
 ```
 
-- [ ] Run `npm run compile` — must pass.
-- [ ] Run `npx mocha out/test/unit/paths.test.js` — all tests pass.
-- [ ] Commit: `feat: extract testable cross-platform path helpers (OMD-013)`
+- [x] Run `npm run compile` — must pass.
+- [x] Run `npx mocha out/test/unit/paths.test.js` — all tests pass.
+- [x] Commit: `feat: extract testable cross-platform path helpers (OMD-013)`
 
 ## Task 3 — Rewire extension.ts onto the helpers
 
-- [ ] In `src/extension.ts`:
+- [x] In `src/extension.ts`:
   1. Add to the imports:
      `import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId } from './paths';`
   2. DELETE the whole local `computeMirrorHtmlPath` function (the block
@@ -301,13 +301,13 @@ function mirrorHtmlPathFor(fileUri: vscode.Uri): string {
      with
      `const tempHtmlPath = path.join(context.extensionPath, '.temp', mirrorHtmlPathFor(fileUri));`
 
-- [ ] Run `npm run compile` — must pass.
-- [ ] Run `npx mocha "out/test/unit/paths.test.js" "out/test/unit/render.test.js" "out/test/unit/render-features.test.js" "out/test/unit/render-math.test.js"` — all pass. (Server tests are host-only; do not run them.)
-- [ ] Commit: `refactor: extension.ts uses shared path helpers (OMD-013)`
+- [x] Run `npm run compile` — must pass.
+- [x] Run `npx mocha "out/test/unit/paths.test.js" "out/test/unit/render.test.js" "out/test/unit/render-features.test.js" "out/test/unit/render-math.test.js"` — all pass. (Server tests are host-only; do not run them.)
+- [x] Commit: `refactor: extension.ts uses shared path helpers (OMD-013)`
 
 ## Task 4 — Audit findings table
 
-- [ ] Create `harness/notes/OMD-013.md` containing a findings table. Audit
+- [x] Create `harness/notes/OMD-013.md` containing a findings table. Audit
       each site by READING the current code (do not assume this plan is
       right) and record verdict Fixed / Already-safe / Justified:
 
@@ -326,11 +326,11 @@ function mirrorHtmlPathFor(fileUri: vscode.Uri): string {
       format. If a new finding requires a code change beyond this plan's
       scope, do NOT change code — record it in the table as
       `out-of-scope: needs new feature entry`.
-- [ ] Commit: `docs: OMD-013 Windows audit findings table`
+- [x] Commit: `docs: OMD-013 Windows audit findings table`
 
 ## Task 5 — CI workflow
 
-- [ ] Create `.github/workflows/ci.yml` with exactly:
+- [x] Create `.github/workflows/ci.yml` with exactly:
 
 ```yaml
 # Compile + unit tests on Linux and Windows for every push/PR (OMD-013).
@@ -358,7 +358,7 @@ jobs:
       - run: npm run test:unit
 ```
 
-- [ ] Commit: `ci: compile + unit tests on ubuntu/windows matrix (OMD-013)`
+- [x] Commit: `ci: compile + unit tests on ubuntu/windows matrix (OMD-013)`
 
 ## Task 6 — Host verification (leave unchecked)
 

@@ -1,5 +1,18 @@
 # Working State
 
+## 2026-07-13 — OMD-013 Windows compatibility (Codex)
+
+- Task 1 red state verified: `npm run compile` failed only because `src/paths.ts` does not exist, as prescribed.
+- [codex] commit failed for: test: failing unit tests for extracted path helpers (OMD-013)
+- Task 2 implemented the prescribed pure path helpers; compile passed and all 16 path-helper tests passed.
+- [codex] commit failed for: feat: extract testable cross-platform path helpers (OMD-013)
+- Task 3 rewired `extension.ts` to the shared helpers; compile passed and the exact non-server mocha command passed with 43 tests.
+- [codex] commit failed for: refactor: extension.ts uses shared path helpers (OMD-013)
+- Task 4 audited the current source and tests and recorded verdicts in `harness/notes/OMD-013.md`; one pre-existing cleanup prefix-matching issue was recorded as out of scope.
+- [codex] commit failed for: docs: OMD-013 Windows audit findings table
+- Task 5 added the prescribed Ubuntu/Windows compile and unit-test CI matrix; host-only Task 6 remains unchecked.
+- [codex] commit failed for: ci: compile + unit tests on ubuntu/windows matrix (OMD-013)
+
 ## 2026-07-09
 
 - v1.2.0 PUBLISHED to Open VSX (ovsx publish succeeded) using a token the
@@ -121,3 +134,4 @@
 - 2026-07-13 Growth discussion: identified marketplace listing gaps (no images, categories=Other, 3 keywords). Recorded a demo GIF without human screen-recording: ran PreviewServer+render standalone via node (out/*.js, assetsDir=media), drove it with Playwright at 1100x700 (hero/KaTeX/checklist/dark-toggle/auto-refresh frames — auto-refresh verified live by editing the demo md), assembled with Pillow → docs/demo.gif (231 KB, 5 frames). Embedded at top of README (docs/** is vscodeignored so vsix size unaffected; vsce rewrites the relative path to raw.githubusercontent on the marketplace page). Not yet pushed.
 - 2026-07-13 OMD-016 (marketplace listing overhaul) executed on human approval ("แก้เลยครับ"): package.json description/categories/keywords/galleryBanner sharpened; README badges + built-in-preview comparison table added. Verified: JSON valid, 38 unit tests pass, vsce ls accepts manifest. Feature entry added as done + notes/OMD-016.md; progress.md updated. Listing goes live at next release; not yet pushed.
 - 2026-07-13 OMD-013 started (human approved spec + Codex orchestration): spec docs/specs/OMD-013-windows-compat.md, plan docs/plans/2026-07-13-omd-013-windows-compat.md (extract src/paths.ts w/ path.win32-injected tests, rewire extension.ts, audit table, new ci.yml ubuntu+windows matrix w/ fresh action SHAs checkout v7.0.0 / setup-node v6.4.0 fetched via gh api). Feature set in_progress. Dispatching Codex (token omd013-wincompat-7f3k) + watchdog.
+- Host verification of Codex OMD-013 run: diff reviewed (matches plan exactly), full suite 54/54 passing incl. server tests, vsce ls OK. Committed per task boundary (0c0959b..419450c). Codex's new finding (cleanup entry.startsWith prefix matching) left out-of-scope per plan — to be captured as a backlog feature. Remaining: push → windows-latest CI green, then close OMD-013.
