@@ -1,5 +1,6 @@
 .vscode/**
 .vscode-test/**
+.playwright-mcp/**
 .git/**
 .claude/**
 src/**

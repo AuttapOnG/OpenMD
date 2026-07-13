@@ -2,6 +2,12 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.3.2] - 2026-07-13
+
+### Fixed
+- 🎨 **Code blocks now follow the theme toggle** - Syntax highlighting colors and code-block background switch with the in-page light/dark/auto toggle instead of only the OS theme (no more white code boxes on a dark page)
+- 📋 **Copy button sits inside the code block** - highlight.js themes no longer draw a second box inside code blocks, which had left the Copy button stranded outside the visible block
+
 ## [1.3.1] - 2026-07-13
 
 ### Fixed
