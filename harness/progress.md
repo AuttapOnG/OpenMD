@@ -2,14 +2,18 @@
 
 ## Current State
 
-All features OMD-001..012 are done. v1.3.0 (KaTeX math + footnotes,
-OMD-012) released 2026-07-10 via the CI pipeline (OMD-011: tag push →
-GitHub Actions → Marketplace + Open VSX; tokens in repo secrets, guide
-in docs/RELEASE.md). Codebase: esbuild bundle, full offline rendering
-(incl. vendored KaTeX css/fonts), auto-refresh previews with no-store
-cache headers, 38 unit + 5 integration tests. Backlog (all planned, specs
-needed): OMD-013 Windows compatibility audit + CI matrix, OMD-014
-settings (theme/port/auto-refresh), OMD-015 release workflow hardening.
+All features OMD-001..013 + OMD-016 are done. v1.3.0 (KaTeX math +
+footnotes, OMD-012) released 2026-07-10 via the CI pipeline (OMD-011:
+tag push → GitHub Actions → Marketplace + Open VSX; tokens in repo
+secrets, guide in docs/RELEASE.md). 2026-07-13 growth push: OMD-016
+marketplace listing overhaul (demo GIF, metadata, comparison table —
+goes live at the next release) and OMD-013 Windows audit (src/paths.ts
+helpers, ci.yml ubuntu+windows matrix, both green on run 29219092930).
+Codebase: esbuild bundle, full offline rendering (incl. vendored KaTeX
+css/fonts), auto-refresh previews with no-store cache headers, 54 unit +
+5 integration tests. Backlog (planned, specs needed): OMD-014 settings
+(theme/port/auto-refresh), OMD-015 release workflow hardening, OMD-017
+cleanup ID-prefix collision (found by OMD-013 audit).
 
 ## Feature index
 
@@ -27,10 +31,11 @@ settings (theme/port/auto-refresh), OMD-015 release workflow hardening.
 | OMD-010 | Cache-Control: no-store on preview server dynamic responses | done | [notes/OMD-010.md](notes/OMD-010.md) |
 | OMD-011 | CI release pipeline (GitHub Actions publish on tag) | done | [notes/OMD-011.md](notes/OMD-011.md) |
 | OMD-012 | Math rendering (KaTeX) + footnotes — offline, server-side | done | [notes/OMD-012.md](notes/OMD-012.md) |
-| OMD-013 | Windows compatibility audit + CI test matrix | planned | needs spec |
+| OMD-013 | Windows compatibility audit + CI test matrix | done | [notes/OMD-013.md](notes/OMD-013.md) |
 | OMD-014 | Extension settings: theme, server port, auto-refresh toggle | planned | needs spec |
 | OMD-015 | Release workflow hardening (CI creates Release, un-deprecate actions) | planned | found during v1.3.0 release |
 | OMD-016 | Marketplace listing overhaul (demo GIF + metadata + comparison table) | done | [notes/OMD-016.md](notes/OMD-016.md) |
+| OMD-017 | Activation cleanup can match foreign extensions by ID prefix | planned | found by OMD-013 audit |
 
 ## Cross-cutting decisions & events
 

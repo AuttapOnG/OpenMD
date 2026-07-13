@@ -160,7 +160,7 @@
     {
       "id": "OMD-013",
       "title": "Windows compatibility audit + CI test matrix",
-      "status": "in_progress",
+      "status": "done",
       "priority": "medium",
       "description": "Audit ALL existing code for POSIX path assumptions (mirror-path temp files, preview server, cleanup, asset staging) and fix; add windows-latest to the CI test matrix. Agreed during OMD-012 brainstorming (2026-07-10). Needs a spec before starting.",
       "acceptance_criteria": [
@@ -204,6 +204,18 @@
         "package.json has Visualization category, >=10 search keywords, galleryBanner, and a description containing 'markdown preview' search terms.",
         "README has version/installs/rating badges and a built-in-preview comparison table.",
         "npm run test:unit passes and vsce accepts the manifest (vsce ls)."
+      ]
+    },
+    {
+      "id": "OMD-017",
+      "title": "Activation cleanup can match foreign extensions by ID prefix",
+      "status": "planned",
+      "priority": "low",
+      "description": "Found during the OMD-013 audit (2026-07-13): activation cleanup selects sibling extension dirs with entry.startsWith(extensionId), so an extension whose ID shares the prefix (e.g. publisher.openmd-pro) would get its .temp dir deleted. Require the ID to be followed by a version delimiter and validate the versioned dir form. Needs a spec before starting.",
+      "acceptance_criteria": [
+        "Cleanup only touches directories matching <extensionId>-<semver> exactly.",
+        "Unit test covers the prefix-collision case (extracted helper, no vscode imports).",
+        "Existing cleanup behavior for our own old versions is unchanged."
       ]
     }
   ]
