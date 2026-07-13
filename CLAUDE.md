@@ -56,10 +56,16 @@ Only the CURRENT release vsix is tracked in git. When releasing version X:
 2. `git rm` the previous release's vsix (delete from tracking and disk)
 3. Commit the new vsix together with the release commit
 4. Tag `vX` and push the tag — GitHub Actions publishes to the VS Code
-   Marketplace + Open VSX and attaches the vsix to the GitHub Release
-   (OMD-011). Never run vsce/ovsx publish locally. Details + token
-   reissue guide: `docs/RELEASE.md`. Marketplace shows the new version
-   only after ~5-10 min of validation.
+   Marketplace + Open VSX (OMD-011). Never run vsce/ovsx publish locally.
+5. Immediately create the GitHub Release yourself:
+   `gh release create vX --title vX --notes "<CHANGELOG entry>"` — CI does
+   NOT create it (deliberate: releases stay human-controlled); CI only
+   attaches the vsix if the Release already exists, silently skipping
+   otherwise. After the run, `gh release view vX` to confirm the vsix is
+   attached; if not, `gh release upload vX openmd-X.vsix`.
+
+Details + token reissue guide: `docs/RELEASE.md`. Marketplace shows the
+new version only after ~5-10 min of validation.
 
 ## Self-Verification Checklist
 Before saying "done", verify:

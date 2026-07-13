@@ -13,8 +13,22 @@ Releases are published automatically by GitHub Actions
    git tag v<X.Y.Z>
    git push origin main v<X.Y.Z>
    ```
-3. Done. The workflow runs unit tests, packages, and publishes to the
-   VS Code Marketplace and Open VSX. Watch it in the repo's **Actions** tab.
+3. **Create the GitHub Release — manual, on purpose.** The workflow does
+   NOT create it (deliberate choice, 2026-07-13: releases stay
+   human-controlled); its last step only uploads the vsix *if the Release
+   already exists* and silently skips otherwise. Create it right after
+   pushing the tag, before the workflow finishes (~2-3 min):
+   ```
+   gh release create v<X.Y.Z> --title "v<X.Y.Z>" --notes "<CHANGELOG entry>"
+   ```
+4. The workflow runs unit tests, packages, and publishes to the
+   VS Code Marketplace and Open VSX, then attaches the vsix to the Release.
+   Watch it in the repo's **Actions** tab.
+5. Verify the vsix is attached: `gh release view v<X.Y.Z>`. If it's missing
+   (Release created after the workflow's upload step ran), attach it:
+   ```
+   gh release upload v<X.Y.Z> openmd-<X.Y.Z>.vsix
+   ```
 
 ## One-time setup: tokens (and how to get them again when they expire)
 

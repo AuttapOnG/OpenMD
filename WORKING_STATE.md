@@ -6,6 +6,12 @@
   and progress.md by owner decision: the manual GitHub Release step is
   intentional (keep current-version vsix + local testing before Release).
   Deprecated-actions bump noted in progress.md as an unscheduled chore.
+- Follow-up (owner: "ระบุให้ชัดจะได้ไม่ต้องจำ"): documented the manual
+  `gh release create` step explicitly as release checklist steps in
+  docs/RELEASE.md (steps 3-5: create Release right after tag push, verify
+  vsix attached, manual upload fallback) and in the Release Convention of
+  **CLAUDE.md** (step 5 added) and AGENTS.md. CLAUDE.md edit noted here per
+  the audit-trail rule.
 
 ## 2026-07-13 — OMD-013 Windows compatibility (Codex)
 
