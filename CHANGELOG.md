@@ -2,6 +2,15 @@
 
 All notable changes to the "OpenMD" extension will be documented in this file.
 
+## [1.4.0] - 2026-07-20
+
+### Added
+- 📄 **Export to HTML** - Right-click a `.md` file → **Export to HTML** writes one self-contained `.html` next to it, with every style, font, Mermaid diagram, and KaTeX equation inlined. Send it to anyone — it opens in any browser with no VS Code and no internet. (Mermaid is only bundled when the document actually has a diagram, so plain files stay small.)
+- 🖨️ **Export to PDF** - **Export to PDF** opens the document in your real browser and pops the print dialog so you can *Save as PDF*. A print stylesheet hides the theme/copy buttons and keeps code blocks and diagrams from splitting across pages. No heavy PDF engine is bundled — it reuses the browser you already have.
+
+### Changed
+- 🔎 **More discoverable on the Marketplace** - Listed as **"OpenMD — Markdown Preview in Browser"** with expanded search keywords (pdf, print, readme, documentation, technical writing, Cursor, Windsurf, VSCodium)
+
 ## [1.3.3] - 2026-07-13
 
 ### Fixed

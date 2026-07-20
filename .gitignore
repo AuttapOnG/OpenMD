@@ -23,7 +23,7 @@ generate-icon.js
 
 # VSIX packages — only the current release is tracked (see CLAUDE.md release convention)
 *.vsix
-!openmd-1.3.3.vsix
+!openmd-1.4.0.vsix
 
 # Claude Code local settings
 .claude/settings.local.json

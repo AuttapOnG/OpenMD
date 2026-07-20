@@ -2,7 +2,7 @@
   "name": "openmd",
   "displayName": "OpenMD — Markdown Preview in Browser",
   "description": "Markdown preview in your real browser — right-click any .md file. Live auto-refresh, Mermaid diagrams, KaTeX math, GitHub alerts. 100% offline.",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "publisher": "auttapong-tura",
   "icon": "icon.png",
   "galleryBanner": {

@@ -1,5 +1,18 @@
 # Working State
 
+## 2026-07-20 — v1.4.0 release (OMD-019 SEO + OMD-020 Export HTML/PDF)
+
+- Owner approved release ("ทำได้เลย"). Minor bump 1.3.3 → 1.4.0 (Export is a
+  new user-facing feature). npm version --no-git-tag-version bumped
+  package.json + lock; CHANGELOG 1.4.0 entry (Export to HTML/PDF + SEO);
+  README got two comparison-table rows + two feature bullets for Export.
+- Packaged openmd-1.4.0.vsix (35 files, 1.31 MB; katex 21 files present;
+  docs/playwright/src verified OUT). Swapped .gitignore exception to
+  !openmd-1.4.0.vsix; git rm openmd-1.3.3.vsix per the release convention.
+- Next: tag v1.4.0, push main + tag (CI OMD-011 publishes to Marketplace +
+  Open VSX), then gh release create v1.4.0 (manual per RELEASE.md), verify
+  vsix attached. Push awaits the human permission prompt.
+
 ## 2026-07-20 — OMD-020 export HTML/PDF (spec, design approved)
 
 - Owner picked "Export to PDF/HTML" as the next growth feature (from the

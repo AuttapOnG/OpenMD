@@ -24,6 +24,8 @@ VS Code's built-in preview (`Ctrl+Shift+V`) is fine — until you need more:
 | Copy-code button on code blocks | ❌ | ✅ |
 | Light/Dark/Auto theme toggle in the preview | ❌ | ✅ |
 | Auto-refresh on save | ✅ panel only | ✅ panel **+ browser** |
+| **Export** to a self-contained HTML file (send it to anyone) | ❌ | ✅ |
+| **Export to PDF** (via the browser's print dialog) | ❌ | ✅ |
 | Works fully offline | ✅ | ✅ |
 
 One extension instead of three — no separate Mermaid, math, or alerts plugins needed. Also works in **Cursor, Windsurf, and VSCodium** via [Open VSX](https://open-vsx.org/extension/auttapong-tura/openmd).
@@ -44,6 +46,8 @@ One extension instead of three — no separate Mermaid, math, or alerts plugins 
 - 📋 **Copy Code Button** - One-click copy for all code blocks
 - 🔗 **Anchor Links** - Clickable heading links for easy navigation
 - 🔄 **Auto-refresh** - Save the file and the preview reloads automatically (scroll position preserved)
+- 📄 **Export to HTML** - One self-contained `.html` (styles, fonts, Mermaid, and math inlined) — send it to anyone, opens anywhere, no internet needed
+- 🖨️ **Export to PDF** - Opens in your browser and pops the print dialog → *Save as PDF*, no heavy engine bundled
 - 🔌 **Works Offline** - Mermaid, syntax highlighting, and KaTeX are bundled, no CDN needed
 - ⚡ **Lightning Fast** - Tiny bundled package (~3 MB), click and it's open
 
