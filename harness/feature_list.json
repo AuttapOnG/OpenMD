@@ -235,7 +235,7 @@
     {
       "id": "OMD-020",
       "title": "Export to self-contained HTML + Export to PDF (via browser print)",
-      "status": "in_progress",
+      "status": "done",
       "priority": "medium",
       "description": "Growth feature (2026-07-20, design approved by owner). Right-click a .md file to (a) Export to HTML — one fully self-contained .html written next to the source (all assets inlined; Mermaid JS only if diagrams present, KaTeX css/fonts only if math present; no live-reload; adds @media print styles), meant to be sent to people with no VS Code/internet; and (b) Export to PDF — open the doc in the real browser with ?print=1 so the page auto-triggers the print dialog after Mermaid/hljs render, user picks Save as PDF (no PDF engine bundled, keeps the tiny+offline identity). Spec: docs/specs/OMD-020-export-html-pdf.md. Execution to be delegated to Codex CLI; Claude reviews/verifies/commits.",
       "acceptance_criteria": [

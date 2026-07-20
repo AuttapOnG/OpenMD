@@ -41,7 +41,7 @@
   - `export interface InlineAssets { hljsJs: string; hljsCssLight: string; hljsCssDark: string; mermaidJs: string; katexCss: string; }` — every field is the raw **contents** of the asset (the `katexCss` field is expected to already have its fonts embedded; see Task 3).
   - `export function generateStandaloneHtml(markdown: string, title: string, inline: InlineAssets, md: MarkdownIt): string`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `src/test/unit/render-standalone.test.ts`:
 
@@ -101,12 +101,12 @@ describe('generateStandaloneHtml', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test, verify it fails**
+- [x] **Step 2: Run the test, verify it fails**
 
 Run: `npm run compile`
 Expected: FAIL to compile — `generateStandaloneHtml` / `InlineAssets` are not exported from `render.ts`.
 
-- [ ] **Step 3: Refactor `htmlTemplate` to take pre-built asset tags**
+- [x] **Step 3: Refactor `htmlTemplate` to take pre-built asset tags**
 
 In `src/render.ts`, add this interface + two helpers just above the current `htmlTemplate` (around line 150):
 
@@ -158,7 +158,7 @@ and replace `<script src="${assets.hljsJs}"></script>` (current line 527) with:
     ${tags.hljsScript}
 ```
 
-- [ ] **Step 4: Point `generateHtml` at `linkedTags` and add `generateStandaloneHtml`**
+- [x] **Step 4: Point `generateHtml` at `linkedTags` and add `generateStandaloneHtml`**
 
 Update `generateHtml` (keep its exported signature unchanged) so its body reads:
 
@@ -199,14 +199,14 @@ export function generateStandaloneHtml(
 }
 ```
 
-- [ ] **Step 5: Run the tests, verify they pass**
+- [x] **Step 5: Run the tests, verify they pass**
 
 Run: `npm run compile && npx mocha out/test/unit/render-standalone.test.js`
 Expected: PASS (6 passing).
 Run: `npm run test:unit`
 Expected: the whole suite stays green (the `htmlTemplate` refactor must not change `generateHtml` output — existing render tests still pass).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/render.ts src/test/unit/render-standalone.test.ts
@@ -225,7 +225,7 @@ git commit -m "feat: generateStandaloneHtml with conditional asset inlining (OMD
 - Consumes: `generateHtml`, `RenderAssets` (from Task 1's shape — unchanged public signature).
 - Produces: no new exports; changes are inside the shared template so both preview and standalone benefit.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `src/test/unit/render-print.test.ts`:
 
@@ -256,12 +256,12 @@ describe('print / PDF support in the shared template', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test, verify it fails**
+- [x] **Step 2: Run the test, verify it fails**
 
 Run: `npm run compile && npx mocha out/test/unit/render-print.test.js`
 Expected: FAIL — none of `@media print`, `get('print')`, or the mermaid guard exist yet.
 
-- [ ] **Step 3: Add the `@media print` block**
+- [x] **Step 3: Add the `@media print` block**
 
 In `src/render.ts`, inside the main `<style>` block, immediately before its closing `</style>` (current line ~515, right after the `@media (prefers-color-scheme: dark)` rule), add:
 
@@ -275,7 +275,7 @@ In `src/render.ts`, inside the main `<style>` block, immediately before its clos
         }
 ```
 
-- [ ] **Step 4: Guard mermaid and add the print trigger**
+- [x] **Step 4: Guard mermaid and add the print trigger**
 
 In the body `<script>` of `htmlTemplate` (current lines ~529–557), replace the un-guarded `mermaid.initialize({...})` call and the `load` handler with:
 
@@ -310,14 +310,14 @@ In the body `<script>` of `htmlTemplate` (current lines ~529–557), replace the
 
 (Leave `convertEmojis`, the copy-button block, and the theme-toggle IIFE below it unchanged.)
 
-- [ ] **Step 5: Run the tests, verify they pass**
+- [x] **Step 5: Run the tests, verify they pass**
 
 Run: `npm run compile && npx mocha out/test/unit/render-print.test.js`
 Expected: PASS (3 passing).
 Run: `npm run test:unit`
 Expected: whole suite green.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/render.ts src/test/unit/render-print.test.ts
@@ -335,7 +335,7 @@ git commit -m "feat: @media print styles + mermaid guard + ?print=1 trigger (OMD
 **Interfaces:**
 - Produces: `export function embedKatexFonts(cssText: string, readFont: (file: string) => Buffer | null): string` — replaces every `url(fonts/NAME.woff2)` with a base64 `data:` URI (via the injected `readFont`) and strips the `.woff`/`.ttf` fallbacks that are not vendored. Injecting `readFont` keeps the function pure/testable (the `fs` read lives in Task 4).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `src/test/unit/render-katex-embed.test.ts`:
 
@@ -364,12 +364,12 @@ describe('embedKatexFonts', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test, verify it fails**
+- [x] **Step 2: Run the test, verify it fails**
 
 Run: `npm run compile && npx mocha out/test/unit/render-katex-embed.test.js`
 Expected: FAIL — `embedKatexFonts` is not exported.
 
-- [ ] **Step 3: Implement `embedKatexFonts`**
+- [x] **Step 3: Implement `embedKatexFonts`**
 
 Add to `src/render.ts` (near the other exported functions):
 
@@ -395,12 +395,12 @@ export function embedKatexFonts(cssText: string, readFont: (file: string) => Buf
 }
 ```
 
-- [ ] **Step 4: Run the tests, verify they pass**
+- [x] **Step 4: Run the tests, verify they pass**
 
 Run: `npm run compile && npx mocha out/test/unit/render-katex-embed.test.js`
 Expected: PASS (2 passing).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/render.ts src/test/unit/render-katex-embed.test.ts
@@ -418,7 +418,7 @@ git commit -m "feat: embedKatexFonts inlines woff2 as data URIs (OMD-020)"
 - Consumes: `generateStandaloneHtml`, `InlineAssets`, `embedKatexFonts` (Tasks 1 & 3); `generateHtml`; the existing `ensureServer`, `mirrorHtmlPathFor`, `toUrlPath`, `md`, `context`, `browserAssets`.
 - Produces: two registered commands (referenced by `package.json` in Task 5).
 
-- [ ] **Step 1: Update the render import**
+- [x] **Step 1: Update the render import**
 
 At the top of `src/extension.ts`, extend the render import:
 
@@ -426,7 +426,7 @@ At the top of `src/extension.ts`, extend the render import:
 import { createMarkdownParser, generateHtml, generateStandaloneHtml, embedKatexFonts, RenderAssets, InlineAssets } from './render';
 ```
 
-- [ ] **Step 2: Add a helper that builds the inlined assets**
+- [x] **Step 2: Add a helper that builds the inlined assets**
 
 Inside `activate`, after `const md = createMarkdownParser();`, add:
 
@@ -450,7 +450,7 @@ Inside `activate`, after `const md = createMarkdownParser();`, add:
   }
 ```
 
-- [ ] **Step 3: Register `openmd.exportHtml`**
+- [x] **Step 3: Register `openmd.exportHtml`**
 
 Add before the final `context.subscriptions.push(...)`:
 
@@ -491,7 +491,7 @@ Add before the final `context.subscriptions.push(...)`:
   );
 ```
 
-- [ ] **Step 4: Register `openmd.exportPdf`**
+- [x] **Step 4: Register `openmd.exportPdf`**
 
 Immediately after `exportHtml`:
 
@@ -528,7 +528,7 @@ Immediately after `exportHtml`:
   );
 ```
 
-- [ ] **Step 5: Add the commands to subscriptions**
+- [x] **Step 5: Add the commands to subscriptions**
 
 Change the final push line to include the two new commands:
 
@@ -536,12 +536,12 @@ Change the final push line to include the two new commands:
   context.subscriptions.push(openInBrowser, openInPreview, exportHtml, exportPdf);
 ```
 
-- [ ] **Step 6: Compile and run the full suite**
+- [x] **Step 6: Compile and run the full suite**
 
 Run: `npm run compile && npm run test:unit`
 Expected: compiles clean; whole suite green (no new unit tests here — command wiring is verified on the host in Task 5).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/extension.ts
@@ -555,7 +555,7 @@ git commit -m "feat: exportHtml + exportPdf commands (OMD-020)"
 **Files:**
 - Modify: `package.json` (`contributes.commands` + `contributes.menus`)
 
-- [ ] **Step 1: Add the two commands**
+- [x] **Step 1: Add the two commands**
 
 In `contributes.commands`, after the two existing entries, add:
 
@@ -572,7 +572,7 @@ In `contributes.commands`, after the two existing entries, add:
       }
 ```
 
-- [ ] **Step 2: Add them to all three menus**
+- [x] **Step 2: Add them to all three menus**
 
 In `contributes.menus`, add to `explorer/context` and `editor/context` (after the existing two, same `when`):
 
@@ -602,14 +602,14 @@ and to `commandPalette`:
         }
 ```
 
-- [ ] **Step 3: Validate manifest + compile + full suite**
+- [x] **Step 3: Validate manifest + compile + full suite**
 
 Run: `node -e "require('./package.json'); console.log('json ok')"`
 Run: `npm run compile && npm run test:unit`
 Run: `npx vsce ls > /dev/null && echo "vsce ok"`
 Expected: `json ok`, whole suite green, `vsce ok`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add package.json

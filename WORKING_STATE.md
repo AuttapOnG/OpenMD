@@ -210,3 +210,19 @@
 - 2026-07-13 v1.3.2 release (human approved "น่าจะ release ได้เลยนะ"): bumped 1.3.2, CHANGELOG (theme-toggle code blocks + copy button fix), packaged openmd-1.3.2.vsix. First package came out 49 files — .playwright-mcp/** verification artifacts leaked in (2 such files also shipped inside 1.3.1); added .playwright-mcp/** to .vscodeignore, repackaged → 35 files 1.31 MB, katex in, playwright/svg out. Swapped .gitignore exception, git rm openmd-1.3.1.vsix. Tagging v1.3.2, sending main+tag via wrapper, creating GitHub Release via gh (OMD-015 gap), watching CI.
 - v1.3.2 shipped: human ran the sends directly via ! bash-input (wrapper pattern is now blocked by the auto-mode classifier — future releases: human runs the send, or add a settings permission rule). Release run 29222605865 green: Marketplace + Open VSX both published v1.3.2; CI on main green; GitHub Release v1.3.2 created via gh with openmd-1.3.2.vsix attached (OMD-015 still pending). Marketplace shows after ~5-10 min validation.
 - 2026-07-13 Push checkpoint redesigned (human: "จัดการเลย" after discussing that chat approval cannot reach a mechanical grep hook): .claude/settings.json edited — removed the git-push pattern from the PreToolUse block-hook (local store-publishing commands remain hard-blocked) and added permissions.ask rule Bash(git push*) so every push shows a permission prompt the human approves in the UI. CLAUDE.md checkpoint section updated to match, including a rule to never wrap/obfuscate the command. Hook pipe-tested: push payload passes, store-publish payload still blocked. Both file edits noted here per the audit rule.
+- [codex] commit failed for: feat: generateStandaloneHtml with conditional asset inlining (OMD-020)
+- [codex] commit failed for: feat: @media print styles + mermaid guard + ?print=1 trigger (OMD-020)
+- [codex] commit failed for: feat: embedKatexFonts inlines woff2 as data URIs (OMD-020)
+- [codex] commit failed for: feat: exportHtml + exportPdf commands (OMD-020)
+- [codex] commit failed for: feat: contribute Export to HTML/PDF commands + menus (OMD-020)
+- Host review + verification (Claude): diff for src/render.ts + src/extension.ts +
+  package.json matches the plan exactly; 3 new test files present. Full suite
+  `npm run test:unit` = 71 passing (incl. server tests the sandbox skips).
+  Real-asset check: plain export 176.6 KB (no mermaid/katex), mermaid+math export
+  3.16 MB (20 woff2 fonts embedded as data URIs) — conditional inlining confirmed.
+  Playwright (single file served on localhost, offline): only the HTML is fetched
+  (200), mermaid→SVG, math→2 .katex, code highlighted; `?print=1` opened the native
+  Save-as-PDF dialog with @media print applied. Made the real commits on host
+  (a898f49 render/tests, d0cf8d2 commands, 15af646 manifest). OMD-020 → done;
+  notes/OMD-020.md written; feature_list + progress.md updated. Not released
+  (ships at next version bump). Not pushed (awaiting human per checkpoint).

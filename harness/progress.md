@@ -15,7 +15,9 @@ css/fonts), auto-refresh previews with no-store cache headers, 54 unit +
 prefix-collision fixed (isOwnVersionedDir helper; first Codex-MCP
 delegation), 60 unit tests green — fix ships with the next release.
 2026-07-20: OMD-019 marketplace SEO (searchable displayName + 23
-keywords) — metadata-only, goes live at the next release.
+keywords) — metadata-only; and OMD-020 Export to HTML/PDF (Codex-executed,
+host-verified: 71 unit tests + Playwright offline render + real print
+dialog). Both go live at the next release.
 Backlog (planned, spec needed): OMD-014 settings
 (theme/port/auto-refresh).
 
@@ -41,9 +43,11 @@ Backlog (planned, spec needed): OMD-014 settings
 | OMD-017 | Activation cleanup can match foreign extensions by ID prefix | done | [notes/OMD-017.md](notes/OMD-017.md) |
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
 | OMD-019 | Marketplace SEO: searchable displayName + expanded keywords | done | [notes/OMD-019.md](notes/OMD-019.md) |
-| OMD-020 | Export to self-contained HTML + Export to PDF (browser print) | in_progress | spec + plan done; dispatching Codex |
+| OMD-020 | Export to self-contained HTML + Export to PDF (browser print) | done | [notes/OMD-020.md](notes/OMD-020.md) |
 
 ## Cross-cutting decisions & events
+
+- 2026-07-20 — OMD-020 Export to HTML/PDF shipped (feature complete, unreleased). Design brainstormed with owner: primary use "send to someone to view" → single self-contained HTML; PDF via browser print dialog (no engine bundled). Executed by Codex CLI (token openmd-omd020-export-x7q2, gpt-5.6-sol, ~107k tokens) task-by-task TDD; sandbox commits failed as usual → Claude committed on host (a898f49 render, d0cf8d2 commands, 15af646 manifest). Host verification: 71 unit tests green; real-asset self-containment check (plain export 176 KB / mermaid+math export 3.16 MB — conditional inlining confirmed); Playwright offline render (only the HTML file is fetched, mermaid+math+hljs render) and the real ?print=1 → native Save-as-PDF dialog. Design note: hljs (158 KB) inlined unconditionally per spec. Ships at next release (CHANGELOG/README bullet then).
 
 - 2026-07-20 — Growth follow-on (OMD-019): marketplace SEO tweak — displayName `OpenMD` → `OpenMD — Markdown Preview in Browser` (VS Code weights displayName heavily in search), keywords 15 → 23 (pdf, print, readme, documentation, technical writing, cursor, windsurf, vscodium). Metadata-only; goes live at the next release. Strategy note: stop fighting the saturated "markdown preview" head term — rank for long-tail OpenMD wins (open-in-browser, mermaid offline, print-to-pdf). Remaining growth backlog stays in notes/OMD-016.md + OMD-019.md (first-500 installs flywheel, in-product rate nudge, HTML/PDF export moat).
 
