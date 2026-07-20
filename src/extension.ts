@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createMarkdownParser, generateHtml, RenderAssets } from './render';
+import { createMarkdownParser, generateHtml, generateStandaloneHtml, embedKatexFonts, RenderAssets, InlineAssets } from './render';
 import { PreviewServer } from './server';
 import { computeMirrorHtmlPath, toUrlPath, deriveExtensionId, isOwnVersionedDir } from './paths';
 
@@ -84,6 +84,24 @@ export function activate(context: vscode.ExtensionContext) {
   
   // สร้าง markdown-it instance
   const md = createMarkdownParser();
+
+  const mediaPath = (...p: string[]) => path.join(context.extensionPath, 'media', ...p);
+  function buildInlineAssets(): InlineAssets {
+    const katexCss = embedKatexFonts(
+      fs.readFileSync(mediaPath('katex', 'katex.min.css'), 'utf-8'),
+      (file) => {
+        try { return fs.readFileSync(mediaPath('katex', 'fonts', file)); }
+        catch { return null; }
+      }
+    );
+    return {
+      hljsJs: fs.readFileSync(mediaPath('highlight.min.js'), 'utf-8'),
+      hljsCssLight: fs.readFileSync(mediaPath('github.min.css'), 'utf-8'),
+      hljsCssDark: fs.readFileSync(mediaPath('github-dark.min.css'), 'utf-8'),
+      mermaidJs: fs.readFileSync(mediaPath('mermaid.min.js'), 'utf-8'),
+      katexCss,
+    };
+  }
 
   let previewServer: PreviewServer | undefined;
   async function ensureServer(): Promise<PreviewServer | undefined> {
@@ -223,7 +241,73 @@ export function activate(context: vscode.ExtensionContext) {
   });
   context.subscriptions.push(onSave);
 
-  context.subscriptions.push(openInBrowser, openInPreview);
+  // Command: Export to HTML (self-contained single file, next to the source)
+  let exportHtml = vscode.commands.registerCommand(
+    'openmd.exportHtml',
+    async (uri: vscode.Uri) => {
+      const fileUri = uri || vscode.window.activeTextEditor?.document.uri;
+      if (!fileUri) {
+        vscode.window.showErrorMessage('No markdown file selected');
+        return;
+      }
+      try {
+        const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
+        const html = generateStandaloneHtml(
+          content,
+          path.basename(fileUri.fsPath, '.md'),
+          buildInlineAssets(),
+          md
+        );
+        const outPath = fileUri.fsPath.replace(/\.md$/i, '.html');
+        fs.writeFileSync(outPath, html);
+
+        const OPEN = 'Open', REVEAL = 'Reveal';
+        const choice = await vscode.window.showInformationMessage(
+          `OpenMD: exported ${path.basename(outPath)}`, OPEN, REVEAL
+        );
+        if (choice === OPEN) {
+          await vscode.env.openExternal(vscode.Uri.file(outPath));
+        } else if (choice === REVEAL) {
+          await vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(outPath));
+        }
+      } catch (error) {
+        vscode.window.showErrorMessage(`OpenMD export failed: ${error}`);
+      }
+    }
+  );
+
+  // Command: Export to PDF (open in the browser + auto-print → Save as PDF)
+  let exportPdf = vscode.commands.registerCommand(
+    'openmd.exportPdf',
+    async (uri: vscode.Uri) => {
+      const fileUri = uri || vscode.window.activeTextEditor?.document.uri;
+      if (!fileUri) {
+        vscode.window.showErrorMessage('No markdown file selected');
+        return;
+      }
+      try {
+        const server = await ensureServer();
+        if (server) {
+          const urlPath = '/' + toUrlPath(mirrorHtmlPathFor(fileUri));
+          server.register(urlPath, fileUri.fsPath);
+          await vscode.env.openExternal(vscode.Uri.parse(server.url(urlPath) + '?print=1'));
+          vscode.window.showInformationMessage('OpenMD: opening print dialog — choose "Save as PDF".');
+          return;
+        }
+        // Fallback: no server — export a standalone file and open it (print manually).
+        const content = fs.readFileSync(fileUri.fsPath, 'utf-8');
+        const html = generateStandaloneHtml(content, path.basename(fileUri.fsPath, '.md'), buildInlineAssets(), md);
+        const outPath = fileUri.fsPath.replace(/\.md$/i, '.html');
+        fs.writeFileSync(outPath, html);
+        await vscode.env.openExternal(vscode.Uri.file(outPath));
+        vscode.window.showWarningMessage('OpenMD: live server unavailable — opened the HTML; press Ctrl/Cmd+P to Save as PDF.');
+      } catch (error) {
+        vscode.window.showErrorMessage(`OpenMD PDF export failed: ${error}`);
+      }
+    }
+  );
+
+  context.subscriptions.push(openInBrowser, openInPreview, exportHtml, exportPdf);
 }
 
 export function deactivate() {}
