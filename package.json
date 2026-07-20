@@ -61,6 +61,16 @@
         "command": "openmd.openPreview",
         "title": "Open in Preview",
         "icon": "$(preview)"
+      },
+      {
+        "command": "openmd.exportHtml",
+        "title": "Export to HTML",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "openmd.exportPdf",
+        "title": "Export to PDF",
+        "icon": "$(file-pdf)"
       }
     ],
     "menus": {
@@ -74,6 +84,16 @@
           "command": "openmd.openPreview",
           "when": "resourceExtname == .md",
           "group": "2_open@11"
+        },
+        {
+          "command": "openmd.exportHtml",
+          "when": "resourceExtname == .md",
+          "group": "2_open@12"
+        },
+        {
+          "command": "openmd.exportPdf",
+          "when": "resourceExtname == .md",
+          "group": "2_open@13"
         }
       ],
       "editor/context": [
@@ -86,6 +106,16 @@
           "command": "openmd.openPreview",
           "when": "resourceExtname == .md",
           "group": "2_open@11"
+        },
+        {
+          "command": "openmd.exportHtml",
+          "when": "resourceExtname == .md",
+          "group": "2_open@12"
+        },
+        {
+          "command": "openmd.exportPdf",
+          "when": "resourceExtname == .md",
+          "group": "2_open@13"
         }
       ],
       "commandPalette": [
@@ -95,6 +125,14 @@
         },
         {
           "command": "openmd.openPreview",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "openmd.exportHtml",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "openmd.exportPdf",
           "when": "resourceExtname == .md"
         }
       ]
