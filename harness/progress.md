@@ -41,6 +41,7 @@ Backlog (planned, spec needed): OMD-014 settings
 | OMD-017 | Activation cleanup can match foreign extensions by ID prefix | done | [notes/OMD-017.md](notes/OMD-017.md) |
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
 | OMD-019 | Marketplace SEO: searchable displayName + expanded keywords | done | [notes/OMD-019.md](notes/OMD-019.md) |
+| OMD-020 | Export to self-contained HTML + Export to PDF (browser print) | planned | spec in review — docs/specs/OMD-020-export-html-pdf.md |
 
 ## Cross-cutting decisions & events
 

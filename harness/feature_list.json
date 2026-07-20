@@ -231,6 +231,19 @@
         "package.json is valid JSON and vsce accepts the manifest (vsce ls).",
         "npm run test:unit passes."
       ]
+    },
+    {
+      "id": "OMD-020",
+      "title": "Export to self-contained HTML + Export to PDF (via browser print)",
+      "status": "planned",
+      "priority": "medium",
+      "description": "Growth feature (2026-07-20, design approved by owner). Right-click a .md file to (a) Export to HTML — one fully self-contained .html written next to the source (all assets inlined; Mermaid JS only if diagrams present, KaTeX css/fonts only if math present; no live-reload; adds @media print styles), meant to be sent to people with no VS Code/internet; and (b) Export to PDF — open the doc in the real browser with ?print=1 so the page auto-triggers the print dialog after Mermaid/hljs render, user picks Save as PDF (no PDF engine bundled, keeps the tiny+offline identity). Spec: docs/specs/OMD-020-export-html-pdf.md. Execution to be delegated to Codex CLI; Claude reviews/verifies/commits.",
+      "acceptance_criteria": [
+        "generateStandaloneHtml produces HTML with no http/https/localhost//assets/ references; Mermaid JS inlined iff a mermaid block is present; KaTeX css/fonts inlined iff math is present; no live-reload script; @media print block present.",
+        "openmd.exportHtml writes <basename>.html next to the source and offers Reveal/Open; openmd.exportPdf opens the browser preview with ?print=1 and the page calls window.print() after render.",
+        "Both commands appear in explorer/editor context menus and the command palette for .md files; all path handling uses src/paths.ts helpers.",
+        "npm run compile and full npm run test:unit pass (new pure unit tests for the standalone builder + print-trigger markup); host/browser check: an exported HTML with Mermaid+math renders offline and Export to PDF shows the print dialog with diagrams rendered."
+      ]
     }
   ]
 }

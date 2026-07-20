@@ -1,5 +1,19 @@
 # Working State
 
+## 2026-07-20 — OMD-020 export HTML/PDF (spec, design approved)
+
+- Owner picked "Export to PDF/HTML" as the next growth feature (from the
+  OMD-019 backlog). Brainstormed: primary use = "send to someone to view" →
+  self-contained single HTML; PDF = browser print dialog (no engine bundled);
+  HTML saved next to source automatically.
+- Wrote docs/specs/OMD-020-export-html-pdf.md (status: review). Key design:
+  generateStandaloneHtml inlines assets (mermaid only if diagrams, katex
+  only if math, no live-reload, adds @media print); shared template gets a
+  ?print=1 client-side trigger for the PDF flow; two commands + context menus.
+- Added OMD-020 to feature_list.json (planned) + progress.md index. Owner
+  wants execution delegated to Codex CLI (Claude specs/reviews/commits) —
+  next: owner reviews spec → writing-plans → dispatch Codex.
+
 ## 2026-07-20 — OMD-019 marketplace SEO (displayName + keywords)
 
 - Owner growth question ("ทำอย่างไรให้ extension มีคนใช้เยอะๆ"). Highest-leverage
