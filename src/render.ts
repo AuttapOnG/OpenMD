@@ -145,10 +145,77 @@ export function generateHtml(
   live?: LiveReloadOptions
 ): string {
   const body = md.render(markdown);
-  return htmlTemplate(body, title, assets, live);
+  return htmlTemplate(body, title, linkedTags(assets), live);
 }
 
-function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: LiveReloadOptions): string {
+export interface InlineAssets {
+  hljsJs: string;
+  hljsCssLight: string;
+  hljsCssDark: string;
+  mermaidJs: string;
+  katexCss: string;
+}
+
+export function generateStandaloneHtml(
+  markdown: string,
+  title: string,
+  inline: InlineAssets,
+  md: MarkdownIt
+): string {
+  const body = md.render(markdown);
+  const hasMermaid = body.includes('class="mermaid"');
+  const hasMath = /class="katex/.test(body);
+  return htmlTemplate(body, title, inlineTags(inline, { mermaid: hasMermaid, math: hasMath }), undefined);
+}
+
+/**
+ * Make katex.min.css self-contained: embed each vendored woff2 as a base64
+ * data URI and drop the .woff/.ttf fallbacks (only .woff2 is vendored, so
+ * those refs would otherwise be broken relative links).
+ */
+export function embedKatexFonts(cssText: string, readFont: (file: string) => Buffer | null): string {
+  // 1. Drop the non-woff2 fallback refs (each is preceded by a comma).
+  let css = cssText.replace(
+    /,\s*url\(fonts\/[^)]*\.(?:woff|ttf)\)\s*format\((?:'|")[^)]*(?:'|")\)/g,
+    ''
+  );
+  // 2. Inline the remaining woff2 refs as data URIs.
+  css = css.replace(/url\(fonts\/([^)]+\.woff2)\)/g, (match, file: string) => {
+    const buf = readFont(file);
+    if (!buf) { return match; }
+    return `url(data:font/woff2;base64,${buf.toString('base64')})`;
+  });
+  return css;
+}
+
+interface AssetTags {
+  /** Goes in <head>: hljs css, katex css, mermaid script. */
+  headAssets: string;
+  /** Goes near </body>: the highlight.js script. */
+  hljsScript: string;
+}
+
+function linkedTags(assets: RenderAssets): AssetTags {
+  return {
+    headAssets: `<link rel="stylesheet" id="hljs-css-light" href="${assets.hljsCssLight}" media="all">
+    <link rel="stylesheet" id="hljs-css-dark" href="${assets.hljsCssDark}" media="not all">
+    <link rel="stylesheet" href="${assets.katexCss}">
+    <script src="${assets.mermaidJs}"></script>`,
+    hljsScript: `<script src="${assets.hljsJs}"></script>`,
+  };
+}
+
+function inlineTags(inline: InlineAssets, opts: { mermaid: boolean; math: boolean }): AssetTags {
+  return {
+    headAssets: `<style id="hljs-css-light" media="all">${inline.hljsCssLight}</style>
+    <style id="hljs-css-dark" media="not all">${inline.hljsCssDark}</style>
+    ${opts.math ? `<style>${inline.katexCss}</style>` : ''}
+    ${opts.mermaid ? `<script>${inline.mermaidJs}</script>` : ''}`,
+    hljsScript: `<script>${inline.hljsJs}</script>`,
+  };
+}
+
+function htmlTemplate(body: string, title: string, tags: AssetTags, live?: LiveReloadOptions): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -156,15 +223,8 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title)}</title>
     
-    <!-- Syntax Highlighting -->
-    <link rel="stylesheet" id="hljs-css-light" href="${assets.hljsCssLight}" media="all">
-    <link rel="stylesheet" id="hljs-css-dark" href="${assets.hljsCssDark}" media="not all">
-
-    <!-- KaTeX (math pre-rendered server-side; css + fonts only) -->
-    <link rel="stylesheet" href="${assets.katexCss}">
-    
-    <!-- Mermaid -->
-    <script src="${assets.mermaidJs}"></script>
+    <!-- Syntax highlighting + KaTeX + Mermaid (linked in preview, inlined in standalone export) -->
+    ${tags.headAssets}
     
     <style>
         :root {
@@ -512,6 +572,14 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
                 --link-color: #58a6ff;
             }
         }
+
+        /* Print / PDF export (Export to PDF opens the browser and prints) */
+        @media print {
+            .theme-toggle, .copy-code-btn { display: none !important; }
+            body { max-width: none; padding: 0; color: #000; background: #fff; }
+            pre, table, .mermaid, .katex-display { page-break-inside: avoid; }
+            a { color: #000; text-decoration: underline; }
+        }
     </style>
 </head>
 <body>
@@ -524,36 +592,33 @@ function htmlTemplate(body: string, title: string, assets: RenderAssets, live?: 
         <button class="theme-btn" data-theme="auto" title="Auto">💻</button>
     </div>
     
-    <script src="${assets.hljsJs}"></script>
+    ${tags.hljsScript}
     <script>
-        // Initialize Mermaid
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: 'default',
-            securityLevel: 'loose'
-        });
-        
-        // Wait for window load (all resources including mermaid CDN)
-        window.addEventListener('load', function() {
-            console.log('Window loaded, initializing...');
-            
-            // Initialize Mermaid
-            try {
-                mermaid.run();
-                console.log('Mermaid initialized successfully');
-            } catch (e) {
-                console.error('Mermaid error:', e);
+        // Initialize Mermaid (guarded — a standalone export without diagrams omits mermaid.js)
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'default',
+                securityLevel: 'loose'
+            });
+        }
+
+        // Wait for window load, then render, then (for Export to PDF) print
+        window.addEventListener('load', async function() {
+            if (typeof mermaid !== 'undefined') {
+                try { await mermaid.run(); } catch (e) { console.error('Mermaid error:', e); }
             }
-            
-            // Initialize Highlight.js for all code blocks
+
             if (typeof hljs !== 'undefined') {
                 hljs.highlightAll();
-            } else {
-                console.error('hljs not loaded yet');
             }
-            
-            // Convert emoji shortcodes
+
             convertEmojis();
+
+            // Export to PDF: open the print dialog once everything has rendered
+            if (new URLSearchParams(location.search).get('print')) {
+                window.print();
+            }
         });
         
         // Convert emoji shortcodes to actual emoji
