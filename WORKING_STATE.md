@@ -1,5 +1,28 @@
 # Working State
 
+## 2026-07-20 — OMD-021 Codex subagent roles ported from at-tools-web
+
+- Owner asked whether Codex (dispatched by Claude per cli-subagents) would
+  use project-defined Codex subagents, then requested the port ("เอามา
+  openmd เลย"). Copied .codex/config.toml +
+  agents/{implementation-worker,test-reviewer}.toml from
+  AuttapOnG/at-tools-web via gh; rewrote instructions for OpenMD (unit
+  test/compile as narrow checks, preview-server tests host-only,
+  harness/docs/.codex protected).
+- First probe said no subagents visible → investigated instead of assuming:
+  read openai/codex source via gh (agent_roles.rs, loader/mod.rs,
+  multi_agents/spawn.rs). Repo .codex/ is a trusted config layer; its
+  agents/ dir is auto-discovered; multi_agent feature stable+on (0.144.2).
+- Live verification: spawn_agent agent_type=test-reviewer and
+  implementation-worker both spawned and answered (fork_turns=none
+  required — full-history forks inherit the parent role). Model
+  self-report of available roles is unreliable; verify by spawning.
+- 71 unit tests green. Note: WebFetch is hook-gated here (needs human
+  approval) — all remote reads went through gh.
+- Session-start snag: my in-context progress.md was stale vs disk (v1.4.0
+  bookkeeping already present) — an edit briefly duplicated the
+  OMD-019/020 index rows; fixed in the same session before commit.
+
 ## 2026-07-20 — v1.4.0 release (OMD-019 SEO + OMD-020 Export HTML/PDF)
 
 - Owner approved release ("ทำได้เลย"). Minor bump 1.3.3 → 1.4.0 (Export is a

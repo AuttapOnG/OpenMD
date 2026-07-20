@@ -1,0 +1,4 @@
+[agents]
+# Keep one primary thread plus at most two cost-focused workers in normal use.
+max_threads = 3
+max_depth = 1

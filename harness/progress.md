@@ -22,6 +22,8 @@ delegation), 60 unit tests green — fix ships with the next release.
 keywords) — metadata-only; and OMD-020 Export to HTML/PDF (Codex-executed,
 host-verified: 71 unit tests + Playwright offline render + real print
 dialog). Both go live at the next release.
+2026-07-20: OMD-021 — Codex delegation can now use project subagent
+roles (.codex/agents: implementation-worker, test-reviewer; live-verified).
 Backlog (planned, spec needed): OMD-014 settings
 (theme/port/auto-refresh).
 
@@ -48,8 +50,18 @@ Backlog (planned, spec needed): OMD-014 settings
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
 | OMD-019 | Marketplace SEO: searchable displayName + expanded keywords | done | [notes/OMD-019.md](notes/OMD-019.md) |
 | OMD-020 | Export to self-contained HTML + Export to PDF (browser print) | done | [notes/OMD-020.md](notes/OMD-020.md) |
+| OMD-021 | Codex subagent roles (.codex/agents) for delegation | done | [notes/OMD-021.md](notes/OMD-021.md) |
 
 ## Cross-cutting decisions & events
+
+- 2026-07-20 — Codex delegation upgrade (OMD-021): ported project-level Codex
+  subagent roles from at-tools-web into `.codex/` (implementation-worker,
+  test-reviewer; caps max_threads 3 / max_depth 1), instructions rewritten for
+  OpenMD. Verified by live spawns under `codex exec`. Key gotchas: spawn_agent
+  with agent_type requires fork_turns=none (full-history forks inherit the
+  parent role), and the model's self-report of available roles is unreliable —
+  proof is a successful spawn vs an `unknown agent_type` error. Details in
+  notes/OMD-021.md.
 
 - 2026-07-20 — OMD-020 Export to HTML/PDF shipped (feature complete, unreleased). Design brainstormed with owner: primary use "send to someone to view" → single self-contained HTML; PDF via browser print dialog (no engine bundled). Executed by Codex CLI (token openmd-omd020-export-x7q2, gpt-5.6-sol, ~107k tokens) task-by-task TDD; sandbox commits failed as usual → Claude committed on host (a898f49 render, d0cf8d2 commands, 15af646 manifest). Host verification: 71 unit tests green; real-asset self-containment check (plain export 176 KB / mermaid+math export 3.16 MB — conditional inlining confirmed); Playwright offline render (only the HTML file is fetched, mermaid+math+hljs render) and the real ?print=1 → native Save-as-PDF dialog. Design note: hljs (158 KB) inlined unconditionally per spec. Ships at next release (CHANGELOG/README bullet then).
 

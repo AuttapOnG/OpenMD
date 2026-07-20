@@ -244,6 +244,18 @@
         "Both commands appear in explorer/editor context menus and the command palette for .md files; all path handling uses src/paths.ts helpers.",
         "npm run compile and full npm run test:unit pass (new pure unit tests for the standalone builder + print-trigger markup); host/browser check: an exported HTML with Mermaid+math renders offline and Export to PDF shows the print dialog with diagrams rendered."
       ]
+    },
+    {
+      "id": "OMD-021",
+      "title": "Codex subagent roles (.codex/agents) for delegation",
+      "status": "done",
+      "priority": "low",
+      "description": "Tooling (2026-07-20, owner-requested): port the project-level Codex CLI subagent setup from at-tools-web, adapted to OpenMD — .codex/config.toml (max_threads 3, max_depth 1) + .codex/agents/implementation-worker.toml (bounded implementation tasks) and test-reviewer.toml (verification runs). Codex loads these from the repo config layer whenever it runs here, regardless of who dispatched it (Claude via cli-subagents or a human). Gotchas documented in notes/OMD-021.md.",
+      "acceptance_criteria": [
+        ".codex/config.toml and both agent TOMLs exist, parse as valid TOML, and carry OpenMD-specific constraints (npm run test:unit / npm run compile as narrow checks; preview-server integration tests flagged host-only; AGENTS.md, CLAUDE.md, docs/, harness/, .codex/ protected).",
+        "codex exec in this repo recognizes both roles: spawn_agent with agent_type=test-reviewer and agent_type=implementation-worker (fork_turns=none) each spawn a subagent that returns an answer.",
+        "harness/notes/OMD-021.md documents the loading mechanics and the fork_turns=none gotcha."
+      ]
     }
   ]
 }
