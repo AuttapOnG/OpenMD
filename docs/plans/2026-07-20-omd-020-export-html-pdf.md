@@ -15,7 +15,17 @@
 - **Windows-safe paths** (per OMD-013): use `path.join` and native `fsPath`; never hand-build POSIX separators.
 - **Pure render functions stay pure** — no `fs`/`vscode` imports in `src/render.ts`. File reading happens in `src/extension.ts` and is injected.
 - **Test runner:** `npm run test:unit` = `npm run compile && mocha out/test/unit/**/*.test.js`. Run one file with `npm run compile && npx mocha out/test/unit/<name>.test.js`.
-- **Commit discipline:** commit after each task. (On the sandbox host, if `.git` writes are blocked, the reviewing operator commits per task boundary — keep the commit step in each task regardless.)
+
+### Sandbox execution notes (for the delegate)
+- **`server.test.ts` will fail in the sandbox** with `listen EPERM 127.0.0.1` — the sandbox cannot bind ports. This is pre-existing and expected; do NOT try to fix it. Wherever a step says `npm run test:unit`, instead run this port-free verification and treat it as the pass gate:
+  ```bash
+  npm run compile && npx mocha out/test/unit/render.test.js out/test/unit/render-features.test.js out/test/unit/render-math.test.js out/test/unit/render-standalone.test.js out/test/unit/render-print.test.js out/test/unit/render-katex-embed.test.js out/test/unit/paths.test.js
+  ```
+  (Skip test files that a given task hasn't created yet.) The host re-runs the complete suite including server tests afterward.
+- **Do NOT run** (blocked/forbidden): any network command (`npm install`, `curl`, `wget`), `git push`, `vsce`/`ovsx`/`npm publish`. All dependencies are already installed.
+- **`vsce ls`** (Task 5 Step 3) may fail offline — if it errors, skip it and note that; the host runs it.
+- **If a `git commit` fails** (sandbox `.git` lock), do not stop: append a line `- [codex] commit failed for: <the message>` to `WORKING_STATE.md` and continue to the next task. The host makes the real commits per task boundary during review.
+- **Host-only checkboxes:** Task 5 Steps 5 (browser verification) and 6 (bookkeeping) require a real browser / VS Code and are done by the operator — leave them unchecked.
 
 ---
 
