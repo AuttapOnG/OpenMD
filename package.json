@@ -1,6 +1,6 @@
 {
   "name": "openmd",
-  "displayName": "OpenMD",
+  "displayName": "OpenMD — Markdown Preview in Browser",
   "description": "Markdown preview in your real browser — right-click any .md file. Live auto-refresh, Mermaid diagrams, KaTeX math, GitHub alerts. 100% offline.",
   "version": "1.3.3",
   "publisher": "auttapong-tura",
@@ -35,7 +35,15 @@
     "github alerts",
     "footnotes",
     "emoji",
-    "offline"
+    "offline",
+    "pdf",
+    "print",
+    "readme",
+    "documentation",
+    "technical writing",
+    "cursor",
+    "windsurf",
+    "vscodium"
   ],
   "activationEvents": [
     "onStartupFinished",

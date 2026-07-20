@@ -14,6 +14,8 @@ css/fonts), auto-refresh previews with no-store cache headers, 54 unit +
 5 integration tests. 2026-07-13: OMD-017 cleanup
 prefix-collision fixed (isOwnVersionedDir helper; first Codex-MCP
 delegation), 60 unit tests green — fix ships with the next release.
+2026-07-20: OMD-019 marketplace SEO (searchable displayName + 23
+keywords) — metadata-only, goes live at the next release.
 Backlog (planned, spec needed): OMD-014 settings
 (theme/port/auto-refresh).
 
@@ -38,8 +40,11 @@ Backlog (planned, spec needed): OMD-014 settings
 | OMD-016 | Marketplace listing overhaul (demo GIF + metadata + comparison table) | done | [notes/OMD-016.md](notes/OMD-016.md) |
 | OMD-017 | Activation cleanup can match foreign extensions by ID prefix | done | [notes/OMD-017.md](notes/OMD-017.md) |
 | OMD-018 | Code block theme mismatch (hljs css vs toggle) + stranded copy button | done | [notes/OMD-018.md](notes/OMD-018.md) |
+| OMD-019 | Marketplace SEO: searchable displayName + expanded keywords | done | [notes/OMD-019.md](notes/OMD-019.md) |
 
 ## Cross-cutting decisions & events
+
+- 2026-07-20 — Growth follow-on (OMD-019): marketplace SEO tweak — displayName `OpenMD` → `OpenMD — Markdown Preview in Browser` (VS Code weights displayName heavily in search), keywords 15 → 23 (pdf, print, readme, documentation, technical writing, cursor, windsurf, vscodium). Metadata-only; goes live at the next release. Strategy note: stop fighting the saturated "markdown preview" head term — rank for long-tail OpenMD wins (open-in-browser, mermaid offline, print-to-pdf). Remaining growth backlog stays in notes/OMD-016.md + OMD-019.md (first-500 installs flywheel, in-product rate nudge, HTML/PDF export moat).
 
 - 2026-07-13 — v1.3.3 released (OMD-017 cleanup prefix-collision fix) via the OMD-011 pipeline, run 29238085337 green; GitHub Release created manually per the RELEASE.md checklist (now documented), vsix attached and verified. Node-20 deprecation annotations on checkout/setup-node still present — unscheduled chore.
 

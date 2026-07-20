@@ -218,6 +218,19 @@
         "Copy button still copies the code text.",
         "Unit tests cover the css override and the media-attribute switching markup."
       ]
+    },
+    {
+      "id": "OMD-019",
+      "title": "Marketplace SEO: searchable displayName + expanded keywords",
+      "status": "done",
+      "priority": "medium",
+      "description": "Growth follow-on to OMD-016 (2026-07-20): the displayName was the bare brand 'OpenMD' (zero search weight), and keywords omitted long-tail terms OpenMD genuinely wins on. Changed displayName to 'OpenMD — Markdown Preview in Browser' (VS Code weights displayName heavily in search; the tagline follows the GitLens/Prettier convention, not keyword stuffing) and added 8 keywords: pdf, print (browser print→PDF, real for this ext), readme, documentation, technical writing, cursor, windsurf, vscodium (Open VSX reach). Metadata-only; goes live on the marketplace at the next release.",
+      "acceptance_criteria": [
+        "package.json displayName contains 'Markdown Preview' search terms while keeping 'OpenMD' as the lead word.",
+        "keywords include pdf, print, readme, documentation, technical writing, cursor, windsurf, vscodium; total <= 30.",
+        "package.json is valid JSON and vsce accepts the manifest (vsce ls).",
+        "npm run test:unit passes."
+      ]
     }
   ]
 }

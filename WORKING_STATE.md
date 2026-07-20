@@ -1,5 +1,21 @@
 # Working State
 
+## 2026-07-20 — OMD-019 marketplace SEO (displayName + keywords)
+
+- Owner growth question ("ทำอย่างไรให้ extension มีคนใช้เยอะๆ"). Highest-leverage
+  cheap lever = discoverability. Opened OMD-019 as a follow-on to OMD-016.
+- package.json (metadata only): displayName `OpenMD` →
+  `OpenMD — Markdown Preview in Browser` (displayName is heavily weighted in
+  VS Code search; the bare brand carried zero search value). Keywords 15 → 23:
+  added pdf, print, readme, documentation, technical writing, cursor, windsurf,
+  vscodium. Dropped `export` deliberately (no export button → overpromise).
+- Verified: package.json valid JSON, `npx vsce ls` accepts manifest,
+  `npm run test:unit` 60 passing. displayName + 23 keywords confirmed via node.
+- Bookkeeping: OMD-019 added to feature_list.json (done), notes/OMD-019.md
+  written, progress.md Current State + Feature index + cross-cutting updated.
+- Goes live on the marketplace only at the next release (metadata ships in the
+  vsix) — no release triggered here. Not pushed (awaiting human per checkpoint).
+
 ## 2026-07-13 — v1.3.3 release (OMD-017 fix)
 
 - Human approved releasing immediately after OMD-017 landed. Bumped to
