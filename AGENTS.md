@@ -13,8 +13,9 @@
 4. Load approved specs from `docs/specs/`
 
 ## Rules (HIGH AUTONOMY)
-Act autonomously. Log significant actions in WORKING_STATE.md.
-Prefer small reversible changes. Commit frequently.
+Act autonomously. Commit frequently — commits are the action log; in-flight
+context a commit can't carry goes in the feature's harness/notes/OMD-NNN.md.
+Prefer small reversible changes.
 
 Always ask a human before: publishing or pushing (`git push`, `vsce publish`,
 `ovsx publish`), deleting files, or making external network calls.
@@ -50,5 +51,5 @@ see docs/RELEASE.md for the full flow and token reissue guide.
 - [ ] Matches spec
 - [ ] `npm run compile` succeeds and tests pass
 - [ ] No secrets in diff
-- [ ] WORKING_STATE.md updated
+- [ ] harness/notes/OMD-NNN.md updated for the feature touched
 - [ ] harness/feature_list.json and harness/progress.md updated

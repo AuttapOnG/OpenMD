@@ -54,6 +54,17 @@ Backlog (planned, spec needed): OMD-014 settings
 
 ## Cross-cutting decisions & events
 
+- 2026-07-20 — WORKING_STATE.md retired by owner decision (redundant with
+  harness/notes once a feature closes — the same content was being written
+  three times). Audit trail is now: frequent descriptive commits (the action
+  log) + in-flight context in the feature's harness/notes/OMD-NNN.md +
+  cross-cutting decisions here. Settings/CLAUDE.md changes must now be noted
+  in this log (this entry covers today's CLAUDE.md + AGENTS.md rule edits).
+  Historical WORKING_STATE content remains in git history (deleted at this
+  commit). Old specs/plans that mention the file are dated artifacts — left
+  as-is; future Codex dispatch prompts should say "note failed commits in
+  your final summary" instead.
+
 - 2026-07-20 — Codex delegation upgrade (OMD-021): ported project-level Codex
   subagent roles from at-tools-web into `.codex/` (implementation-worker,
   test-reviewer; caps max_threads 3 / max_depth 1), instructions rewritten for

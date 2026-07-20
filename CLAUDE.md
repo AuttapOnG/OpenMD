@@ -15,9 +15,11 @@ At the start of every session:
 
 ## Constraints (HIGH AUTONOMY)
 You may act autonomously on all tasks. Maintain an audit trail:
-- Log every significant action to `WORKING_STATE.md`
-- Commit frequently with descriptive messages
-- Never modify `.claude/settings.json` or `CLAUDE.md` without noting it in `WORKING_STATE.md`
+- Commit frequently with descriptive messages — commits are the action log
+- In-flight context a commit can't carry (dead ends, pending manual steps,
+  mid-task state) goes in the feature's `harness/notes/OMD-NNN.md`
+- Never modify `.claude/settings.json` or `CLAUDE.md` without a dated entry
+  in the cross-cutting log in `harness/progress.md`
 
 Human checkpoints are enforced regardless of autonomy:
 - Pushing: `git push` triggers a permission prompt (ask rule) — the human
@@ -72,5 +74,5 @@ Before saying "done", verify:
 - [ ] Task matches spec
 - [ ] `npm run compile` succeeds and all tests pass
 - [ ] No secrets in diff
-- [ ] WORKING_STATE.md updated
+- [ ] harness/notes/OMD-NNN.md updated for the feature touched
 - [ ] harness/feature_list.json and harness/progress.md updated
