@@ -13,6 +13,12 @@
 - Added OMD-020 to feature_list.json (planned) + progress.md index. Owner
   wants execution delegated to Codex CLI (Claude specs/reviews/commits) —
   next: owner reviews spec → writing-plans → dispatch Codex.
+- Owner approved spec ("เขียน plan ต่อเลย"). Wrote plan
+  docs/plans/2026-07-20-omd-020-export-html-pdf.md (5 tasks, TDD): (1)
+  generateStandaloneHtml + htmlTemplate refactor to AssetTags, (2) @media
+  print + mermaid guard + ?print=1 trigger, (3) embedKatexFonts (woff2→data
+  URI), (4) exportHtml/exportPdf commands, (5) package.json menus + host
+  verify. OMD-020 set in_progress. Dispatching Codex CLI to execute.
 
 ## 2026-07-20 — OMD-019 marketplace SEO (displayName + keywords)
 
