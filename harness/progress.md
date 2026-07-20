@@ -2,6 +2,10 @@
 
 ## Current State
 
+**v1.4.0 shipped 2026-07-20** (Export to HTML/PDF OMD-020 + marketplace SEO
+OMD-019) via the OMD-011 CI pipeline — run 29717058178 green, published to
+Marketplace + Open VSX, vsix attached to the GitHub Release.
+
 All features OMD-001..013 + OMD-016 are done. v1.3.0 (KaTeX math +
 footnotes, OMD-012) released 2026-07-10 via the CI pipeline (OMD-011:
 tag push → GitHub Actions → Marketplace + Open VSX; tokens in repo

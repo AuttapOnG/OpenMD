@@ -12,6 +12,10 @@
 - Next: tag v1.4.0, push main + tag (CI OMD-011 publishes to Marketplace +
   Open VSX), then gh release create v1.4.0 (manual per RELEASE.md), verify
   vsix attached. Push awaits the human permission prompt.
+- SHIPPED: pushed main + tag v1.4.0 (43a4db0..cfbb19a); GitHub Release
+  v1.4.0 created via gh; Release workflow run 29717058178 green — published
+  to Marketplace + Open VSX and openmd-1.4.0.vsix attached to the Release
+  (verified). Marketplace shows the new version after ~5-10 min validation.
 
 ## 2026-07-20 — OMD-020 export HTML/PDF (spec, design approved)
 
